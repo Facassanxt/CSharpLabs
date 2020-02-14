@@ -14,7 +14,14 @@ namespace labHello
             string x = Console.ReadLine();
             Console.Write("Фамилия?");
             string y = Console.ReadLine();
-            Console.Write("Привет, {0}{1}!", x, y);
+
+            for (int i = 0; i < 5; i++)
+            {
+                Console.Write("[" + i + "] ");
+                Console.WriteLine("Привет, {0}{1}!", x, y);
+            }
+
+            Console.ReadKey();
         }
     }
 }
