@@ -95,7 +95,7 @@
             this.laNo.Name = "laNo";
             this.laNo.Size = new System.Drawing.Size(176, 84);
             this.laNo.TabIndex = 1;
-            this.laNo.Text = "Не верно = 0";
+            this.laNo.Text = "Неверно = 0";
             this.laNo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // laYes
