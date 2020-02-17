@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,6 +24,14 @@ namespace labTrainerAccount
 
             buYes.Click += (sender, e) => g.DoAnswer(true);
             buNo.Click += (sender, e) => g.DoAnswer(false);
+            buReset.Click += (sender, e) => g.DoReset();
+            buTest.Click += delegate
+            {
+                for (int i = 0; i < 1000; i++) 
+                {
+                    g.DoAnswer(true);
+                }
+            };
         }
 
 

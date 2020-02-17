@@ -36,6 +36,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.laCode = new System.Windows.Forms.Label();
+            this.buReset = new System.Windows.Forms.Button();
+            this.buTest = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -79,7 +81,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.laNo, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.laYes, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 29);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -144,24 +146,46 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.laCode.Font = new System.Drawing.Font("Arial Black", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.laCode.Location = new System.Drawing.Point(12, 99);
+            this.laCode.Location = new System.Drawing.Point(12, 116);
             this.laCode.Name = "laCode";
-            this.laCode.Size = new System.Drawing.Size(363, 162);
+            this.laCode.Size = new System.Drawing.Size(363, 145);
             this.laCode.TabIndex = 5;
             this.laCode.Text = "10 + 11 = 21";
             this.laCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buReset
+            // 
+            this.buReset.Location = new System.Drawing.Point(12, 3);
+            this.buReset.Name = "buReset";
+            this.buReset.Size = new System.Drawing.Size(46, 20);
+            this.buReset.TabIndex = 6;
+            this.buReset.Text = "Reset";
+            this.buReset.UseVisualStyleBackColor = true;
+            // 
+            // buTest
+            // 
+            this.buTest.Location = new System.Drawing.Point(64, 3);
+            this.buTest.Name = "buTest";
+            this.buTest.Size = new System.Drawing.Size(39, 22);
+            this.buTest.TabIndex = 7;
+            this.buTest.Text = "Test";
+            this.buTest.UseVisualStyleBackColor = true;
             // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Bisque;
             this.ClientSize = new System.Drawing.Size(387, 391);
+            this.Controls.Add(this.buTest);
+            this.Controls.Add(this.buReset);
             this.Controls.Add(this.laCode);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(403, 430);
             this.Name = "Fm";
+            this.Opacity = 0.98D;
             this.Text = "labTrainerAccount";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -179,6 +203,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label laCode;
+        private System.Windows.Forms.Button buReset;
+        private System.Windows.Forms.Button buTest;
     }
 }
 
