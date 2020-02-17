@@ -25,6 +25,7 @@ namespace labTrainerAccount
             buNo.Click += (sender, e) => g.DoAnswer(false);
         }
 
+
         private void Event_change(object sender, EventArgs e)
         {
             laYes.Text = String.Format("Верно = {0}", g.CountCorrect.ToString());
