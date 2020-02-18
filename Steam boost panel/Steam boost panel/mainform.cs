@@ -21,6 +21,8 @@ namespace Steam_boost_panel
             Panel_header.MouseDown += Panel_header_MouseDown;
             Panel_header.MouseMove += Panel_header_MouseMove;
             Panel_header.MouseUp += Panel_header_MouseUp;
+            buClose.Click += (sender, e) => this.Close();
+            buСollapse.Click += (sender, e) => this.BringToFront();
         }
 
         private void Panel_header_MouseUp(object sender, MouseEventArgs e)
