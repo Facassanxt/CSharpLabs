@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,40 +12,35 @@ using System.Windows.Forms;
 
 namespace Steam_boost_panel
 {
-    public partial class mainform : Form
+    public partial class mainform : MaterialForm
     {
-        bool drag = false;
-        Point start_point = new Point(0, 0);
 
         public mainform()
         {
             InitializeComponent();
-            Panel_header.MouseDown += Panel_header_MouseDown;
-            Panel_header.MouseMove += Panel_header_MouseMove;
-            Panel_header.MouseUp += Panel_header_MouseUp;
+            var skinManager = MaterialSkinManager.Instance;
+            skinManager.AddFormToManage(this);
+            skinManager.Theme = MaterialSkinManager.Themes.DARK;
+            skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700,Primary.BlueGrey900, Primary.BlueGrey500, Accent.Red400, TextShade.WHITE);
             buClose.Click += (sender, e) => this.Close();
-            buСollapse.Click += (sender, e) => this.BringToFront();
+            timer.Tick += Timer_Tick;
+            //buСollapse.Click += (sender, e) => this.BringToFront();
         }
 
-        private void Panel_header_MouseUp(object sender, MouseEventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            drag = false;
-            start_point = new Point(e.X, e.Y);
+            float fcpu = pCPU.NextValue();
+            float fram = pRAM.NextValue();
+            metroProgressBarCPU.Value = (int)fcpu;
+            metroProgressBarRAM.Value = (int)fram;
+            lblCPU.Text = string.Format("{0:0.00}%",fcpu);
+            lblRAM.Text = string.Format("{0:0.00}%", fram);
         }
 
-        private void Panel_header_MouseMove(object sender, MouseEventArgs e)
+        private void mainform_Load(object sender, EventArgs e)
         {
-            if (drag)
-            {
-                Point p = PointToScreen(e.Location);
-                this.Location = new Point(p.X - start_point.X, p.Y - start_point.Y);
-            }
+            timer.Start();
         }
 
-        private void Panel_header_MouseDown(object sender, MouseEventArgs e)
-        {
-            drag = true;
-            start_point = new Point(e.X, e.Y);
-        }
     }
 }
