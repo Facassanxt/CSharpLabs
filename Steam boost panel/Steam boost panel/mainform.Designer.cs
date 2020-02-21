@@ -47,6 +47,9 @@
             this.materialFlatButton2 = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialFlatButton1 = new MaterialSkin.Controls.MaterialFlatButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lblRAM = new MaterialSkin.Controls.MaterialLabel();
+            this.lblCPU = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.metroProgressBarRAM = new MetroFramework.Controls.MetroProgressBar();
@@ -55,9 +58,6 @@
             this.pRAM = new System.Diagnostics.PerformanceCounter();
             this.pCPU = new System.Diagnostics.PerformanceCounter();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
-            this.lblRAM = new MaterialSkin.Controls.MaterialLabel();
-            this.lblCPU = new MaterialSkin.Controls.MaterialLabel();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             this.materialTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -325,6 +325,51 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
+          
+            // 
+            // lblRAM
+            // 
+            this.lblRAM.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lblRAM.Depth = 0;
+            this.lblRAM.Font = new System.Drawing.Font("Roboto", 11F);
+            this.lblRAM.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblRAM.Location = new System.Drawing.Point(729, 105);
+            this.lblRAM.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblRAM.Name = "lblRAM";
+            this.lblRAM.Size = new System.Drawing.Size(65, 25);
+            this.lblRAM.TabIndex = 12;
+            this.lblRAM.Text = "0 %";
+            this.lblRAM.UseMnemonic = false;
+            this.lblRAM.Click += new System.EventHandler(this.lblRAM_Click);
+            // 
+            // lblCPU
+            // 
+            this.lblCPU.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lblCPU.Depth = 0;
+            this.lblCPU.Font = new System.Drawing.Font("Roboto", 11F);
+            this.lblCPU.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblCPU.Location = new System.Drawing.Point(729, 65);
+            this.lblCPU.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblCPU.Name = "lblCPU";
+            this.lblCPU.Size = new System.Drawing.Size(65, 25);
+            this.lblCPU.TabIndex = 11;
+            this.lblCPU.Text = "0 %";
+            this.lblCPU.UseMnemonic = false;
+            this.lblCPU.Click += new System.EventHandler(this.lblCPU_Click);
+            // 
+            // materialLabel4
+            // 
+            this.materialLabel4.Cursor = System.Windows.Forms.Cursors.Default;
+            this.materialLabel4.Depth = 0;
+            this.materialLabel4.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel4.Location = new System.Drawing.Point(7, 105);
+            this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel4.Name = "materialLabel4";
+            this.materialLabel4.Size = new System.Drawing.Size(52, 25);
+            this.materialLabel4.TabIndex = 10;
+            this.materialLabel4.Text = "RAM:";
+            this.materialLabel4.UseMnemonic = false;
             // 
             // materialLabel5
             // 
@@ -391,48 +436,6 @@
             // timer
             // 
             this.timer.Interval = 1000;
-            // 
-            // materialLabel4
-            // 
-            this.materialLabel4.Cursor = System.Windows.Forms.Cursors.Default;
-            this.materialLabel4.Depth = 0;
-            this.materialLabel4.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel4.Location = new System.Drawing.Point(7, 105);
-            this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel4.Name = "materialLabel4";
-            this.materialLabel4.Size = new System.Drawing.Size(52, 25);
-            this.materialLabel4.TabIndex = 10;
-            this.materialLabel4.Text = "RAM:";
-            this.materialLabel4.UseMnemonic = false;
-            // 
-            // lblRAM
-            // 
-            this.lblRAM.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblRAM.Depth = 0;
-            this.lblRAM.Font = new System.Drawing.Font("Roboto", 11F);
-            this.lblRAM.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblRAM.Location = new System.Drawing.Point(729, 105);
-            this.lblRAM.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblRAM.Name = "lblRAM";
-            this.lblRAM.Size = new System.Drawing.Size(65, 25);
-            this.lblRAM.TabIndex = 12;
-            this.lblRAM.Text = "0 %";
-            this.lblRAM.UseMnemonic = false;
-            // 
-            // lblCPU
-            // 
-            this.lblCPU.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblCPU.Depth = 0;
-            this.lblCPU.Font = new System.Drawing.Font("Roboto", 11F);
-            this.lblCPU.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblCPU.Location = new System.Drawing.Point(729, 65);
-            this.lblCPU.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblCPU.Name = "lblCPU";
-            this.lblCPU.Size = new System.Drawing.Size(65, 25);
-            this.lblCPU.TabIndex = 11;
-            this.lblCPU.Text = "0 %";
-            this.lblCPU.UseMnemonic = false;
             // 
             // mainform
             // 

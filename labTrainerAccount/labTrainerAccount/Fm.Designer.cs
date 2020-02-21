@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.buYes = new System.Windows.Forms.Button();
             this.buNo = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -38,8 +39,17 @@
             this.laCode = new System.Windows.Forms.Label();
             this.buReset = new System.Windows.Forms.Button();
             this.buTest = new System.Windows.Forms.Button();
+            this.pRAM = new System.Diagnostics.PerformanceCounter();
+            this.pCPU = new System.Diagnostics.PerformanceCounter();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.lblRAM = new MaterialSkin.Controls.MaterialLabel();
+            this.lblCPU = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel4 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel5 = new MaterialSkin.Controls.MaterialLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pRAM)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pCPU)).BeginInit();
             this.SuspendLayout();
             // 
             // buYes
@@ -152,7 +162,7 @@
             // buReset
             // 
             this.buReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buReset.Location = new System.Drawing.Point(363, 31);
+            this.buReset.Location = new System.Drawing.Point(52, 31);
             this.buReset.Name = "buReset";
             this.buReset.Size = new System.Drawing.Size(50, 20);
             this.buReset.TabIndex = 6;
@@ -162,12 +172,88 @@
             // buTest
             // 
             this.buTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buTest.Location = new System.Drawing.Point(318, 31);
+            this.buTest.Location = new System.Drawing.Point(3, 31);
             this.buTest.Name = "buTest";
             this.buTest.Size = new System.Drawing.Size(43, 20);
             this.buTest.TabIndex = 7;
             this.buTest.Text = "Test";
             this.buTest.UseVisualStyleBackColor = true;
+            // 
+            // pRAM
+            // 
+            this.pRAM.CategoryName = "Process";
+            this.pRAM.CounterName = "Private Bytes";
+            this.pRAM.InstanceName = "labTrainerAccount";
+            // 
+            // pCPU
+            // 
+            this.pCPU.CategoryName = "Processor";
+            this.pCPU.CounterName = "% User Time";
+            this.pCPU.InstanceName = "_Total";
+            // 
+            // timer
+            // 
+            this.timer.Interval = 1000;
+            // 
+            // lblRAM
+            // 
+            this.lblRAM.BackColor = System.Drawing.Color.Transparent;
+            this.lblRAM.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lblRAM.Depth = 0;
+            this.lblRAM.Font = new System.Drawing.Font("Roboto", 11F);
+            this.lblRAM.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblRAM.Location = new System.Drawing.Point(262, 32);
+            this.lblRAM.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblRAM.Name = "lblRAM";
+            this.lblRAM.Size = new System.Drawing.Size(151, 20);
+            this.lblRAM.TabIndex = 14;
+            this.lblRAM.Text = "0 %";
+            this.lblRAM.UseMnemonic = false;
+            // 
+            // lblCPU
+            // 
+            this.lblCPU.BackColor = System.Drawing.Color.Transparent;
+            this.lblCPU.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lblCPU.Depth = 0;
+            this.lblCPU.Font = new System.Drawing.Font("Roboto", 11F);
+            this.lblCPU.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblCPU.Location = new System.Drawing.Point(155, 32);
+            this.lblCPU.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblCPU.Name = "lblCPU";
+            this.lblCPU.Size = new System.Drawing.Size(50, 20);
+            this.lblCPU.TabIndex = 13;
+            this.lblCPU.Text = "0 %";
+            this.lblCPU.UseMnemonic = false;
+            // 
+            // materialLabel4
+            // 
+            this.materialLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.materialLabel4.Cursor = System.Windows.Forms.Cursors.Default;
+            this.materialLabel4.Depth = 0;
+            this.materialLabel4.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel4.Location = new System.Drawing.Point(211, 32);
+            this.materialLabel4.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel4.Name = "materialLabel4";
+            this.materialLabel4.Size = new System.Drawing.Size(45, 20);
+            this.materialLabel4.TabIndex = 16;
+            this.materialLabel4.Text = "RAM:";
+            this.materialLabel4.UseMnemonic = false;
+            // 
+            // materialLabel5
+            // 
+            this.materialLabel5.BackColor = System.Drawing.Color.Transparent;
+            this.materialLabel5.Cursor = System.Windows.Forms.Cursors.Default;
+            this.materialLabel5.Depth = 0;
+            this.materialLabel5.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel5.Location = new System.Drawing.Point(108, 32);
+            this.materialLabel5.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel5.Name = "materialLabel5";
+            this.materialLabel5.Size = new System.Drawing.Size(45, 20);
+            this.materialLabel5.TabIndex = 15;
+            this.materialLabel5.Text = "CPU:";
+            this.materialLabel5.UseMnemonic = false;
             // 
             // Fm
             // 
@@ -175,18 +261,26 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Bisque;
             this.ClientSize = new System.Drawing.Size(425, 437);
+            this.Controls.Add(this.materialLabel4);
+            this.Controls.Add(this.materialLabel5);
+            this.Controls.Add(this.lblRAM);
+            this.Controls.Add(this.lblCPU);
             this.Controls.Add(this.buTest);
             this.Controls.Add(this.buReset);
             this.Controls.Add(this.laCode);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.MaximumSize = new System.Drawing.Size(425, 437);
             this.MinimumSize = new System.Drawing.Size(425, 437);
             this.Name = "Fm";
             this.Opacity = 0.97D;
-            this.Text = "labTrainerAccount";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Load += new System.EventHandler(this.Fm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pRAM)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pCPU)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -203,6 +297,13 @@
         private System.Windows.Forms.Label laCode;
         private System.Windows.Forms.Button buReset;
         private System.Windows.Forms.Button buTest;
+        private System.Diagnostics.PerformanceCounter pCPU;
+        private System.Windows.Forms.Timer timer;
+        private MaterialSkin.Controls.MaterialLabel lblRAM;
+        private MaterialSkin.Controls.MaterialLabel lblCPU;
+        private MaterialSkin.Controls.MaterialLabel materialLabel4;
+        private MaterialSkin.Controls.MaterialLabel materialLabel5;
+        private System.Diagnostics.PerformanceCounter pRAM;
     }
 }
 

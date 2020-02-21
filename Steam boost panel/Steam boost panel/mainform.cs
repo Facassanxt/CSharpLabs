@@ -42,5 +42,15 @@ namespace Steam_boost_panel
             timer.Start();
         }
 
+
+        private void lblCPU_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblRAM_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

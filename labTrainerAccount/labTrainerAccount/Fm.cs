@@ -10,12 +10,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace labTrainerAccount
 {
     public partial class Fm : MaterialForm
     {
         private Games g;
+        bool test = false;
         public Fm()
         {
             InitializeComponent();
@@ -25,7 +27,7 @@ namespace labTrainerAccount
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700,Primary.BlueGrey900, Primary.BlueGrey100, Accent.Red400, TextShade.WHITE);
 
-
+            timer.Tick += Timer_Tick;
 
             g = new Games();
             g.Change += Event_change;
@@ -36,11 +38,31 @@ namespace labTrainerAccount
             buReset.Click += (sender, e) => g.DoReset();
             buTest.Click += delegate
             {
-                for (int i = 0; i < 1000; i++) 
+                if (test)
+                {
+                    test = false;
+                    buTest.Text = "test";
+                }
+                else{
+                    test = true;
+                    buTest.Text = "stop";
+                }
+
+            };
+        }
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (test) {
+                for (int i = 0; i < 1000; i++)
                 {
                     g.DoAnswer(true);
                 }
-            };
+            }
+            float fcpu = pCPU.NextValue();
+            lblCPU.Text = string.Format("{0:0.00}%", fcpu);
+            double fram = pRAM.NextValue();
+            lblRAM.Text = string.Format("{0:0.00}MB", fram / (1024 * 1024));
+
         }
 
 
@@ -50,6 +72,11 @@ namespace labTrainerAccount
             laNo.Text = String.Format("Неверно = {0}", g.CountWrong.ToString());
             laCode.Text = g.CodeText;
 
+        }
+
+        private void Fm_Load(object sender, EventArgs e)
+        {
+            timer.Start();
         }
     }
 }
