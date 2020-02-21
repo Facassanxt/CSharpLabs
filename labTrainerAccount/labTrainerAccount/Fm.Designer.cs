@@ -52,7 +52,7 @@
             this.buYes.ForeColor = System.Drawing.Color.Green;
             this.buYes.Location = new System.Drawing.Point(3, 3);
             this.buYes.Name = "buYes";
-            this.buYes.Size = new System.Drawing.Size(194, 84);
+            this.buYes.Size = new System.Drawing.Size(206, 85);
             this.buYes.TabIndex = 0;
             this.buYes.Text = "Да";
             this.buYes.UseVisualStyleBackColor = false;
@@ -65,27 +65,25 @@
             this.buNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.buNo.Font = new System.Drawing.Font("Arial Black", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buNo.ForeColor = System.Drawing.Color.Maroon;
-            this.buNo.Location = new System.Drawing.Point(203, 3);
+            this.buNo.Location = new System.Drawing.Point(215, 3);
             this.buNo.Name = "buNo";
-            this.buNo.Size = new System.Drawing.Size(195, 84);
+            this.buNo.Size = new System.Drawing.Size(207, 85);
             this.buNo.TabIndex = 1;
             this.buNo.Text = "Нет";
             this.buNo.UseVisualStyleBackColor = false;
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.laNo, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.laYes, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 71);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(-6, 57);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(401, 84);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(435, 59);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // laNo
@@ -93,9 +91,9 @@
             this.laNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.laNo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.laNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.laNo.Location = new System.Drawing.Point(203, 0);
+            this.laNo.Location = new System.Drawing.Point(220, 0);
             this.laNo.Name = "laNo";
-            this.laNo.Size = new System.Drawing.Size(195, 84);
+            this.laNo.Size = new System.Drawing.Size(212, 59);
             this.laNo.TabIndex = 1;
             this.laNo.Text = "Неверно = 0";
             this.laNo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -107,66 +105,66 @@
             this.laYes.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.laYes.Location = new System.Drawing.Point(3, 0);
             this.laYes.Name = "laYes";
-            this.laYes.Size = new System.Drawing.Size(194, 84);
+            this.laYes.Size = new System.Drawing.Size(211, 59);
             this.laYes.TabIndex = 0;
             this.laYes.Text = "Верно = 0";
             this.laYes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.buYes, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.buNo, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 338);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 346);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(401, 90);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(425, 91);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(12, 310);
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(0, 296);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(401, 25);
+            this.label3.Size = new System.Drawing.Size(425, 50);
             this.label3.TabIndex = 4;
             this.label3.Text = "Верно?";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // laCode
             // 
-            this.laCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.laCode.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.laCode.Font = new System.Drawing.Font("Arial Black", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.laCode.Location = new System.Drawing.Point(12, 158);
+            this.laCode.ForeColor = System.Drawing.Color.White;
+            this.laCode.Location = new System.Drawing.Point(0, 116);
             this.laCode.Name = "laCode";
-            this.laCode.Size = new System.Drawing.Size(401, 152);
+            this.laCode.Size = new System.Drawing.Size(425, 180);
             this.laCode.TabIndex = 5;
             this.laCode.Text = "10 + 11 = 21";
             this.laCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buReset
             // 
-            this.buReset.Location = new System.Drawing.Point(367, 31);
+            this.buReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buReset.Location = new System.Drawing.Point(363, 31);
             this.buReset.Name = "buReset";
-            this.buReset.Size = new System.Drawing.Size(46, 20);
+            this.buReset.Size = new System.Drawing.Size(50, 20);
             this.buReset.TabIndex = 6;
             this.buReset.Text = "Reset";
             this.buReset.UseVisualStyleBackColor = true;
             // 
             // buTest
             // 
-            this.buTest.Location = new System.Drawing.Point(322, 31);
+            this.buTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buTest.Location = new System.Drawing.Point(318, 31);
             this.buTest.Name = "buTest";
-            this.buTest.Size = new System.Drawing.Size(39, 20);
+            this.buTest.Size = new System.Drawing.Size(43, 20);
             this.buTest.TabIndex = 7;
             this.buTest.Text = "Test";
             this.buTest.UseVisualStyleBackColor = true;
@@ -185,7 +183,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(425, 437);
             this.Name = "Fm";
-            this.Opacity = 0.98D;
+            this.Opacity = 0.97D;
             this.Text = "labTrainerAccount";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);

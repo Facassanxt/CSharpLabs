@@ -20,6 +20,13 @@ namespace labTrainerAccount
         {
             InitializeComponent();
 
+            var skinManager = MaterialSkinManager.Instance;
+            skinManager.AddFormToManage(this);
+            skinManager.Theme = MaterialSkinManager.Themes.DARK;
+            skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700,Primary.BlueGrey900, Primary.BlueGrey100, Accent.Red400, TextShade.WHITE);
+
+
+
             g = new Games();
             g.Change += Event_change;
             g.DoReset();
