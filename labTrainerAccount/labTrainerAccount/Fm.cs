@@ -1,4 +1,6 @@
 ﻿using System;
+using MaterialSkin;
+using MaterialSkin.Controls;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,7 +13,7 @@ using System.Windows.Forms;
 
 namespace labTrainerAccount
 {
-    public partial class Fm : Form
+    public partial class Fm : MaterialForm
     {
         private Games g;
         public Fm()
