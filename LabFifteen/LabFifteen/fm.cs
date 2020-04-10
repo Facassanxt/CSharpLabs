@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Collections;
 using MaterialSkin.Controls;
 using MaterialSkin;
+using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace LabFifteen
 {
@@ -23,12 +25,13 @@ namespace LabFifteen
 
         int countStep = 0;
         int min, sec;
+        string time;
 
         List<Button> listBtn;
         int BXB;
-        int row;
+        int row = 3;
 
-        int lvlMix = 1000;
+        int lvlMix = 150;
 
         public fm()
         {
@@ -42,16 +45,117 @@ namespace LabFifteen
             timer1.Interval = 1000;
             min = 0; sec = 0;
 
-            Start.Click += Start_Click;
-            Restart.Click += Restart_Click;
+            StartToolStripMenuItem.Click += (s,e) => Start_Click();
+            RestartToolStripMenuItem.Click += Restart_Click;
+            x3ToolStripMenuItem.Click += x3_Click;
+            x4ToolStripMenuItem.Click += x4_Click;
             timer1.Tick += Timer1_Tick;
-      
+            ButtomToolStripMenuItem.Click += ButtomToolStripMenuItem_Click;
+            TextToolStripMenuItem.Click += TextToolStripMenuItem_Click;
+            PToolStripMenuItem.Click += PToolStripMenuItem_Click;
+            KeyDown += Fm_KeyDown;
+            Up.Click += (s, e) =>
+            {
+                if (Shift.Checked) 
+                {
+                    SendKeys.Send("+^{UP}");
+                }
+                else SendKeys.Send("^{UP}");
+            };
+            Down.Click += (s, e) =>
+            {
+                if (Shift.Checked)
+                {
+                    SendKeys.Send("+^{DOWN}");
+                }
+                else SendKeys.Send("^{DOWN}");
+            };
+            Left.Click += (s, e) =>
+            {
+                if (Shift.Checked)
+                {
+                    SendKeys.Send("+^{LEFT}");
+                }
+                else SendKeys.Send("^{LEFT}");
+            };
+            Right.Click += (s, e) =>
+            {
+                if (Shift.Checked)
+                {
+                    SendKeys.Send("+^{RIGHT}");
+                }
+                else SendKeys.Send("^{RIGHT}");
+            }; 
+            LightToolStripMenuItem.Click += (s, e) =>
+            {
+
+                if (LightToolStripMenuItem.Text == "Темная тема") 
+                {       
+                    skinManager.Theme = MaterialSkinManager.Themes.DARK;
+                    listBtn[listBtn.Count - 1].FlatAppearance.BorderColor = this.BackColor;
+                    LightToolStripMenuItem.Text = "Светлая тема";
+                }
+                else
+                {
+                    skinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+                    listBtn[listBtn.Count - 1].FlatAppearance.BorderColor = this.BackColor;
+                    LightToolStripMenuItem.Text = "Темная тема";
+                }
+            };
+            OkToolStripMenuItem.Click += OkToolStripMenuItem_Click;
             positionBtn = new List<Point> {  };
             listBtn = new List<Button> {};
-            
-            row = 3;
+            won.Dock = DockStyle.Bottom;
+
             BXB = row;
             GenButton(row);
+            Start_Click();
+        }
+
+        private void PToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (PToolStripMenuItem.Text == "Открыть навигацию")
+            {
+                PA2.Visible = true;
+                PToolStripMenuItem.Text = "Закрыть навигацию";
+                Height = Height + PA2.Height;
+            }
+            else 
+            {
+                PA2.Visible = false;
+                PToolStripMenuItem.Text = "Открыть навигацию";
+                Height = Height - PA2.Height;
+            }
+        }
+
+        private void OkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            string s = toolStripTextBox1.Text;
+            if (s != "") 
+            {
+                Regex regex = new Regex(@"^[1-9]?[\d]*$");
+                MatchCollection matches = regex.Matches(s);
+                if (matches.Count > 0)
+                {
+                    row = int.Parse(s);
+                    if (row <= 60)
+                    {
+                        test();
+                        row = int.Parse(s);
+                        won.Visible = false;
+                        ClearDataList();
+                        BXB = row;
+                        GenButton(row);
+                        Start_Click();
+                    }
+                    else MessageBox.Show("Значение превышает возможности запуска, максимум 60 x 60");
+                }
+                else
+                {
+                    MessageBox.Show("Только цифры");
+                }
+            }
         }
 
         private void InitBtnClick()
@@ -73,7 +177,7 @@ namespace LabFifteen
                 if (index == 0)
                 {
                     btn.Size = new Size(140, 140);
-                    btn.Location = new Point(0, 64);
+                    btn.Location = new Point(5, 70);
                     BtnStyle(btn);
                 }
                 else
@@ -102,10 +206,18 @@ namespace LabFifteen
             }
 
             listBtn[listBtn.Count - 1].Tag = "0";
-            listBtn[listBtn.Count - 1].Visible = false;
+            listBtn[listBtn.Count - 1].Text = "✖";
+            listBtn[listBtn.Count - 1].ForeColor = Color.Silver;
+            listBtn[listBtn.Count - 1].BackColor = Color.Transparent;
+            listBtn[listBtn.Count - 1].FlatAppearance.MouseOverBackColor = Color.Transparent;
+            listBtn[listBtn.Count - 1].FlatAppearance.MouseDownBackColor = Color.Transparent;
+            listBtn[listBtn.Count - 1].FlatAppearance.BorderColor = this.BackColor;
 
-            Width = (listBtn[0].Width + 9) * bxb - (bxb * 6);
-            Height = (listBtn[0].Height + 9) * bxb + 47;
+            Width = (listBtn[0].Width + 5) * bxb + 5;
+            Height = (listBtn[0].Height + 5) * bxb + 70;
+
+            won.Width = Width;
+            won.Height = Height - 60;
 
             InitBtnClick();
         }
@@ -119,6 +231,7 @@ namespace LabFifteen
             btn.Text = $"{listBtn.Count + 1}";
             btn.Tag = $"{listBtn.Count + 1}";
             btn.BackColor = Color.PeachPuff;
+            btn.FlatAppearance.BorderColor = Color.Silver;
         }
 
         private void ClearDataList()
@@ -166,11 +279,13 @@ namespace LabFifteen
             
             if(sec < 10)
             {
-                laTime.Text = $"{min}:0{sec}";
+                time = $"{min}:0{sec}";
+                laTime.Text = time;
             }
             else
             {
-                laTime.Text = $"{min}:{sec}";
+                time = $"{min}:{sec}";
+                laTime.Text = time;
             }
 
             for (int i = lPoint.Count - 1; i >= 0; i--)
@@ -188,7 +303,7 @@ namespace LabFifteen
             }
 
             return false;
-        }   
+        }
 
         // кнопка собртаь в состояние win
         private void Restart_Click(object sender, EventArgs e)
@@ -197,12 +312,67 @@ namespace LabFifteen
         }
 
         // Кнопка перемешать 
-        private void Start_Click(object sender, EventArgs e)
+        public void Start_Click()
         {
             laSteps.Text = "0";
             min = 0; sec = 0; countStep = 0;     
             ShuffleBlocks(listBtn[listBtn.Count - 1], listBtn, positionBtn, lvlMix);
-            timer1.Enabled = true;          
+            timer1.Enabled = true;    
+        }
+
+        private void ButtomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                for (int i = 0; i < row * row - 1; i++)
+                {
+                    listBtn[i].BackColor = colorDialog1.Color;
+                }
+            }
+        }
+
+        private void TextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                for (int i = 0; i < row * row - 1; i++)
+                {
+                    listBtn[i].ForeColor = colorDialog1.Color;
+                }
+            }
+        }
+
+        private void x3_Click(object sender, EventArgs e)
+        {
+            test();
+            won.Visible = false;
+            ClearDataList();
+            row = 3;
+            BXB = row;
+            GenButton(row);
+            Start_Click();
+            //System.Threading.Thread.Sleep(10050);
+        }
+
+        private void x4_Click(object sender, EventArgs e)
+        {
+            test();
+            won.Visible = false;
+            ClearDataList();
+            row = 4;
+            BXB = row;
+            GenButton(row);
+            Start_Click();
+        }
+
+        private void test()
+        {
+            if (PToolStripMenuItem.Text == "Закрыть навигацию")
+            {
+                PA2.Visible = false;
+                Height = Height - PA2.Height;
+                PToolStripMenuItem.Text = "Открыть навигацию";
+            }
         }
 
         // обработчик кликов
@@ -218,7 +388,7 @@ namespace LabFifteen
         {
             for (int i = lPoint.Count - 1; i >= 0; i--)
             {
-                if (x == lBtn[i].Location.X || y == lBtn[i].Location.Y)
+                if (x == lBtn[i].Location.X && y == lBtn[i].Location.Y)
                 {
                     chengeBtn(lBtn[i]);
                 }
@@ -275,9 +445,47 @@ namespace LabFifteen
             if (CheckWin(listBtn, positionBtn) && flag == true)
             {
                 won.Visible = true;
+                won.Text = $"You won!\n Your time {time}\n Steps {countStep}";
             }
             else {
                 won.Visible = false;
+            }
+        }
+
+        private void Fm_KeyDown(object sender, KeyEventArgs e)
+        {
+            Button block0 = new Button();
+            block0 = listBtn[listBtn.Count - 1];
+            switch (e.KeyCode)
+            {
+                case Keys.Left:
+                    if (e.Shift)
+                        for (int i = 0; i < row; i++)
+                            RandClick(block0.Location.X - (block0.Width + 5), block0.Location.Y, listBtn, positionBtn);
+                    else
+                        RandClick(block0.Location.X - (block0.Width + 5), block0.Location.Y, listBtn, positionBtn);
+                    break;
+                case Keys.Right:
+                    if (e.Shift)
+                        for (int i = 0; i < row; i++)
+                            RandClick(block0.Location.X + (block0.Width + 5), block0.Location.Y, listBtn, positionBtn);
+                    else
+                        RandClick(block0.Location.X + (block0.Width + 5), block0.Location.Y, listBtn, positionBtn);
+                    break;
+                case Keys.Up:
+                    if (e.Shift)
+                        for (int i = 0; i < row; i++)
+                            RandClick(block0.Location.X, block0.Location.Y - (block0.Height + 5), listBtn, positionBtn);
+                    else
+                        RandClick(block0.Location.X, block0.Location.Y - (block0.Height + 5), listBtn, positionBtn);
+                    break;
+                case Keys.Down:
+                    if (e.Shift)
+                        for (int i = 0; i < row; i++)
+                            RandClick(block0.Location.X, block0.Location.Y + (block0.Height + 5), listBtn, positionBtn);
+                    else
+                        RandClick(block0.Location.X, block0.Location.Y + (block0.Height + 5), listBtn, positionBtn);
+                    break;
             }
         }
 
