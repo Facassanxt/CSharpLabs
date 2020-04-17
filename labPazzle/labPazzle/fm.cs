@@ -1,4 +1,5 @@
-﻿using System;
+﻿using labPazzle.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,6 +25,42 @@ namespace labPazzle
             CreateCells();
             StartLocationCells();
             ResizeCells();
+            this.Text += " (F1 - Собрать, F2 - Перемешать, F3 - Новый размер)";
+            this.KeyDown += Fm_KeyDown;
+            //RandomCells();
+
+        }
+
+        private void Fm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F1:
+                    StartLocationCells();
+                    break;
+                case Keys.F2:
+                    RandomCells();
+                    break;
+                case Keys.F3:
+                    StartLocationCells();
+                    ResizeCells();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void RandomCells()
+        {
+            Random rnd = new Random();
+            for (int i = 0; i < Rows; i++)
+                for (int j = 0; j < Cols; j++)
+                {
+                    pics[i, j].Location = new Point(
+                        rnd.Next(ClientSize.Width - pics[i, j].Width),
+                        rnd.Next(ClientSize.Height - pics[i, j].Height)
+                        );
+                }
         }
 
         private void ResizeCells()
@@ -35,6 +72,14 @@ namespace labPazzle
                 {
                     pics[i, j].Width = xCellWidth;
                     pics[i, j].Height = xCellHeight;
+                    pics[i, j].Image = new Bitmap(xCellWidth, xCellHeight);
+                    var g = Graphics.FromImage(pics[i, j].Image);
+                    //g.Clear(Color.LightGreen);
+                    g.DrawImage(Resources.pic1,
+                        new Rectangle(0,0,pics[i,j].Width,pics[i,j].Height),
+                        new Rectangle(j * xCellWidth, i * xCellHeight, xCellWidth, xCellHeight),
+                        GraphicsUnit.Pixel);
+                    g.Dispose();
                 }
         }
 
