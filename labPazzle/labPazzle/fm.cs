@@ -113,8 +113,11 @@ namespace labPazzle
             if (e.Button == MouseButtons.Left)
             {
                 Point x = new Point(Cursor.Position.X - startPoint.X, Cursor.Position.Y - startPoint.Y);
-                if (sender is Control)
+                if (sender is Control b)
+                {
+                    b.BringToFront();
                     ((Control)sender).Location = PointToClient(x);
+                }
             }
         }
 
