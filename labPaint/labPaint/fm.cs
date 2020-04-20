@@ -37,7 +37,8 @@ namespace labPaint
             Resize += Fm_Resize;
             StartFormPosition();
             toolsBar.ImageList = imageList;
-            intitModePanel(toolsBar.Buttons.Cast);
+            List<ManagementObject> managementList = ManagementObjectCollection.OfType<ManagementObject>().ToList();
+            intitModePanel(toolsBar.Buttons);
         }
 
         private void StartFormPosition()

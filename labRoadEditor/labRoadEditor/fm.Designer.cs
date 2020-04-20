@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace labPazzle
+﻿namespace labRoadEditor
 {
     partial class fm
     {
@@ -37,10 +35,8 @@ namespace labPazzle
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.DoubleBuffered = true;
             this.Name = "fm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "labPazzle";
+            this.Text = "labRoadEditor";
             this.ResumeLayout(false);
 
         }
