@@ -20,6 +20,7 @@ namespace labPaint
         private Point prevPoint;
         private Bitmap b;
         int x, y = 0;
+        private int mode;
 
         public fm()
         {
@@ -36,6 +37,7 @@ namespace labPaint
             Resize += Fm_Resize;
             StartFormPosition();
             toolsBar.ImageList = imageList;
+            intitModePanel(toolsBar.Buttons.Cast);
         }
 
         private void StartFormPosition()
@@ -93,6 +95,68 @@ namespace labPaint
                 x = e.X;
                 y = e.Y;
                 MouseLocation.Text = e.Location.ToString();
+            }
+        }
+        private void intitModePanel(List<Button> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].Click += ClickButtonsOnPanelMode;
+            }
+        }
+
+        private void ClickButtonsOnPanelMode(object sender, EventArgs e)
+        {
+            if (sender is Button)
+            {
+                switch (Convert.ToInt32(((Button)sender).Tag))
+                {
+                    case 0:
+                        mode = 0;
+                        break;
+                    case 1:
+                        mode = 1;
+                        break;
+                    case 2:
+                        mode = 2;
+                        break;
+                    case 3:
+                        mode = 3;
+                        break;
+                    case 4:
+                        mode = 4;
+                        break;
+                    case 5:
+                        mode = 5;
+                        break;
+                    case 6:
+                        mode = 6;
+                        break;
+                }
+            }
+        }
+        private void PaImage_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (mode)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    penDraw(e);
+                    break;
+                case 4:
+                    drawRectangle(e);
+                    break;
+                case 5:
+                    drawCircle(e);
+                    break;
+                case 6:
+                    drawLine(e);
+                    break;
             }
         }
     }
