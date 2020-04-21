@@ -21,8 +21,8 @@ namespace labPaint
         private Point prevPoint;
         private Point startPoint;
         private Bitmap b;
-        int x, y = 0;
-        private int mode;
+        int x, y, CountFileSave = 0;
+        private int mode, SazePen = 0;
 
         Graphics g;
         Pen pen;
@@ -35,7 +35,7 @@ namespace labPaint
             InitializeComponent();
 
 
-            pen = new Pen(Color.Black, 0);
+            pen = new Pen(Color.Black, 1);
 
 
 
@@ -61,10 +61,17 @@ namespace labPaint
             paImage.MouseMove += PaImage_MouseMove;
             paImage.Paint += PaImage_Paint;
             StartXY.Click += StartXY_Click;
+            Save.Click += Save_Click;
             Resize += Fm_Resize;
             RndColor.Click += RndColor_Click;
             AllColor.Click += AllColor_Click;
             ResizeEnd += Fm_ResizeEnd;
+            ClearPanel.Click += (s, e) =>
+             {
+                 g.Clear(Color.Silver);
+                 StartFormPosition();
+             };
+            Download.Click += Download_Click;
             StartFormPosition();
             ColorPanel(ColorList);
             toolsBar.ImageList = imageList;
@@ -76,9 +83,7 @@ namespace labPaint
 
         private void StartXY_Click(object sender, EventArgs e)
         {
-            b.Save(@"D:\Рабочий стол\test.png", System.Drawing.Imaging.ImageFormat.Png);
-            //Potok[0] = new Thread(getPointXY);
-            //Potok[0].Start();
+//
         }
 
         void getPointXY()
@@ -137,19 +142,19 @@ namespace labPaint
         {
             if (e.Button == MouseButtons.Left)
             {
-                    using (Graphics g1 = Graphics.FromImage(b))
-                    {
-                        if (RandomColor)
+                using (Graphics g1 = Graphics.FromImage(b))
+                {
+                    if (RandomColor)
                     {
                         Random rnd = new Random();
                         pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-                        g.FillEllipse(pen.Brush, e.X - 7, e.Y - 7, 15, 15);
-                        g1.FillEllipse(pen.Brush, e.X - 7, e.Y - 7, 15, 15);
+                        g.FillEllipse(pen.Brush, e.X - (SazePen / 2), e.Y - (SazePen / 2), SazePen, SazePen);
+                        g1.FillEllipse(pen.Brush, e.X - (SazePen / 2), e.Y - (SazePen / 2), SazePen, SazePen);
                     }
                     else
                     {
-                        g.FillEllipse(pen.Brush, e.X - 7, e.Y - 7, 15, 15);
-                        g1.FillEllipse(pen.Brush, e.X - 7, e.Y - 7, 15, 15);
+                        g.FillEllipse(pen.Brush, e.X - (SazePen / 2), e.Y - (SazePen / 2), SazePen, SazePen);
+                        g1.FillEllipse(pen.Brush, e.X - (SazePen / 2), e.Y - (SazePen / 2), SazePen, SazePen);
                     }
                 }
             }
@@ -162,7 +167,7 @@ namespace labPaint
 
         private void PaImage_MouseDown(object sender, MouseEventArgs e)
         {
-            //
+            SazePen = Sizepen.Value;
         }
 
         private void ColorPanel (List<PictureBox> ColorList)
@@ -264,5 +269,60 @@ namespace labPaint
                     break;
             }
         }
+
+        private void Save_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog MyDialog = new SaveFileDialog();
+            MyDialog.FileName = $"SavePaint_{CountFileSave}";
+            MyDialog.Filter = $"png (*.png)|*.png";
+            if (MyDialog.ShowDialog() == DialogResult.Cancel)
+                return;
+            try
+            {
+                string path = MyDialog.FileName;
+                b.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+                CountFileSave++;
+            }
+            catch
+            {
+                DialogResult rezult = MessageBox.Show("Невозможно сохранить файл",
+                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void Download_Click(object sender, EventArgs e)
+        {
+            Bitmap image; 
+            OpenFileDialog open_dialog = new OpenFileDialog();
+            open_dialog.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
+            if (open_dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    image = new Bitmap(open_dialog.FileName);
+                    //вместо pictureBox1 укажите pictureBox, в который нужно загрузить изображение 
+                    Bitmap bImg = new Bitmap(open_dialog.FileName);
+
+
+                    Size resolution = Screen.PrimaryScreen.Bounds.Size;
+                    b = new Bitmap(resolution.Width, resolution.Height);
+
+                    g.Clear(Color.Silver);
+                    using (Graphics g1 = Graphics.FromImage(b)) 
+                    {
+                        g1.CompositingMode = CompositingMode.SourceOver;
+                        g1.SmoothingMode = SmoothingMode.HighQuality;
+                        g1.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        g.DrawImage(bImg, 0, 0);
+                        g1.DrawImage(bImg, 0, 0);
+                    }
+                }
+                catch
+                {
+                    DialogResult rezult = MessageBox.Show("Невозможно открыть выбранный файл",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
     }
 }
