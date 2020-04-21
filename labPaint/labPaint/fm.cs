@@ -11,6 +11,7 @@ using MaterialSkin;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.Threading;
 
 namespace labPaint
 {
@@ -18,13 +19,38 @@ namespace labPaint
     {
         private bool isPressed;
         private Point prevPoint;
+        private Point startPoint;
         private Bitmap b;
         int x, y = 0;
         private int mode;
 
+        Graphics g;
+        Pen pen;
+        Thread[] Potok = new Thread[10];
+        List<PictureBox> ColorList = new List<PictureBox>();
+        private bool RandomColor = false;
+
         public fm()
         {
             InitializeComponent();
+
+
+            pen = new Pen(Color.Black, 0);
+
+
+
+            ColorList.Add(Black);
+            ColorList.Add(White);
+            ColorList.Add(Silver);
+            ColorList.Add(Red);
+            ColorList.Add(Orange);
+            ColorList.Add(Yellow);
+            ColorList.Add(Lime);
+            ColorList.Add(Aqua);
+            ColorList.Add(Blue);
+            ColorList.Add(Fuchsia);
+            
+
             var skinManager = MaterialSkinManager.Instance;
             skinManager.AddFormToManage(this);
             skinManager.Theme = MaterialSkinManager.Themes.LIGHT;
@@ -34,11 +60,30 @@ namespace labPaint
             paImage.MouseUp += PaImage_MouseUp;
             paImage.MouseMove += PaImage_MouseMove;
             paImage.Paint += PaImage_Paint;
+            StartXY.Click += StartXY_Click;
             Resize += Fm_Resize;
+            RndColor.Click += RndColor_Click;
+            AllColor.Click += AllColor_Click;
+            ResizeEnd += Fm_ResizeEnd;
             StartFormPosition();
+            ColorPanel(ColorList);
             toolsBar.ImageList = imageList;
-            List<ManagementObject> managementList = ManagementObjectCollection.OfType<ManagementObject>().ToList();
-            intitModePanel(toolsBar.Buttons);
+
+            
+            //List<ManagementObject> managementList = ManagementObjectCollection.OfType<ManagementObject>().ToList();
+            //intitModePanel(toolsBar.Buttons);
+        }
+
+        private void StartXY_Click(object sender, EventArgs e)
+        {
+            b.Save(@"D:\Рабочий стол\test.png", System.Drawing.Imaging.ImageFormat.Png);
+            //Potok[0] = new Thread(getPointXY);
+            //Potok[0].Start();
+        }
+
+        void getPointXY()
+        {
+                this.Invoke((MethodInvoker)delegate () { MouseLocation.Text = $"{{ {x.ToString()} : {y.ToString()}}}"; });
         }
 
         private void StartFormPosition()
@@ -51,7 +96,14 @@ namespace labPaint
             paImage.Location = new Point(toolsBar.Width, instpanel.Location.Y + instpanel.Height);
             paImage.Height = this.Height - 64 - instpanel.Height - 1;
             paImage.Width = this.Width - toolsBar.Width - 1;
-            b = new Bitmap(paImage.Width, paImage.Height);
+
+
+            Size resolution = Screen.PrimaryScreen.Bounds.Size;
+
+            b = new Bitmap(resolution.Width, resolution.Height);
+            g = paImage.CreateGraphics();
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
         }
 
         private void Fm_Resize(object sender, EventArgs e)
@@ -60,44 +112,95 @@ namespace labPaint
             instpanel.Width = this.Width - toolsBar.Width - 1;
             paImage.Height = this.Height - 64 - instpanel.Height - 1;
             paImage.Width = this.Width - toolsBar.Width - 1;
-            b = new Bitmap(paImage.Width, paImage.Height);
+            g = paImage.CreateGraphics();
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+            //b2 = (Bitmap)b.Clone();
+            ////g.DrawImage(b, new Point(0, 0));
+            //b = new Bitmap(paImage.Width, paImage.Height);
+            ////b = new Bitmap(b2);
+            
+        }
+        private void Fm_ResizeEnd(object sender, EventArgs e)
+        {
+            //g1 = Graphics.FromImage(b);
+            //g1.DrawImage(b2, new Point(0, 0));
         }
 
         private void PaImage_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawImage(b, new Point(0, 0));
+            g.DrawImage(b, new Point(0, 0));
         }
 
         private void PaImage_MouseMove(object sender, MouseEventArgs e)
         {
-            MouseLocation.Text = e.Location.ToString();
-            if (!isPressed) return;
-            var g = Graphics.FromImage(b);
-            g.DrawLine(new Pen(Color.Red, 5), new Point(x, y), e.Location);
-            g.DrawLine(new Pen(Color.Red, 5), e.X, e.Y - 1, e.X, e.Y + 1);
-            g.DrawLine(new Pen(Color.Red, 5), e.X + 1, e.Y, e.X - 1, e.Y);
-            x = e.X;
-            y = e.Y;
-            g.Dispose();
-            paImage.CreateGraphics().DrawImage(b, new Point(0, 0));
-            MouseLocation.Text = e.Location.ToString();
+            if (e.Button == MouseButtons.Left)
+            {
+                    using (Graphics g1 = Graphics.FromImage(b))
+                    {
+                        if (RandomColor)
+                    {
+                        Random rnd = new Random();
+                        pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                        g.FillEllipse(pen.Brush, e.X - 7, e.Y - 7, 15, 15);
+                        g1.FillEllipse(pen.Brush, e.X - 7, e.Y - 7, 15, 15);
+                    }
+                    else
+                    {
+                        g.FillEllipse(pen.Brush, e.X - 7, e.Y - 7, 15, 15);
+                        g1.FillEllipse(pen.Brush, e.X - 7, e.Y - 7, 15, 15);
+                    }
+                }
+            }
         }
 
         private void PaImage_MouseUp(object sender, MouseEventArgs e)
         {
-            isPressed = false;
+            //
         }
 
         private void PaImage_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            //
+        }
+
+        private void ColorPanel (List<PictureBox> ColorList)
+        {
+            for (int i = 0; i < ColorList.Count; i++)
             {
-                isPressed = true;
-                x = e.X;
-                y = e.Y;
-                MouseLocation.Text = e.Location.ToString();
+                ColorList[i].Click += ClickButtonsOnColorPanel;
             }
         }
+
+        private void ClickButtonsOnColorPanel(object sender, EventArgs e)
+        {
+            if (sender is PictureBox)
+            {
+                PictureBox p = (PictureBox)sender;
+                pen.Color = p.BackColor;
+                RandomColor = false;
+            }
+        }
+        private void AllColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog MyDialog = new ColorDialog();
+            MyDialog.AllowFullOpen = false;
+            MyDialog.ShowHelp = true;
+            MyDialog.Color = AllColor.ForeColor;
+            if (MyDialog.ShowDialog() == DialogResult.OK)
+            {
+                AllColor.BackColor = MyDialog.Color;
+                pen.Color = MyDialog.Color;
+                RandomColor = false;
+            }
+        }
+
+        private void RndColor_Click(object sender, EventArgs e)
+        {
+            RandomColor = true;
+        }
+
         private void intitModePanel(List<Button> list)
         {
             for (int i = 0; i < list.Count; i++)
@@ -136,6 +239,7 @@ namespace labPaint
                 }
             }
         }
+
         private void PaImage_MouseClick(object sender, MouseEventArgs e)
         {
             switch (mode)
@@ -147,16 +251,16 @@ namespace labPaint
                 case 2:
                     break;
                 case 3:
-                    penDraw(e);
+                    //penDraw(e);
                     break;
                 case 4:
-                    drawRectangle(e);
+                    //drawRectangle(e);
                     break;
                 case 5:
-                    drawCircle(e);
+                    //drawCircle(e);
                     break;
                 case 6:
-                    drawLine(e);
+                    //drawLine(e);
                     break;
             }
         }
