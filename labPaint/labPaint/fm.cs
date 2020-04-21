@@ -299,13 +299,9 @@ namespace labPaint
                 try
                 {
                     image = new Bitmap(open_dialog.FileName);
-                    //вместо pictureBox1 укажите pictureBox, в который нужно загрузить изображение 
                     Bitmap bImg = new Bitmap(open_dialog.FileName);
-
-
                     Size resolution = Screen.PrimaryScreen.Bounds.Size;
                     b = new Bitmap(resolution.Width, resolution.Height);
-
                     g.Clear(Color.Silver);
                     using (Graphics g1 = Graphics.FromImage(b)) 
                     {
