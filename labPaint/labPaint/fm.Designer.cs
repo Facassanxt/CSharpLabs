@@ -30,12 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fm));
-            this.paImage = new System.Windows.Forms.Panel();
             this.instpanel = new System.Windows.Forms.Panel();
+            this.ClearPanel = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.Sizepen = new System.Windows.Forms.TrackBar();
-            this.Download = new System.Windows.Forms.Button();
-            this.Save = new System.Windows.Forms.Button();
             this.AllColor = new System.Windows.Forms.PictureBox();
             this.RndColor = new System.Windows.Forms.PictureBox();
             this.Fuchsia = new System.Windows.Forms.PictureBox();
@@ -48,6 +47,8 @@
             this.Silver = new System.Windows.Forms.PictureBox();
             this.White = new System.Windows.Forms.PictureBox();
             this.Black = new System.Windows.Forms.PictureBox();
+            this.Download = new System.Windows.Forms.Button();
+            this.Save = new System.Windows.Forms.Button();
             this.toolsBar = new System.Windows.Forms.ToolBar();
             this.arrowBtn = new System.Windows.Forms.ToolBarButton();
             this.lineBtn = new System.Windows.Forms.ToolBarButton();
@@ -61,9 +62,9 @@
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.MouseLocation = new System.Windows.Forms.Label();
             this.StartXY = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.ClearPanel = new System.Windows.Forms.Button();
+            this.paImage = new System.Windows.Forms.Panel();
             this.instpanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Sizepen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AllColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RndColor)).BeginInit();
@@ -77,16 +78,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Silver)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.White)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Black)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // paImage
-            // 
-            this.paImage.BackColor = System.Drawing.Color.Silver;
-            this.paImage.Location = new System.Drawing.Point(308, 344);
-            this.paImage.Name = "paImage";
-            this.paImage.Size = new System.Drawing.Size(249, 227);
-            this.paImage.TabIndex = 1;
             // 
             // instpanel
             // 
@@ -110,6 +102,32 @@
             this.instpanel.Size = new System.Drawing.Size(782, 83);
             this.instpanel.TabIndex = 8;
             // 
+            // ClearPanel
+            // 
+            this.ClearPanel.AutoSize = true;
+            this.ClearPanel.BackColor = System.Drawing.Color.Transparent;
+            this.ClearPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ClearPanel.FlatAppearance.BorderSize = 0;
+            this.ClearPanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ClearPanel.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ClearPanel.ForeColor = System.Drawing.Color.Black;
+            this.ClearPanel.Location = new System.Drawing.Point(0, 0);
+            this.ClearPanel.Name = "ClearPanel";
+            this.ClearPanel.Size = new System.Drawing.Size(118, 83);
+            this.ClearPanel.TabIndex = 15;
+            this.ClearPanel.Text = "Очистить";
+            this.ClearPanel.UseVisualStyleBackColor = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.Sizepen);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(254, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(168, 83);
+            this.panel1.TabIndex = 11;
+            // 
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -130,35 +148,6 @@
             this.Sizepen.Size = new System.Drawing.Size(168, 45);
             this.Sizepen.TabIndex = 11;
             this.Sizepen.Value = 5;
-            // 
-            // Download
-            // 
-            this.Download.AutoSize = true;
-            this.Download.BackColor = System.Drawing.Color.Transparent;
-            this.Download.FlatAppearance.BorderSize = 0;
-            this.Download.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Download.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Download.Location = new System.Drawing.Point(223, 23);
-            this.Download.Name = "Download";
-            this.Download.Size = new System.Drawing.Size(121, 39);
-            this.Download.TabIndex = 14;
-            this.Download.Text = "Загрузить";
-            this.Download.UseVisualStyleBackColor = false;
-            // 
-            // Save
-            // 
-            this.Save.AutoSize = true;
-            this.Save.BackColor = System.Drawing.Color.Transparent;
-            this.Save.FlatAppearance.BorderSize = 0;
-            this.Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Save.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Save.ForeColor = System.Drawing.Color.Black;
-            this.Save.Location = new System.Drawing.Point(96, 23);
-            this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(127, 39);
-            this.Save.TabIndex = 13;
-            this.Save.Text = "Сохранить";
-            this.Save.UseVisualStyleBackColor = false;
             // 
             // AllColor
             // 
@@ -284,6 +273,35 @@
             this.Black.TabIndex = 1;
             this.Black.TabStop = false;
             // 
+            // Download
+            // 
+            this.Download.AutoSize = true;
+            this.Download.BackColor = System.Drawing.Color.Transparent;
+            this.Download.FlatAppearance.BorderSize = 0;
+            this.Download.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Download.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Download.Location = new System.Drawing.Point(223, 23);
+            this.Download.Name = "Download";
+            this.Download.Size = new System.Drawing.Size(121, 39);
+            this.Download.TabIndex = 14;
+            this.Download.Text = "Загрузить";
+            this.Download.UseVisualStyleBackColor = false;
+            // 
+            // Save
+            // 
+            this.Save.AutoSize = true;
+            this.Save.BackColor = System.Drawing.Color.Transparent;
+            this.Save.FlatAppearance.BorderSize = 0;
+            this.Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Save.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Save.ForeColor = System.Drawing.Color.Black;
+            this.Save.Location = new System.Drawing.Point(96, 23);
+            this.Save.Name = "Save";
+            this.Save.Size = new System.Drawing.Size(127, 39);
+            this.Save.TabIndex = 13;
+            this.Save.Text = "Сохранить";
+            this.Save.UseVisualStyleBackColor = false;
+            // 
             // toolsBar
             // 
             this.toolsBar.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
@@ -386,42 +404,25 @@
             this.StartXY.Text = "V";
             this.StartXY.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // paImage
             // 
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.Sizepen);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(254, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(168, 83);
-            this.panel1.TabIndex = 11;
-            // 
-            // ClearPanel
-            // 
-            this.ClearPanel.AutoSize = true;
-            this.ClearPanel.BackColor = System.Drawing.Color.Transparent;
-            this.ClearPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ClearPanel.FlatAppearance.BorderSize = 0;
-            this.ClearPanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ClearPanel.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ClearPanel.ForeColor = System.Drawing.Color.Black;
-            this.ClearPanel.Location = new System.Drawing.Point(0, 0);
-            this.ClearPanel.Name = "ClearPanel";
-            this.ClearPanel.Size = new System.Drawing.Size(118, 83);
-            this.ClearPanel.TabIndex = 15;
-            this.ClearPanel.Text = "Очистить";
-            this.ClearPanel.UseVisualStyleBackColor = false;
+            this.paImage.BackColor = System.Drawing.Color.Silver;
+            this.paImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.paImage.Location = new System.Drawing.Point(297, 348);
+            this.paImage.Name = "paImage";
+            this.paImage.Size = new System.Drawing.Size(200, 100);
+            this.paImage.TabIndex = 16;
             // 
             // fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.paImage);
             this.Controls.Add(this.StartXY);
             this.Controls.Add(this.Download);
             this.Controls.Add(this.Save);
             this.Controls.Add(this.MouseLocation);
-            this.Controls.Add(this.paImage);
             this.Controls.Add(this.instpanel);
             this.Controls.Add(this.toolsBar);
             this.MinimumSize = new System.Drawing.Size(800, 600);
@@ -430,6 +431,8 @@
             this.Text = "labPaint";
             this.instpanel.ResumeLayout(false);
             this.instpanel.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Sizepen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AllColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RndColor)).EndInit();
@@ -443,15 +446,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.Silver)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.White)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Black)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Panel paImage;
         private System.Windows.Forms.Panel instpanel;
         private System.Windows.Forms.ToolBar toolsBar;
         private System.Windows.Forms.ToolBarButton arrowBtn;
@@ -499,6 +499,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button ClearPanel;
+        private System.Windows.Forms.Panel paImage;
     }
 }
 

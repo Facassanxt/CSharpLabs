@@ -66,6 +66,8 @@ namespace labPaint
             RndColor.Click += RndColor_Click;
             AllColor.Click += AllColor_Click;
             ResizeEnd += Fm_ResizeEnd;
+            //MinimumSizeChanged += (s,e) => g.DrawImage(b, new Point(0, 0)); ;
+            //MaximizedBoundsChanged += (s,e) => g.DrawImage(b, new Point(0, 0));
             ClearPanel.Click += (s, e) =>
              {
                  g.Clear(Color.Silver);
@@ -129,8 +131,7 @@ namespace labPaint
         }
         private void Fm_ResizeEnd(object sender, EventArgs e)
         {
-            //g1 = Graphics.FromImage(b);
-            //g1.DrawImage(b2, new Point(0, 0));
+            g.DrawImage(b, new Point(0, 0));
         }
 
         private void PaImage_Paint(object sender, PaintEventArgs e)
@@ -291,26 +292,52 @@ namespace labPaint
         }
         private void Download_Click(object sender, EventArgs e)
         {
-            Bitmap image; 
             OpenFileDialog open_dialog = new OpenFileDialog();
             open_dialog.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
             if (open_dialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    image = new Bitmap(open_dialog.FileName);
+                    g.Clear(Color.Silver);
                     Bitmap bImg = new Bitmap(open_dialog.FileName);
                     Size resolution = Screen.PrimaryScreen.Bounds.Size;
+                    Bitmap bb = new Bitmap(bImg,resolution.Width, resolution.Height);
+                    if (bImg.Width >= resolution.Width || bImg.Height >= resolution.Height)
+                    {
+                        if (bImg.Width >= resolution.Width && bImg.Height >= resolution.Height)
+                        {
+                            bb = new Bitmap(bImg, resolution.Width, resolution.Height);
+                            WindowState = FormWindowState.Maximized;
+                        }
+                        else if (bImg.Width >= resolution.Width)
+                        {
+                            bb = new Bitmap(bImg, resolution.Width, bImg.Height);
+                            WindowState = FormWindowState.Normal;
+                        }
+                        else if (bImg.Height >= resolution.Height)
+                        {
+                            bb = new Bitmap(bImg, bImg.Width, resolution.Height);
+                            WindowState = FormWindowState.Normal;
+                        }
+                    }
+                    else
+                    {
+                        bb = new Bitmap(bImg, bImg.Width, bImg.Height);
+                        WindowState = FormWindowState.Normal;
+                    }
                     b = new Bitmap(resolution.Width, resolution.Height);
-                    g.Clear(Color.Silver);
-                    using (Graphics g1 = Graphics.FromImage(b)) 
+
+                    Height = bb.Height + 64 + instpanel.Height + 1; ;
+                    Width = bb.Width;
+
+                    using (Graphics g1 = Graphics.FromImage(b))
                     {
                         g1.CompositingMode = CompositingMode.SourceOver;
                         g1.SmoothingMode = SmoothingMode.HighQuality;
                         g1.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        g.DrawImage(bImg, 0, 0);
-                        g1.DrawImage(bImg, 0, 0);
+                        g1.DrawImage(bb, new Point(0, 0));
                     }
+                    g.DrawImage(bb, new Point(0, 0));
                 }
                 catch
                 {
