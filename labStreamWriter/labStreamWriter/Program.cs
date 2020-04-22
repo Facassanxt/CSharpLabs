@@ -8,10 +8,27 @@ namespace labStreamWriter
         static void Main(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.Black; // устанавливаем цвет
-            WriteCharacterStrings(1, 15, true);
+            WriteCharacterStrings("C","0");
 
             Console.Clear();
-
+            /*
+                0 = Черный
+                1 = Синий
+                2 = Зеленый
+                3 = Аквамарин
+                4 = Красный
+                5 = Фиолетовый
+                6 = Желтый
+                7 = Белый
+                8 = Серый
+                9 = Светло-голубой
+                A = Светло-зеленый
+                В = Светлый аквамарин
+                С = Светло-красный
+                D = Светло-фиолетовый
+                E = Светло-желтый
+                F = Ярко-белый
+             */
             //Console.BackgroundColor = ConsoleColor.Cyan;
 
             string path = @"D:\Рабочий стол\999.txt";
@@ -21,19 +38,19 @@ namespace labStreamWriter
                 streamWriter.WriteLine("1");
                 streamWriter.WriteLine("22");
                 streamWriter.WriteLine("333");
-                Console.WriteLine("Файл создан");
+                WriteLineCentered("Файл создан");
             }
             using (StreamWriter streamWriter = new StreamWriter(path, true))
             {
                 streamWriter.WriteLine("4444");
-                Console.WriteLine("Файл дописан");
+                WriteLineCentered("Файл дописан");
             }
 
             using (StreamReader streamReader = new StreamReader(path)) 
             {
-                Console.WriteLine("--- начало файла ---");
-                Console.WriteLine(streamReader.ReadToEnd());
-                Console.WriteLine("--- конец файла ---");
+                WriteLineCentered("--- начало файла ---");
+                WriteLineCentered(streamReader.ReadToEnd());
+                WriteLineCentered("--- конец файла ---");
             }
 
             using (StreamReader streamReader = new StreamReader(path))
@@ -42,10 +59,10 @@ namespace labStreamWriter
                 int n = 1;
                 while ((line = streamReader.ReadLine()) != null)
                 {
-                    Console.WriteLine($"Строка {n++} = [{line}]");
+                    WriteLineCentered($"Строка {n++} = [{line}]");
                 }
 
-                Console.WriteLine("*** Файл считан построчно ***");
+                WriteLineCentered("*** Файл считан построчно ***");
             }
 
             var a = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
@@ -57,21 +74,37 @@ namespace labStreamWriter
 
                 }
 
-                Console.WriteLine("*** Файл дописан ***");
+                WriteLineCentered("*** Файл дописан ***");
             }
+
+
+            WriteLineCentered("██████████████████████████████████████████");
+            WriteLineCentered("█─███─██────██────██─██─██───██─██─██────█");
+            WriteLineCentered("█─███─██─██─██─██─██──█─███─███──█─██─████");
+            WriteLineCentered("█─█─█─██────██────██─█──███─███─█──██─█──█");
+            WriteLineCentered("█─────██─██─██─█─███─██─███─███─██─██─██─█");
+            WriteLineCentered("██─█─███─██─██─█─███─██─██───██─██─██────█");
+            WriteLineCentered("██████████████████████████████████████████");
+
 
 
         }
 
-        private static void WriteCharacterStrings(int start, int end, bool changeColor)
+        private static void WriteCharacterStrings(string Backcolor, string color)
         {
-            for (int ctr = start; ctr <= end; ctr++)
-            {
-                if (changeColor)
-                    Console.BackgroundColor = (ConsoleColor)((ctr - 1) % 16);
+            string command = $"color {Backcolor+color}";
+            System.Diagnostics.Process.Start("cmd.exe", "/C " + command);
+            //Console.BackgroundColor = (ConsoleColor)((color - 1) % 16);
+        }
 
-                Console.WriteLine(new String(Convert.ToChar(ctr + 64), 30));
+        static void WriteLineCentered(string text)
+        {
+            int width = Console.WindowWidth;
+            if (text.Length < width)
+            {
+                text = text.PadLeft((width - text.Length) / 2 + text.Length, ' ');
             }
+            Console.WriteLine(text);
         }
     }
 }
