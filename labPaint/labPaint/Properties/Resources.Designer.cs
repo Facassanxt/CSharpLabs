@@ -63,6 +63,16 @@ namespace labPaint.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bim {
+            get {
+                object obj = ResourceManager.GetObject("bim", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap RndColor {
             get {
                 object obj = ResourceManager.GetObject("RndColor", resourceCulture);

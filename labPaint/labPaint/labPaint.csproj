@@ -87,5 +87,8 @@
   <ItemGroup>
     <None Include="Resources\tsveta-radugi-v-poryadke.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bim.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -35,18 +35,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.Sizepen = new System.Windows.Forms.TrackBar();
-            this.AllColor = new System.Windows.Forms.PictureBox();
-            this.RndColor = new System.Windows.Forms.PictureBox();
-            this.Fuchsia = new System.Windows.Forms.PictureBox();
-            this.Blue = new System.Windows.Forms.PictureBox();
-            this.Aqua = new System.Windows.Forms.PictureBox();
-            this.Lime = new System.Windows.Forms.PictureBox();
-            this.Yellow = new System.Windows.Forms.PictureBox();
-            this.Orange = new System.Windows.Forms.PictureBox();
-            this.Red = new System.Windows.Forms.PictureBox();
-            this.Silver = new System.Windows.Forms.PictureBox();
-            this.White = new System.Windows.Forms.PictureBox();
-            this.Black = new System.Windows.Forms.PictureBox();
             this.Download = new System.Windows.Forms.Button();
             this.Save = new System.Windows.Forms.Button();
             this.toolsBar = new System.Windows.Forms.ToolBar();
@@ -63,6 +51,19 @@
             this.MouseLocation = new System.Windows.Forms.Label();
             this.StartXY = new System.Windows.Forms.Button();
             this.paImage = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.AllColor = new System.Windows.Forms.PictureBox();
+            this.RndColor = new System.Windows.Forms.PictureBox();
+            this.Fuchsia = new System.Windows.Forms.PictureBox();
+            this.Blue = new System.Windows.Forms.PictureBox();
+            this.Aqua = new System.Windows.Forms.PictureBox();
+            this.Lime = new System.Windows.Forms.PictureBox();
+            this.Yellow = new System.Windows.Forms.PictureBox();
+            this.Orange = new System.Windows.Forms.PictureBox();
+            this.Red = new System.Windows.Forms.PictureBox();
+            this.Silver = new System.Windows.Forms.PictureBox();
+            this.White = new System.Windows.Forms.PictureBox();
+            this.Black = new System.Windows.Forms.PictureBox();
             this.instpanel.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Sizepen)).BeginInit();
@@ -148,130 +149,6 @@
             this.Sizepen.Size = new System.Drawing.Size(168, 45);
             this.Sizepen.TabIndex = 11;
             this.Sizepen.Value = 5;
-            // 
-            // AllColor
-            // 
-            this.AllColor.BackColor = System.Drawing.Color.Transparent;
-            this.AllColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.AllColor.Dock = System.Windows.Forms.DockStyle.Right;
-            this.AllColor.Location = new System.Drawing.Point(422, 0);
-            this.AllColor.Name = "AllColor";
-            this.AllColor.Size = new System.Drawing.Size(30, 83);
-            this.AllColor.TabIndex = 12;
-            this.AllColor.TabStop = false;
-            // 
-            // RndColor
-            // 
-            this.RndColor.BackColor = System.Drawing.Color.Fuchsia;
-            this.RndColor.BackgroundImage = global::labPaint.Properties.Resources.RndColor;
-            this.RndColor.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RndColor.Image = global::labPaint.Properties.Resources.RndColor;
-            this.RndColor.Location = new System.Drawing.Point(452, 0);
-            this.RndColor.Name = "RndColor";
-            this.RndColor.Size = new System.Drawing.Size(30, 83);
-            this.RndColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.RndColor.TabIndex = 11;
-            this.RndColor.TabStop = false;
-            // 
-            // Fuchsia
-            // 
-            this.Fuchsia.BackColor = System.Drawing.Color.Fuchsia;
-            this.Fuchsia.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Fuchsia.Location = new System.Drawing.Point(482, 0);
-            this.Fuchsia.Name = "Fuchsia";
-            this.Fuchsia.Size = new System.Drawing.Size(30, 83);
-            this.Fuchsia.TabIndex = 10;
-            this.Fuchsia.TabStop = false;
-            // 
-            // Blue
-            // 
-            this.Blue.BackColor = System.Drawing.Color.Blue;
-            this.Blue.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Blue.Location = new System.Drawing.Point(512, 0);
-            this.Blue.Name = "Blue";
-            this.Blue.Size = new System.Drawing.Size(30, 83);
-            this.Blue.TabIndex = 9;
-            this.Blue.TabStop = false;
-            // 
-            // Aqua
-            // 
-            this.Aqua.BackColor = System.Drawing.Color.Aqua;
-            this.Aqua.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Aqua.Location = new System.Drawing.Point(542, 0);
-            this.Aqua.Name = "Aqua";
-            this.Aqua.Size = new System.Drawing.Size(30, 83);
-            this.Aqua.TabIndex = 8;
-            this.Aqua.TabStop = false;
-            // 
-            // Lime
-            // 
-            this.Lime.BackColor = System.Drawing.Color.Lime;
-            this.Lime.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Lime.Location = new System.Drawing.Point(572, 0);
-            this.Lime.Name = "Lime";
-            this.Lime.Size = new System.Drawing.Size(30, 83);
-            this.Lime.TabIndex = 7;
-            this.Lime.TabStop = false;
-            // 
-            // Yellow
-            // 
-            this.Yellow.BackColor = System.Drawing.Color.Yellow;
-            this.Yellow.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Yellow.Location = new System.Drawing.Point(602, 0);
-            this.Yellow.Name = "Yellow";
-            this.Yellow.Size = new System.Drawing.Size(30, 83);
-            this.Yellow.TabIndex = 6;
-            this.Yellow.TabStop = false;
-            // 
-            // Orange
-            // 
-            this.Orange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.Orange.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Orange.Location = new System.Drawing.Point(632, 0);
-            this.Orange.Name = "Orange";
-            this.Orange.Size = new System.Drawing.Size(30, 83);
-            this.Orange.TabIndex = 5;
-            this.Orange.TabStop = false;
-            // 
-            // Red
-            // 
-            this.Red.BackColor = System.Drawing.Color.Red;
-            this.Red.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Red.Location = new System.Drawing.Point(662, 0);
-            this.Red.Name = "Red";
-            this.Red.Size = new System.Drawing.Size(30, 83);
-            this.Red.TabIndex = 4;
-            this.Red.TabStop = false;
-            // 
-            // Silver
-            // 
-            this.Silver.BackColor = System.Drawing.Color.Silver;
-            this.Silver.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Silver.Location = new System.Drawing.Point(692, 0);
-            this.Silver.Name = "Silver";
-            this.Silver.Size = new System.Drawing.Size(30, 83);
-            this.Silver.TabIndex = 3;
-            this.Silver.TabStop = false;
-            // 
-            // White
-            // 
-            this.White.BackColor = System.Drawing.Color.White;
-            this.White.Dock = System.Windows.Forms.DockStyle.Right;
-            this.White.Location = new System.Drawing.Point(722, 0);
-            this.White.Name = "White";
-            this.White.Size = new System.Drawing.Size(30, 83);
-            this.White.TabIndex = 2;
-            this.White.TabStop = false;
-            // 
-            // Black
-            // 
-            this.Black.BackColor = System.Drawing.Color.Black;
-            this.Black.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Black.Location = new System.Drawing.Point(752, 0);
-            this.Black.Name = "Black";
-            this.Black.Size = new System.Drawing.Size(30, 83);
-            this.Black.TabIndex = 1;
-            this.Black.TabStop = false;
             // 
             // Download
             // 
@@ -405,7 +282,7 @@
             // 
             // StartXY
             // 
-            this.StartXY.Location = new System.Drawing.Point(707, 73);
+            this.StartXY.Location = new System.Drawing.Point(767, 35);
             this.StartXY.Name = "StartXY";
             this.StartXY.Size = new System.Drawing.Size(30, 23);
             this.StartXY.TabIndex = 10;
@@ -415,11 +292,144 @@
             // paImage
             // 
             this.paImage.BackColor = System.Drawing.Color.Silver;
+            this.paImage.BackgroundImage = global::labPaint.Properties.Resources.bim;
             this.paImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.paImage.Location = new System.Drawing.Point(297, 348);
             this.paImage.Name = "paImage";
             this.paImage.Size = new System.Drawing.Size(200, 100);
             this.paImage.TabIndex = 16;
+            // 
+            // panel2
+            // 
+            this.panel2.BackgroundImage = global::labPaint.Properties.Resources.bim;
+            this.panel2.Location = new System.Drawing.Point(237, 454);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(487, 100);
+            this.panel2.TabIndex = 17;
+            // 
+            // AllColor
+            // 
+            this.AllColor.BackColor = System.Drawing.Color.Transparent;
+            this.AllColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.AllColor.Dock = System.Windows.Forms.DockStyle.Right;
+            this.AllColor.Location = new System.Drawing.Point(422, 0);
+            this.AllColor.Name = "AllColor";
+            this.AllColor.Size = new System.Drawing.Size(30, 83);
+            this.AllColor.TabIndex = 12;
+            this.AllColor.TabStop = false;
+            // 
+            // RndColor
+            // 
+            this.RndColor.BackColor = System.Drawing.Color.Fuchsia;
+            this.RndColor.BackgroundImage = global::labPaint.Properties.Resources.RndColor;
+            this.RndColor.Dock = System.Windows.Forms.DockStyle.Right;
+            this.RndColor.Image = global::labPaint.Properties.Resources.RndColor;
+            this.RndColor.Location = new System.Drawing.Point(452, 0);
+            this.RndColor.Name = "RndColor";
+            this.RndColor.Size = new System.Drawing.Size(30, 83);
+            this.RndColor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.RndColor.TabIndex = 11;
+            this.RndColor.TabStop = false;
+            // 
+            // Fuchsia
+            // 
+            this.Fuchsia.BackColor = System.Drawing.Color.Fuchsia;
+            this.Fuchsia.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Fuchsia.Location = new System.Drawing.Point(482, 0);
+            this.Fuchsia.Name = "Fuchsia";
+            this.Fuchsia.Size = new System.Drawing.Size(30, 83);
+            this.Fuchsia.TabIndex = 10;
+            this.Fuchsia.TabStop = false;
+            // 
+            // Blue
+            // 
+            this.Blue.BackColor = System.Drawing.Color.Blue;
+            this.Blue.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Blue.Location = new System.Drawing.Point(512, 0);
+            this.Blue.Name = "Blue";
+            this.Blue.Size = new System.Drawing.Size(30, 83);
+            this.Blue.TabIndex = 9;
+            this.Blue.TabStop = false;
+            // 
+            // Aqua
+            // 
+            this.Aqua.BackColor = System.Drawing.Color.Aqua;
+            this.Aqua.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Aqua.Location = new System.Drawing.Point(542, 0);
+            this.Aqua.Name = "Aqua";
+            this.Aqua.Size = new System.Drawing.Size(30, 83);
+            this.Aqua.TabIndex = 8;
+            this.Aqua.TabStop = false;
+            // 
+            // Lime
+            // 
+            this.Lime.BackColor = System.Drawing.Color.Lime;
+            this.Lime.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Lime.Location = new System.Drawing.Point(572, 0);
+            this.Lime.Name = "Lime";
+            this.Lime.Size = new System.Drawing.Size(30, 83);
+            this.Lime.TabIndex = 7;
+            this.Lime.TabStop = false;
+            // 
+            // Yellow
+            // 
+            this.Yellow.BackColor = System.Drawing.Color.Yellow;
+            this.Yellow.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Yellow.Location = new System.Drawing.Point(602, 0);
+            this.Yellow.Name = "Yellow";
+            this.Yellow.Size = new System.Drawing.Size(30, 83);
+            this.Yellow.TabIndex = 6;
+            this.Yellow.TabStop = false;
+            // 
+            // Orange
+            // 
+            this.Orange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Orange.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Orange.Location = new System.Drawing.Point(632, 0);
+            this.Orange.Name = "Orange";
+            this.Orange.Size = new System.Drawing.Size(30, 83);
+            this.Orange.TabIndex = 5;
+            this.Orange.TabStop = false;
+            // 
+            // Red
+            // 
+            this.Red.BackColor = System.Drawing.Color.Red;
+            this.Red.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Red.Location = new System.Drawing.Point(662, 0);
+            this.Red.Name = "Red";
+            this.Red.Size = new System.Drawing.Size(30, 83);
+            this.Red.TabIndex = 4;
+            this.Red.TabStop = false;
+            // 
+            // Silver
+            // 
+            this.Silver.BackColor = System.Drawing.Color.Silver;
+            this.Silver.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Silver.Location = new System.Drawing.Point(692, 0);
+            this.Silver.Name = "Silver";
+            this.Silver.Size = new System.Drawing.Size(30, 83);
+            this.Silver.TabIndex = 3;
+            this.Silver.TabStop = false;
+            // 
+            // White
+            // 
+            this.White.BackColor = System.Drawing.Color.White;
+            this.White.Dock = System.Windows.Forms.DockStyle.Right;
+            this.White.Location = new System.Drawing.Point(722, 0);
+            this.White.Name = "White";
+            this.White.Size = new System.Drawing.Size(30, 83);
+            this.White.TabIndex = 2;
+            this.White.TabStop = false;
+            // 
+            // Black
+            // 
+            this.Black.BackColor = System.Drawing.Color.Black;
+            this.Black.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Black.Location = new System.Drawing.Point(752, 0);
+            this.Black.Name = "Black";
+            this.Black.Size = new System.Drawing.Size(30, 83);
+            this.Black.TabIndex = 1;
+            this.Black.TabStop = false;
             // 
             // fm
             // 
@@ -433,6 +443,7 @@
             this.Controls.Add(this.MouseLocation);
             this.Controls.Add(this.instpanel);
             this.Controls.Add(this.toolsBar);
+            this.Controls.Add(this.panel2);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -508,6 +519,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button ClearPanel;
         private System.Windows.Forms.Panel paImage;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

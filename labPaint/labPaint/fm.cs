@@ -12,17 +12,19 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Threading;
+using labPaint.Properties;
 
 namespace labPaint
 {
     public partial class fm : MaterialForm
     {
-        private bool isPressed;
+        private bool isPressed = true;
         private Point prevPoint;
         private Point startPoint;
         private Bitmap b;
         int x, y, CountFileSave = 0;
         private int mode, SazePen = 0;
+        Size resolution;
 
         Graphics g;
         Pen pen;
@@ -66,8 +68,8 @@ namespace labPaint
             RndColor.Click += RndColor_Click;
             AllColor.Click += AllColor_Click;
             ResizeEnd += Fm_ResizeEnd;
-            //MinimumSizeChanged += (s,e) => g.DrawImage(b, new Point(0, 0)); ;
-            //MaximizedBoundsChanged += (s,e) => g.DrawImage(b, new Point(0, 0));
+            MinimumSizeChanged += (s,e) => WindowState = FormWindowState.Normal;
+            MaximizedBoundsChanged += (s, e) => WindowState = FormWindowState.Normal;
             ClearPanel.Click += (s, e) =>
              {
                  g.Clear(Color.Silver);
@@ -106,7 +108,7 @@ namespace labPaint
             paImage.Width = this.Width - toolsBar.Width - 1;
 
 
-            Size resolution = Screen.PrimaryScreen.Bounds.Size;
+            resolution = Screen.PrimaryScreen.Bounds.Size;
 
             b = new Bitmap(resolution.Width, resolution.Height);
             g = paImage.CreateGraphics();
@@ -117,6 +119,8 @@ namespace labPaint
             Bitmap BitIcon = new Bitmap(imageList.Images[1]);
             Cursor = new Cursor(BitIcon.GetHicon());
             Sizepen.Enabled = false;
+
+
 
         }
 
@@ -193,16 +197,50 @@ namespace labPaint
                     }
                     break;
                 case 3:
-                    //penDraw(e);
                     break;
                 case 4:
-                    //drawRectangle(e);
+                    //if (isPressed == false)
+                    //{
+                    //    using (Graphics g1 = Graphics.FromImage(b))
+                    //    {
+                    //        if (RandomColor)
+                    //        {
+                    //            Random rnd = new Random();
+                    //            pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                    //            g.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                    //            g1.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                    //        }
+                    //        else
+                    //        {
+                    //            Bitmap b6 = new Bitmap(b);
+                    //            using (Graphics g2 = Graphics.FromImage(b6)) 
+                    //            {
+
+                    //                g2.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                    //                paImage.BackgroundImage = b6;
+                    //                paImage.CreateGraphics().DrawImage(b6, new Point(0, 0));
+                    //                g2.DrawImage(b, new Point(0, 0));
+                    //            }
+                    //        }  
+                    //    }
+                    //}
                     break;
                 case 5:
-                    //drawCircle(e);
                     break;
                 case 6:
-                    //drawLine(e);
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        using (Graphics g1 = Graphics.FromImage(b))
+                        {
+                            pen.Color = Color.Silver;
+                            g.FillEllipse(pen.Brush, e.X - SazePen / 2, e.Y - SazePen / 2, SazePen, SazePen);
+                            g1.FillEllipse(pen.Brush, e.X - SazePen / 2, e.Y - SazePen / 2, SazePen, SazePen);
+                        }
+                    }
                     break;
             }
         }
@@ -218,22 +256,35 @@ namespace labPaint
                 case 2:
                     break;
                 case 3:
-                    //penDraw(e);
                     break;
                 case 4:
-                    //drawRectangle(e);
+                    //if (isPressed == true) 
+                    //{
+                    //    using (Graphics g1 = Graphics.FromImage(b))
+                    //    {
+                    //        if (RandomColor)
+                    //        {
+                    //            Random rnd = new Random();
+                    //            pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                    //            g.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                    //            g1.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                    //        }
+                    //        else
+                    //        {
+                    //            g.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                    //            g1.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                    //        }
+                    //    }
+                    //}
+                    //isPressed = false;
                     break;
                 case 5:
-                    //drawCircle(e);
                     break;
                 case 6:
-                    //drawLine(e);
                     break;
                 case 7:
-                    mode = 6;
                     break;
                 case 8:
-                    mode = 6;
                     break;
             }
         }
@@ -245,31 +296,125 @@ namespace labPaint
                 case 0:
                     break;
                 case 1:
-                    SazePen = 1;
-                    //SazePen = Sizepen.Value;
+                    SazePen = 2;
                     break;
                 case 2:
                     SazePen = Sizepen.Value;
                     break;
                 case 3:
-                    //penDraw(e);
                     break;
                 case 4:
-                    //drawRectangle(e);
+                    SazePen = Sizepen.Value;
+                    if (isPressed == true) 
+                    {
+                        x = e.X;
+                        y = e.Y;
+                        SazePen = 6;
+                        using (Graphics g1 = Graphics.FromImage(b))
+                        {
+                            if (RandomColor)
+                            {
+                                Random rnd = new Random();
+                                pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                                g.FillEllipse(pen.Brush, e.X - SazePen / 2, e.Y - SazePen / 2, SazePen/2, SazePen/2);
+                                g1.FillEllipse(pen.Brush, e.X - SazePen / 2, e.Y - SazePen / 2, SazePen/2, SazePen/2);
+                            }
+                            else
+                            {
+                                g.FillEllipse(pen.Brush, e.X - SazePen / 4, e.Y - SazePen / 4, SazePen/2, SazePen/2);
+                                g1.FillEllipse(pen.Brush, e.X - SazePen / 4, e.Y - SazePen / 4, SazePen/2, SazePen/2);
+                            }
+                            isPressed = false;
+                        }
+                    }
+                    else 
+                    {
+                        isPressed = true;
+                        using (Graphics g1 = Graphics.FromImage(b))
+                        {
+                            if (RandomColor)
+                            {
+                                Random rnd = new Random();
+                                pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                                g.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                                g1.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                            }
+                            else
+                            {
+                                g.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                                g1.DrawLine(new Pen(pen.Color, SazePen), x, y, e.X, e.Y);
+                            }
+                        }
+                    }
                     break;
                 case 5:
-                    //drawCircle(e);
+                    SazePen = Sizepen.Value;
                     break;
                 case 6:
-                    //drawLine(e);
+                    SazePen = Sizepen.Value;
                     break;
                 case 7:
-                    mode = 6;
+                    SazePen = Sizepen.Value;
                     break;
                 case 8:
-                    mode = 6;
+                    SazePen = Sizepen.Value;
                     break;
             }
+        }
+        private void ClickButtonsOnPanelMode(Object sender,ToolBarButtonClickEventArgs e)
+        {
+            for (int i = 0; i < toolsBar.Buttons.Count; i++)
+            {
+                toolsBar.Buttons[i].Pushed = false;
+                Cursor = default;
+            }
+            e.Button.Pushed = true;
+
+            if (sender is ToolBar)
+            {
+                switch (toolsBar.Buttons.IndexOf(e.Button))
+                {
+                    case 0:
+                        mode = 0;
+                        break;
+                    case 1:
+                        mode = 1;
+                        Sizepen.Enabled = false;
+                        break;
+                    case 2:
+                        mode = 2;
+                        Sizepen.Enabled = true;
+                        break;
+                    case 3:
+                        mode = 3;
+                        Sizepen.Enabled = false;
+                        break;
+                    case 4:
+                        mode = 4;
+                        Sizepen.Enabled = true;
+                        break;
+                    case 5:
+                        mode = 5;
+                        Sizepen.Enabled = true;
+                        break;
+                    case 6:
+                        mode = 6;
+                        Sizepen.Enabled = true;
+                        break;
+                    case 7:
+                        mode = 7;
+                        Sizepen.Enabled = true;
+                        break;
+                    case 8:
+                        mode = 8;
+                        Sizepen.Enabled = true;
+                        break;
+                }
+            }
+
+            Image sad = toolsBar.ImageList.Images[mode];
+            Bitmap BitIcon = new Bitmap(sad,sad.Width,sad.Height);
+            Cursor = new Cursor(BitIcon.GetHicon());
         }
 
         private void ColorPanel (List<PictureBox> ColorList)
@@ -308,55 +453,6 @@ namespace labPaint
             RandomColor = true;
         }
 
-        private void ClickButtonsOnPanelMode(Object sender,ToolBarButtonClickEventArgs e)
-        {
-            for (int i = 0; i < toolsBar.Buttons.Count; i++)
-            {
-                toolsBar.Buttons[i].Pushed = false;
-                Cursor = default;
-            }
-            e.Button.Pushed = true;
-
-            if (sender is ToolBar)
-            {
-                switch (toolsBar.Buttons.IndexOf(e.Button))
-                {
-                    case 0:
-                        mode = 0;
-                        break;
-                    case 1:
-                        mode = 1;
-                        Sizepen.Enabled = false;
-                        break;
-                    case 2:
-                        mode = 2;
-                        Sizepen.Enabled = true;
-                        break;
-                    case 3:
-                        mode = 3;
-                        break;
-                    case 4:
-                        mode = 4;
-                        break;
-                    case 5:
-                        mode = 5;
-                        break;
-                    case 6:
-                        mode = 6;
-                        break;
-                    case 7:
-                        mode = 7;
-                        break;
-                    case 8:
-                        mode = 8;
-                        break;
-                }
-            }
-
-            Image sad = toolsBar.ImageList.Images[mode];
-            Bitmap BitIcon = new Bitmap(sad,sad.Width,sad.Height);
-            Cursor = new Cursor(BitIcon.GetHicon());
-        }
 
         private void Save_Click(object sender, EventArgs e)
         {
@@ -383,9 +479,14 @@ namespace labPaint
             open_dialog.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
             if (open_dialog.ShowDialog() == DialogResult.OK)
             {
+                g.Clear(Color.Silver);
+                g.Dispose();
+                paImage.BackColor = Color.Silver;
+                g = paImage.CreateGraphics();
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 try
                 {
-                    g.Clear(Color.Silver);
                     Bitmap bImg = new Bitmap(open_dialog.FileName);
                     Size resolution = Screen.PrimaryScreen.Bounds.Size;
                     Bitmap bb = new Bitmap(bImg,resolution.Width, resolution.Height);
@@ -394,7 +495,9 @@ namespace labPaint
                         if (bImg.Width >= resolution.Width && bImg.Height >= resolution.Height)
                         {
                             bb = new Bitmap(bImg, resolution.Width, resolution.Height);
-                            WindowState = FormWindowState.Maximized;
+                            StartPosition = FormStartPosition.Manual;
+                            Height = resolution.Height;
+                            Width = resolution.Width;
                         }
                         else if (bImg.Width >= resolution.Width)
                         {
@@ -424,7 +527,7 @@ namespace labPaint
                         g1.PixelOffsetMode = PixelOffsetMode.HighQuality;
                         g1.DrawImage(bb, new Point(0, 0));
                     }
-                    g.DrawImage(bb, new Point(0, 0));
+                    //g.DrawImage(bb, new Point(0, 0));
                 }
                 catch
                 {
