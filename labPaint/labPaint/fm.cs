@@ -77,8 +77,9 @@ namespace labPaint
             StartFormPosition();
             ColorPanel(ColorList);
             toolsBar.ImageList = imageList;
+            toolsBar.ButtonClick += new ToolBarButtonClickEventHandler(this.ClickButtonsOnPanelMode);
 
-            
+
             //List<ManagementObject> managementList = ManagementObjectCollection.OfType<ManagementObject>().ToList();
             //intitModePanel(toolsBar.Buttons);
         }
@@ -111,6 +112,12 @@ namespace labPaint
             g = paImage.CreateGraphics();
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+            mode = 1;
+            Bitmap BitIcon = new Bitmap(imageList.Images[1]);
+            Cursor = new Cursor(BitIcon.GetHicon());
+            Sizepen.Enabled = false;
+
         }
 
         private void Fm_Resize(object sender, EventArgs e)
@@ -141,34 +148,128 @@ namespace labPaint
 
         private void PaImage_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            switch (mode)
             {
-                using (Graphics g1 = Graphics.FromImage(b))
-                {
-                    if (RandomColor)
+                case 0:
+                    break;
+                case 1:
+                    if (e.Button == MouseButtons.Left)
                     {
-                        Random rnd = new Random();
-                        pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-                        g.FillEllipse(pen.Brush, e.X - (SazePen / 2), e.Y - (SazePen / 2), SazePen, SazePen);
-                        g1.FillEllipse(pen.Brush, e.X - (SazePen / 2), e.Y - (SazePen / 2), SazePen, SazePen);
+                        using (Graphics g1 = Graphics.FromImage(b))
+                        {
+                            if (RandomColor)
+                            {
+                                Random rnd = new Random();
+                                pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                                g.FillEllipse(pen.Brush, e.X - SazePen, e.Y - SazePen, SazePen, SazePen);
+                                g1.FillEllipse(pen.Brush, e.X - SazePen, e.Y - SazePen, SazePen, SazePen);
+                            }
+                            else
+                            {
+                                g.FillEllipse(pen.Brush, e.X - SazePen, e.Y - SazePen, SazePen, SazePen);
+                                g1.FillEllipse(pen.Brush, e.X - SazePen, e.Y - SazePen, SazePen, SazePen);
+                            }
+                        }
                     }
-                    else
+                    break;
+                case 2:
+                    if (e.Button == MouseButtons.Left)
                     {
-                        g.FillEllipse(pen.Brush, e.X - (SazePen / 2), e.Y - (SazePen / 2), SazePen, SazePen);
-                        g1.FillEllipse(pen.Brush, e.X - (SazePen / 2), e.Y - (SazePen / 2), SazePen, SazePen);
+                        using (Graphics g1 = Graphics.FromImage(b))
+                        {
+                            if (RandomColor)
+                            {
+                                Random rnd = new Random();
+                                pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                                g.FillEllipse(pen.Brush, e.X - SazePen / 2, e.Y - SazePen / 2, SazePen, SazePen);
+                                g1.FillEllipse(pen.Brush, e.X - SazePen / 2, e.Y - SazePen / 2, SazePen, SazePen);
+                            }
+                            else
+                            {
+                                g.FillEllipse(pen.Brush, e.X - SazePen / 2, e.Y - SazePen / 2, SazePen, SazePen);
+                                g1.FillEllipse(pen.Brush, e.X - SazePen / 2, e.Y - SazePen / 2, SazePen, SazePen);
+                            }
+                        }
                     }
-                }
+                    break;
+                case 3:
+                    //penDraw(e);
+                    break;
+                case 4:
+                    //drawRectangle(e);
+                    break;
+                case 5:
+                    //drawCircle(e);
+                    break;
+                case 6:
+                    //drawLine(e);
+                    break;
             }
         }
 
         private void PaImage_MouseUp(object sender, MouseEventArgs e)
         {
-            //
+            switch (mode)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    //penDraw(e);
+                    break;
+                case 4:
+                    //drawRectangle(e);
+                    break;
+                case 5:
+                    //drawCircle(e);
+                    break;
+                case 6:
+                    //drawLine(e);
+                    break;
+                case 7:
+                    mode = 6;
+                    break;
+                case 8:
+                    mode = 6;
+                    break;
+            }
         }
 
         private void PaImage_MouseDown(object sender, MouseEventArgs e)
         {
-            SazePen = Sizepen.Value;
+            switch (mode)
+            {
+                case 0:
+                    break;
+                case 1:
+                    SazePen = 1;
+                    //SazePen = Sizepen.Value;
+                    break;
+                case 2:
+                    SazePen = Sizepen.Value;
+                    break;
+                case 3:
+                    //penDraw(e);
+                    break;
+                case 4:
+                    //drawRectangle(e);
+                    break;
+                case 5:
+                    //drawCircle(e);
+                    break;
+                case 6:
+                    //drawLine(e);
+                    break;
+                case 7:
+                    mode = 6;
+                    break;
+                case 8:
+                    mode = 6;
+                    break;
+            }
         }
 
         private void ColorPanel (List<PictureBox> ColorList)
@@ -207,28 +308,29 @@ namespace labPaint
             RandomColor = true;
         }
 
-        private void intitModePanel(List<Button> list)
+        private void ClickButtonsOnPanelMode(Object sender,ToolBarButtonClickEventArgs e)
         {
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < toolsBar.Buttons.Count; i++)
             {
-                list[i].Click += ClickButtonsOnPanelMode;
+                toolsBar.Buttons[i].Pushed = false;
+                Cursor = default;
             }
-        }
+            e.Button.Pushed = true;
 
-        private void ClickButtonsOnPanelMode(object sender, EventArgs e)
-        {
-            if (sender is Button)
+            if (sender is ToolBar)
             {
-                switch (Convert.ToInt32(((Button)sender).Tag))
+                switch (toolsBar.Buttons.IndexOf(e.Button))
                 {
                     case 0:
                         mode = 0;
                         break;
                     case 1:
                         mode = 1;
+                        Sizepen.Enabled = false;
                         break;
                     case 2:
                         mode = 2;
+                        Sizepen.Enabled = true;
                         break;
                     case 3:
                         mode = 3;
@@ -242,33 +344,18 @@ namespace labPaint
                     case 6:
                         mode = 6;
                         break;
+                    case 7:
+                        mode = 7;
+                        break;
+                    case 8:
+                        mode = 8;
+                        break;
                 }
             }
-        }
 
-        private void PaImage_MouseClick(object sender, MouseEventArgs e)
-        {
-            switch (mode)
-            {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    //penDraw(e);
-                    break;
-                case 4:
-                    //drawRectangle(e);
-                    break;
-                case 5:
-                    //drawCircle(e);
-                    break;
-                case 6:
-                    //drawLine(e);
-                    break;
-            }
+            Image sad = toolsBar.ImageList.Images[mode];
+            Bitmap BitIcon = new Bitmap(sad,sad.Width,sad.Height);
+            Cursor = new Cursor(BitIcon.GetHicon());
         }
 
         private void Save_Click(object sender, EventArgs e)

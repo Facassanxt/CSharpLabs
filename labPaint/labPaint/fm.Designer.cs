@@ -308,11 +308,11 @@
             this.toolsBar.AutoSize = false;
             this.toolsBar.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
             this.arrowBtn,
-            this.lineBtn,
             this.pencilBtn,
-            this.rectangleBtn,
-            this.ellipseBtn,
             this.brushBtn,
+            this.ellipseBtn,
+            this.lineBtn,
+            this.rectangleBtn,
             this.fillBtn,
             this.textBtn,
             this.eraserBtn});
@@ -327,49 +327,57 @@
             // 
             // arrowBtn
             // 
-            this.arrowBtn.ImageIndex = 8;
+            this.arrowBtn.ImageIndex = 0;
             this.arrowBtn.Name = "arrowBtn";
-            this.arrowBtn.Pushed = true;
+            this.arrowBtn.Tag = "0";
             // 
             // lineBtn
             // 
-            this.lineBtn.ImageIndex = 0;
+            this.lineBtn.ImageIndex = 4;
             this.lineBtn.Name = "lineBtn";
+            this.lineBtn.Tag = "1";
             // 
             // pencilBtn
             // 
-            this.pencilBtn.ImageIndex = 2;
+            this.pencilBtn.ImageIndex = 1;
             this.pencilBtn.Name = "pencilBtn";
+            this.pencilBtn.Tag = "2";
             // 
             // rectangleBtn
             // 
-            this.rectangleBtn.ImageIndex = 1;
+            this.rectangleBtn.ImageIndex = 5;
             this.rectangleBtn.Name = "rectangleBtn";
+            this.rectangleBtn.Tag = "3";
             // 
             // ellipseBtn
             // 
-            this.ellipseBtn.ImageIndex = 4;
+            this.ellipseBtn.ImageIndex = 3;
             this.ellipseBtn.Name = "ellipseBtn";
+            this.ellipseBtn.Tag = "4";
             // 
             // brushBtn
             // 
-            this.brushBtn.ImageIndex = 3;
+            this.brushBtn.ImageIndex = 2;
             this.brushBtn.Name = "brushBtn";
+            this.brushBtn.Tag = "5";
             // 
             // fillBtn
             // 
-            this.fillBtn.ImageIndex = 7;
+            this.fillBtn.ImageIndex = 6;
             this.fillBtn.Name = "fillBtn";
+            this.fillBtn.Tag = "6";
             // 
             // textBtn
             // 
-            this.textBtn.ImageIndex = 5;
+            this.textBtn.ImageIndex = 7;
             this.textBtn.Name = "textBtn";
+            this.textBtn.Tag = "7";
             // 
             // eraserBtn
             // 
-            this.eraserBtn.ImageIndex = 6;
+            this.eraserBtn.ImageIndex = 8;
             this.eraserBtn.Name = "eraserBtn";
+            this.eraserBtn.Tag = "8";
             // 
             // imageList
             // 
