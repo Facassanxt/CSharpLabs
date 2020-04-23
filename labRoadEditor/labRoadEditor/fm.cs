@@ -10,12 +10,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using labRoadEditor.Properties;
+using System.Drawing.Drawing2D;
 
 namespace labRoadEditor
 {
     public partial class fm : MaterialForm
     {
         private int CountCFGSave = 0;
+        private Bitmap b;
+        private Point StartPoint;
+        private Point CurPoint;
+        private int cX;
+        private int cY;
+        private int col = 40;
+        private int row = 40;
+        private int curRow;
+        private int curCol;
+
         public fm()
         {
             InitializeComponent();
@@ -23,28 +35,32 @@ namespace labRoadEditor
             skinManager.AddFormToManage(this);
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.Blue50, Accent.Lime400, TextShade.WHITE);
+
+
+
+
+
+            PiMap.MouseDown += PiMap_MouseDown;
+            PiMap.MouseUp += PiMap_MouseUp;
+            PiMap.MouseMove += PiMap_MouseMove;
+            PiMap.Paint += PiMap_Paint;
             Save.Click += Save_Click;
             Download.Click += Download_Click;
             Resize += Fm_Resize;
-            StartForm();
-        }
 
-        private void Fm_Resize(object sender, EventArgs e)
-        {
-            AllPanel.Width = Width - 4;
-            AllPanel.Height = Height - 64 - 2;
-            AllPanel.Location = new Point(2, 64);
-            PiMap.Location = new Point(0, 0);
-            PiSample.Location = new Point(10, Height - PiSample.Height - 10);
-            PiPreview.Location = new Point(10, PiSample.Location.Y - PiPreview.Height - 10);
-            LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - 20);
+
+            StartForm();
+
+
+            //b = new Bitmap(PiMap);
         }
 
         private void StartForm()
         {
+            //b = new Bitmap(Resources.road);
             this.Height = 1080;
             this.Width = 1920;
-            PiMap.Height = 3000;
+            PiMap.Height = 4000;
             PiMap.Width = 4000;
             PiPreview.Width = 8 * 20;
             PiPreview.Height = 8 * 20;
@@ -59,7 +75,86 @@ namespace labRoadEditor
 
             LaPreview.Parent = PiMap;
             LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - 20);
+            b = new Bitmap(PiMap.Width, PiMap.Height);
+
+            ResizeCells();
+            DrawCells();
         }
+        private void PiMap_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawImage(b, CurPoint);
+        }
+        private void PiMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (PiMap.Capture)
+                {
+                    CurPoint.X += e.X - StartPoint.X;
+                    CurPoint.Y += e.Y - StartPoint.Y;
+
+                    //curCol = (e.X - CurPoint.X) / sizeCellsMap;
+                    //curRow = (e.Y - CurPoint.Y) / sizeCellsMap;
+
+                    StartPoint = e.Location;
+                    PiMap.Invalidate();
+                }
+            }
+            //Random rnd = new Random();
+            //Pen pen = new Pen(Color.Black, 1);
+            //pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+            //g.FillEllipse(pen.Brush, e.X, e.Y, 5, 5);
+        }
+
+        private void PiMap_MouseUp(object sender, MouseEventArgs e)
+        {
+//
+        }
+
+        private void PiMap_MouseDown(object sender, MouseEventArgs e)
+        {
+            StartPoint = e.Location;
+        }
+
+        private void Fm_Resize(object sender, EventArgs e)
+        {
+            AllPanel.Width = Width - 4;
+            AllPanel.Height = Height - 64 - 2;
+            AllPanel.Location = new Point(2, 64);
+            LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - 20);
+
+            //AllPanel.Width = Width - 4;
+            //AllPanel.Height = Height - 64 - 2;
+            //AllPanel.Location = new Point(2, 64);
+            //PiMap.Location = new Point(0, 0);
+            //PiSample.Location = new Point(10, Height - PiSample.Height - 10);
+            //PiPreview.Location = new Point(10, PiSample.Location.Y - PiPreview.Height - 10);
+            //LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - 20);
+            //this.CreateGraphics().DrawImage(b, new Point(0, 0));
+        }
+        private void ResizeCells()
+        {
+            cX = PiMap.Width / col;
+            cY = PiMap.Height / row;
+        }
+        private void DrawCells()
+        {
+            using (Graphics g = Graphics.FromImage(b))
+            {
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                for (int i = 0; i <= row; i++)
+                    for (int j = 0; j <= col; j++)
+                    {
+                        g.DrawLine(new Pen(Color.Silver), 0, i * cY, col * cX, i * cY);
+                        g.DrawLine(new Pen(Color.Silver, 1), j * cX, 0, j * cX, row * cY);
+                    }
+                g.DrawLine(new Pen(Color.White, 1), 0, 0, col * cX, row * cY); // Диагональ ⤡
+                g.DrawLine(new Pen(Color.White, 1), 0, cY * row, cX * col, 0); // Диагональ ⤢
+            } 
+        }
+
 
         private void Save_Click(object sender, EventArgs e)
         {

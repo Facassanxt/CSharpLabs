@@ -30,15 +30,15 @@
         {
             this.Download = new System.Windows.Forms.Button();
             this.Save = new System.Windows.Forms.Button();
-            this.PiSample = new System.Windows.Forms.PictureBox();
-            this.PiPreview = new System.Windows.Forms.PictureBox();
             this.LaPreview = new System.Windows.Forms.Label();
-            this.PiMap = new System.Windows.Forms.PictureBox();
             this.AllPanel = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.PiSample)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
+            this.PiPreview = new System.Windows.Forms.PictureBox();
+            this.PiSample = new System.Windows.Forms.PictureBox();
+            this.PiMap = new System.Windows.Forms.PictureBox();
             this.AllPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PiSample)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             this.SuspendLayout();
             // 
             // Download
@@ -70,28 +70,6 @@
             this.Save.Text = "Сохранить";
             this.Save.UseVisualStyleBackColor = false;
             // 
-            // PiSample
-            // 
-            this.PiSample.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PiSample.Image = global::labRoadEditor.Properties.Resources.road;
-            this.PiSample.Location = new System.Drawing.Point(12, 656);
-            this.PiSample.MaximumSize = new System.Drawing.Size(800, 600);
-            this.PiSample.Name = "PiSample";
-            this.PiSample.Size = new System.Drawing.Size(229, 182);
-            this.PiSample.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PiSample.TabIndex = 24;
-            this.PiSample.TabStop = false;
-            // 
-            // PiPreview
-            // 
-            this.PiPreview.BackColor = System.Drawing.Color.Maroon;
-            this.PiPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PiPreview.Location = new System.Drawing.Point(12, 537);
-            this.PiPreview.Name = "PiPreview";
-            this.PiPreview.Size = new System.Drawing.Size(143, 113);
-            this.PiPreview.TabIndex = 25;
-            this.PiPreview.TabStop = false;
-            // 
             // LaPreview
             // 
             this.LaPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -105,23 +83,47 @@
             this.LaPreview.TabIndex = 26;
             this.LaPreview.Text = "Preview:";
             // 
-            // PiMap
-            // 
-            this.PiMap.BackColor = System.Drawing.Color.SkyBlue;
-            this.PiMap.Location = new System.Drawing.Point(62, 90);
-            this.PiMap.Name = "PiMap";
-            this.PiMap.Size = new System.Drawing.Size(712, 500);
-            this.PiMap.TabIndex = 26;
-            this.PiMap.TabStop = false;
-            // 
             // AllPanel
             // 
             this.AllPanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.AllPanel.Controls.Add(this.PiMap);
-            this.AllPanel.Location = new System.Drawing.Point(411, 127);
+            this.AllPanel.Location = new System.Drawing.Point(298, 136);
             this.AllPanel.Name = "AllPanel";
             this.AllPanel.Size = new System.Drawing.Size(826, 615);
             this.AllPanel.TabIndex = 27;
+            // 
+            // PiPreview
+            // 
+            this.PiPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.PiPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
+            this.PiPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PiPreview.Location = new System.Drawing.Point(12, 537);
+            this.PiPreview.Name = "PiPreview";
+            this.PiPreview.Size = new System.Drawing.Size(143, 113);
+            this.PiPreview.TabIndex = 25;
+            this.PiPreview.TabStop = false;
+            // 
+            // PiSample
+            // 
+            this.PiSample.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.PiSample.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PiSample.Image = global::labRoadEditor.Properties.Resources.road;
+            this.PiSample.Location = new System.Drawing.Point(12, 656);
+            this.PiSample.MaximumSize = new System.Drawing.Size(800, 600);
+            this.PiSample.Name = "PiSample";
+            this.PiSample.Size = new System.Drawing.Size(229, 182);
+            this.PiSample.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PiSample.TabIndex = 24;
+            this.PiSample.TabStop = false;
+            // 
+            // PiMap
+            // 
+            this.PiMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
+            this.PiMap.Location = new System.Drawing.Point(48, 60);
+            this.PiMap.Name = "PiMap";
+            this.PiMap.Size = new System.Drawing.Size(712, 500);
+            this.PiMap.TabIndex = 26;
+            this.PiMap.TabStop = false;
             // 
             // fm
             // 
@@ -139,10 +141,10 @@
             this.Name = "fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "labRoadEditor";
-            ((System.ComponentModel.ISupportInitialize)(this.PiSample)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).EndInit();
             this.AllPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PiSample)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
