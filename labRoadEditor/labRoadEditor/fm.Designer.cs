@@ -30,6 +30,10 @@
         {
             this.Download = new System.Windows.Forms.Button();
             this.Save = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.paLeft = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.paLeft.SuspendLayout();
             this.SuspendLayout();
             // 
             // Download
@@ -61,15 +65,39 @@
             this.Save.Text = "Сохранить";
             this.Save.UseVisualStyleBackColor = false;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Image = global::labRoadEditor.Properties.Resources.road;
+            this.pictureBox1.Location = new System.Drawing.Point(15, 369);
+            this.pictureBox1.MaximumSize = new System.Drawing.Size(800, 600);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(229, 182);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 24;
+            this.pictureBox1.TabStop = false;
+            // 
+            // paLeft
+            // 
+            this.paLeft.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.paLeft.Controls.Add(this.pictureBox1);
+            this.paLeft.Location = new System.Drawing.Point(-3, 60);
+            this.paLeft.Name = "paLeft";
+            this.paLeft.Size = new System.Drawing.Size(258, 569);
+            this.paLeft.TabIndex = 25;
+            // 
             // fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(890, 623);
+            this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.paLeft);
             this.Controls.Add(this.Download);
             this.Controls.Add(this.Save);
             this.Name = "fm";
             this.Text = "labRoadEditor";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.paLeft.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -78,6 +106,8 @@
         #endregion
         private System.Windows.Forms.Button Download;
         private System.Windows.Forms.Button Save;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel paLeft;
     }
 }
 

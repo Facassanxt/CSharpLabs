@@ -30,8 +30,8 @@ namespace labRoadEditor
 
         private void StartForm()
         {
-            //toolsBar.Location = new Point(0, 64);
-            //toolsBar.Height = this.Height - 64;
+            paLeft.Location = new Point(0, 64);
+            paLeft.Height = this.Height - 64;
             //instpanel.Location = new Point(toolsBar.Width, 64);
             //instpanel.Height = 60;
             //instpanel.Width = this.Width - toolsBar.Width - 1;
@@ -81,25 +81,11 @@ namespace labRoadEditor
                 name = manager.GetPrivateString("Facassanxt", "0");
                 MessageBox.Show(name);
             }
-            catch (Exception)
+            catch
             {
-                DialogResult rezult = MessageBox.Show("Невозможно cчитать CFG",
+                DialogResult rezult = MessageBox.Show("Непредвиденная ошибка",
                 "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //OpenFileDialog open_dialog = new OpenFileDialog();
-            //open_dialog.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
-            //if (open_dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    try
-            //    {
-            //        //
-            //    }
-            //    catch
-            //    {
-            //        DialogResult rezult = MessageBox.Show("Невозможно открыть выбранный файл",
-            //        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
-            //}
         }
     }
     public class INIManager
