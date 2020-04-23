@@ -21,6 +21,8 @@ namespace labRoadEditor
         private int CountCFGSave = 0; // 
         private Bitmap b;
         private Point StartPoint;
+        private int EndPointX;
+        private int EndPointY;
         private Point CurPoint;
         private int cX;
         private int cY;
@@ -58,14 +60,10 @@ namespace labRoadEditor
 
 
             StartForm();
-
-
-            //b = new Bitmap(PiMap);
         }
 
         private void StartForm()
         {
-            //b = new Bitmap(Resources.road);
             this.Height = 1080;
             this.Width = 1920;
             PiMap.Height = 4000;
@@ -105,30 +103,32 @@ namespace labRoadEditor
                 {
                     CurPoint.X += e.X - StartPoint.X;
                     CurPoint.Y += e.Y - StartPoint.Y;
-
-                    //curCol = (e.X - CurPoint.X) / sizeCellsMap;
-                    //curRow = (e.Y - CurPoint.Y) / sizeCellsMap;
-
                     StartPoint = e.Location;
                     PiMap.Refresh();
                     XYPiSample.Refresh();
                     LaPreview.Refresh();
                 }
             }
-            //Random rnd = new Random();
-            //Pen pen = new Pen(Color.Black, 1);
-            //pen.Color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-            //g.FillEllipse(pen.Brush, e.X, e.Y, 5, 5);
         }
 
         private void PiMap_MouseUp(object sender, MouseEventArgs e)
         {
-//  
+            //
         }
 
         private void PiMap_MouseDown(object sender, MouseEventArgs e)
         {
             StartPoint = e.Location;
+            using (Graphics g = Graphics.FromImage(b))
+            {
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                EndPointX = (e.X - CurPoint.X) / cX;
+                EndPointY = (e.Y - CurPoint.Y) / cY;
+                Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
+                g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX,cY);
+                PiMap.Refresh();
+            }
         }
 
         private void PiSample_MouseDown(object sender, MouseEventArgs e)
@@ -141,13 +141,14 @@ namespace labRoadEditor
                     if (i == x && j == y)
                     {
                         PiPreview.Image = Resources.road.Clone(Mapparts[Count], PixelFormat.Format32bppArgb);
+                        mode = Count;
+                        XYPiSample.Text = $"{{ {x} : {y} }}";
+                        return;
                     }
                     else 
                     {
                         Count++;
                     }
-            mode = Count;
-            XYPiSample.Text = $"{{ {x} : {y} }}";
         }
 
         private void Fm_Resize(object sender, EventArgs e)
