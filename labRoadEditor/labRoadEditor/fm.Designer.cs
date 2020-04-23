@@ -100,6 +100,7 @@
             this.PiPreview.Location = new System.Drawing.Point(12, 537);
             this.PiPreview.Name = "PiPreview";
             this.PiPreview.Size = new System.Drawing.Size(143, 113);
+            this.PiPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PiPreview.TabIndex = 25;
             this.PiPreview.TabStop = false;
             // 

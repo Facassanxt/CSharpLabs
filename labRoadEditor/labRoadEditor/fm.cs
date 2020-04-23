@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using labRoadEditor.Properties;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace labRoadEditor
 {
@@ -27,6 +28,10 @@ namespace labRoadEditor
         private int row = 40;
         private int curRow;
         private int curCol;
+        private int XYmap = 32 * 8;
+        private int AmountX = 4;
+        private int AmountY = 3;
+        private List<Rectangle> Mapparts;
 
         public fm()
         {
@@ -36,6 +41,12 @@ namespace labRoadEditor
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.Blue50, Accent.Lime400, TextShade.WHITE);
 
+            Mapparts = new List<Rectangle> { };
+            for (int i = 0; i < AmountX; i++)
+                for (int j = 0; j < AmountY; j++)
+                {
+                    Mapparts.Add(new Rectangle(i * XYmap, j * XYmap, XYmap, XYmap));
+                }
 
 
 
@@ -79,6 +90,9 @@ namespace labRoadEditor
 
             ResizeCells();
             DrawCells();
+
+            PiPreview.Image = Resources.road.Clone(Mapparts[0], PixelFormat.Format16bppRgb555);
+
         }
         private void PiMap_Paint(object sender, PaintEventArgs e)
         {
@@ -152,6 +166,10 @@ namespace labRoadEditor
                     }
                 g.DrawLine(new Pen(Color.White, 1), 0, 0, col * cX, row * cY); // Диагональ ⤡
                 g.DrawLine(new Pen(Color.White, 1), 0, cY * row, cX * col, 0); // Диагональ ⤢
+                g.DrawLine(new Pen(Color.Beige, 5), 0, 0, cX * col, 0); // Линия ➜ 🗘
+                g.DrawLine(new Pen(Color.Beige, 5), cX * col, 0, cX * col, cY * row); // Линия 🠗
+                g.DrawLine(new Pen(Color.Beige, 5), cX * col, cY * row, 0, cX * col); // Линия 🠔
+                g.DrawLine(new Pen(Color.Beige, 5), 0, cY * row, 0, 0); // Линия 🠕
             } 
         }
 

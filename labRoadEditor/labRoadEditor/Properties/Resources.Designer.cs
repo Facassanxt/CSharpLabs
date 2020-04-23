@@ -63,16 +63,6 @@ namespace labRoadEditor.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ozero_gory_otrazhenie_leto_115974_3992x2242 {
-            get {
-                object obj = ResourceManager.GetObject("ozero_gory_otrazhenie_leto_115974_3992x2242", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap road {
             get {
                 object obj = ResourceManager.GetObject("road", resourceCulture);
