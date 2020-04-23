@@ -30,10 +30,15 @@
         {
             this.Download = new System.Windows.Forms.Button();
             this.Save = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.paLeft = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.paLeft.SuspendLayout();
+            this.PiSample = new System.Windows.Forms.PictureBox();
+            this.PiPreview = new System.Windows.Forms.PictureBox();
+            this.LaPreview = new System.Windows.Forms.Label();
+            this.PiMap = new System.Windows.Forms.PictureBox();
+            this.AllPanel = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.PiSample)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
+            this.AllPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // Download
@@ -57,7 +62,7 @@
             this.Save.FlatAppearance.BorderSize = 0;
             this.Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Save.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Save.ForeColor = System.Drawing.Color.Black;
+            this.Save.ForeColor = System.Drawing.Color.Coral;
             this.Save.Location = new System.Drawing.Point(134, 24);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(127, 39);
@@ -65,39 +70,79 @@
             this.Save.Text = "Сохранить";
             this.Save.UseVisualStyleBackColor = false;
             // 
-            // pictureBox1
+            // PiSample
             // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Image = global::labRoadEditor.Properties.Resources.road;
-            this.pictureBox1.Location = new System.Drawing.Point(15, 369);
-            this.pictureBox1.MaximumSize = new System.Drawing.Size(800, 600);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(229, 182);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 24;
-            this.pictureBox1.TabStop = false;
+            this.PiSample.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PiSample.Image = global::labRoadEditor.Properties.Resources.road;
+            this.PiSample.Location = new System.Drawing.Point(12, 656);
+            this.PiSample.MaximumSize = new System.Drawing.Size(800, 600);
+            this.PiSample.Name = "PiSample";
+            this.PiSample.Size = new System.Drawing.Size(229, 182);
+            this.PiSample.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PiSample.TabIndex = 24;
+            this.PiSample.TabStop = false;
             // 
-            // paLeft
+            // PiPreview
             // 
-            this.paLeft.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.paLeft.Controls.Add(this.pictureBox1);
-            this.paLeft.Location = new System.Drawing.Point(-3, 60);
-            this.paLeft.Name = "paLeft";
-            this.paLeft.Size = new System.Drawing.Size(258, 569);
-            this.paLeft.TabIndex = 25;
+            this.PiPreview.BackColor = System.Drawing.Color.Maroon;
+            this.PiPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PiPreview.Location = new System.Drawing.Point(12, 537);
+            this.PiPreview.Name = "PiPreview";
+            this.PiPreview.Size = new System.Drawing.Size(143, 113);
+            this.PiPreview.TabIndex = 25;
+            this.PiPreview.TabStop = false;
+            // 
+            // LaPreview
+            // 
+            this.LaPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LaPreview.AutoSize = true;
+            this.LaPreview.BackColor = System.Drawing.Color.Transparent;
+            this.LaPreview.Font = new System.Drawing.Font("Unispace", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LaPreview.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.LaPreview.Location = new System.Drawing.Point(12, 509);
+            this.LaPreview.Name = "LaPreview";
+            this.LaPreview.Size = new System.Drawing.Size(116, 25);
+            this.LaPreview.TabIndex = 26;
+            this.LaPreview.Text = "Preview:";
+            // 
+            // PiMap
+            // 
+            this.PiMap.BackColor = System.Drawing.Color.SkyBlue;
+            this.PiMap.Location = new System.Drawing.Point(62, 90);
+            this.PiMap.Name = "PiMap";
+            this.PiMap.Size = new System.Drawing.Size(712, 500);
+            this.PiMap.TabIndex = 26;
+            this.PiMap.TabStop = false;
+            // 
+            // AllPanel
+            // 
+            this.AllPanel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.AllPanel.Controls.Add(this.PiMap);
+            this.AllPanel.Location = new System.Drawing.Point(411, 127);
+            this.AllPanel.Name = "AllPanel";
+            this.AllPanel.Size = new System.Drawing.Size(826, 615);
+            this.AllPanel.TabIndex = 27;
             // 
             // fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 600);
-            this.Controls.Add(this.paLeft);
+            this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.ClientSize = new System.Drawing.Size(1350, 850);
+            this.Controls.Add(this.LaPreview);
+            this.Controls.Add(this.PiPreview);
+            this.Controls.Add(this.PiSample);
+            this.Controls.Add(this.AllPanel);
             this.Controls.Add(this.Download);
             this.Controls.Add(this.Save);
+            this.ForeColor = System.Drawing.Color.Coral;
             this.Name = "fm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "labRoadEditor";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.paLeft.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PiSample)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).EndInit();
+            this.AllPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,8 +151,11 @@
         #endregion
         private System.Windows.Forms.Button Download;
         private System.Windows.Forms.Button Save;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel paLeft;
+        private System.Windows.Forms.PictureBox PiSample;
+        private System.Windows.Forms.PictureBox PiPreview;
+        private System.Windows.Forms.Label LaPreview;
+        private System.Windows.Forms.PictureBox PiMap;
+        private System.Windows.Forms.Panel AllPanel;
     }
 }
 
