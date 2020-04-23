@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using labRoadEditor.Properties;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace labRoadEditor
 {
@@ -21,8 +22,6 @@ namespace labRoadEditor
         private int CountCFGSave = 0; // 
         private Bitmap b;
         private Point StartPoint;
-        private int EndPointX;
-        private int EndPointY;
         private Point CurPoint;
         private int cX;
         private int cY;
@@ -33,7 +32,6 @@ namespace labRoadEditor
         private int AmountY = 3; // Блоков в высоту
         private List<Rectangle> Mapparts;
         private int mode = 4; //Выбранный элемент
-
         public fm()
         {
             InitializeComponent();
@@ -50,18 +48,14 @@ namespace labRoadEditor
                 }
 
             PiMap.MouseDown += PiMap_MouseDown;
-            PiMap.MouseUp += PiMap_MouseUp;
             PiMap.MouseMove += PiMap_MouseMove;
             PiMap.Paint += PiMap_Paint;
             Save.Click += Save_Click;
             Download.Click += Download_Click;
             Resize += Fm_Resize;
             PiSample.MouseDown += PiSample_MouseDown;
-
-
             StartForm();
         }
-
         private void StartForm()
         {
             this.Height = 1080;
@@ -78,16 +72,13 @@ namespace labRoadEditor
             PiMap.Location = new Point(0,0);
             PiSample.Location = new Point(10, Height - PiSample.Height - 10);
             PiPreview.Location = new Point(10, PiSample.Location.Y - PiPreview.Height - 10);
-
             LaPreview.Parent = PiMap;
             LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - LaPreview.Height);
             b = new Bitmap(PiMap.Width, PiMap.Height);
-
             XYPiSample.Parent = PiMap;
             XYPiSample.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height);
             ResizeCells();
             DrawCells();
-
             PiPreview.Image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
 
         }
@@ -109,13 +100,20 @@ namespace labRoadEditor
                     LaPreview.Refresh();
                 }
             }
+            else if (e.Button == MouseButtons.Left)
+            {
+                using (Graphics g = Graphics.FromImage(b))
+                {
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    int EndPointX = (e.X - CurPoint.X) / cX;
+                    int EndPointY = (e.Y - CurPoint.Y) / cY;
+                    Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
+                    g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
+                    PiMap.Refresh();
+                }
+            }
         }
-
-        private void PiMap_MouseUp(object sender, MouseEventArgs e)
-        {
-            //
-        }
-
         private void PiMap_MouseDown(object sender, MouseEventArgs e)
         {
             StartPoint = e.Location;
@@ -123,14 +121,13 @@ namespace labRoadEditor
             {
                 g.SmoothingMode = SmoothingMode.HighQuality;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                EndPointX = (e.X - CurPoint.X) / cX;
-                EndPointY = (e.Y - CurPoint.Y) / cY;
+                int EndPointX = (e.X - CurPoint.X) / cX;
+                int EndPointY = (e.Y - CurPoint.Y) / cY;
                 Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
                 g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX,cY);
                 PiMap.Refresh();
             }
         }
-
         private void PiSample_MouseDown(object sender, MouseEventArgs e)
         {
             int Count = 0;
@@ -150,7 +147,6 @@ namespace labRoadEditor
                         Count++;
                     }
         }
-
         private void Fm_Resize(object sender, EventArgs e)
         {
             AllPanel.Width = Width - 4;
@@ -158,16 +154,6 @@ namespace labRoadEditor
             AllPanel.Location = new Point(2, 64);
             LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - LaPreview.Height);
             XYPiSample.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height);
-
-
-            //AllPanel.Width = Width - 4;
-            //AllPanel.Height = Height - 64 - 2;
-            //AllPanel.Location = new Point(2, 64);
-            //PiMap.Location = new Point(0, 0);
-            //PiSample.Location = new Point(10, Height - PiSample.Height - 10);
-            //PiPreview.Location = new Point(10, PiSample.Location.Y - PiPreview.Height - 10);
-            //LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - 20);
-            //this.CreateGraphics().DrawImage(b, new Point(0, 0));
         }
         private void ResizeCells()
         {
@@ -180,7 +166,6 @@ namespace labRoadEditor
             {
                 g.SmoothingMode = SmoothingMode.HighQuality;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
                 for (int i = 0; i <= row; i++)
                     for (int j = 0; j <= col; j++)
                     {
@@ -195,8 +180,6 @@ namespace labRoadEditor
                 g.DrawLine(new Pen(Color.Beige, 5), 0, cY * row, 0, 0); // Линия 🠕
             } 
         }
-
-
         private void Save_Click(object sender, EventArgs e)
         {
             SaveFileDialog MyDialog = new SaveFileDialog();
@@ -216,21 +199,18 @@ namespace labRoadEditor
                 "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void Download_Click(object sender, EventArgs e)
         {
             try
             {
                 String fullPath = Application.StartupPath.ToString();
-                string[] words = fullPath.Split(new char[] { '\\' });
-                fullPath = "";
-                for (int i = 0; i < words.Length-3; i++)
+                if (File.Exists(fullPath) != false)
                 {
-                    fullPath += words[i] + '\\';
+                    System.IO.File.Create($"{fullPath}\\cfg\\MapRoad.ini");
                 }
                 INIManager manager = new INIManager($"{fullPath}\\cfg\\MapRoad.ini");
                 string name = manager.GetPrivateString("Facassanxt", "0");
-                MessageBox.Show(name);
+                MessageBox.Show(fullPath);
                 manager.WritePrivateString("Facassanxt", "0", "164482754792524");
                 name = manager.GetPrivateString("Facassanxt", "0");
                 MessageBox.Show(name);
