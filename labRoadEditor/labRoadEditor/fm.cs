@@ -18,20 +18,19 @@ namespace labRoadEditor
 {
     public partial class fm : MaterialForm
     {
-        private int CountCFGSave = 0;
+        private int CountCFGSave = 0; // 
         private Bitmap b;
         private Point StartPoint;
         private Point CurPoint;
         private int cX;
         private int cY;
-        private int col = 40;
-        private int row = 40;
-        private int curRow;
-        private int curCol;
-        private int XYmap = 32 * 8;
-        private int AmountX = 4;
-        private int AmountY = 3;
+        private int col = 40; // Сетка 
+        private int row = 40; // Сетка 
+        private int XYmap = 32 * 8; // Размер блока 32px * 8 (Один элмемент)
+        private int AmountX = 4; // Блоков по ширине
+        private int AmountY = 3; // Блоков в высоту
         private List<Rectangle> Mapparts;
+        private int mode = 4; //Выбранный элемент
 
         public fm()
         {
@@ -48,9 +47,6 @@ namespace labRoadEditor
                     Mapparts.Add(new Rectangle(i * XYmap, j * XYmap, XYmap, XYmap));
                 }
 
-
-
-
             PiMap.MouseDown += PiMap_MouseDown;
             PiMap.MouseUp += PiMap_MouseUp;
             PiMap.MouseMove += PiMap_MouseMove;
@@ -58,6 +54,7 @@ namespace labRoadEditor
             Save.Click += Save_Click;
             Download.Click += Download_Click;
             Resize += Fm_Resize;
+            PiSample.MouseDown += PiSample_MouseDown;
 
 
             StartForm();
@@ -85,13 +82,15 @@ namespace labRoadEditor
             PiPreview.Location = new Point(10, PiSample.Location.Y - PiPreview.Height - 10);
 
             LaPreview.Parent = PiMap;
-            LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - 20);
+            LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - LaPreview.Height);
             b = new Bitmap(PiMap.Width, PiMap.Height);
 
+            XYPiSample.Parent = PiMap;
+            XYPiSample.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height);
             ResizeCells();
             DrawCells();
 
-            PiPreview.Image = Resources.road.Clone(Mapparts[0], PixelFormat.Format16bppRgb555);
+            PiPreview.Image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
 
         }
         private void PiMap_Paint(object sender, PaintEventArgs e)
@@ -111,7 +110,9 @@ namespace labRoadEditor
                     //curRow = (e.Y - CurPoint.Y) / sizeCellsMap;
 
                     StartPoint = e.Location;
-                    PiMap.Invalidate();
+                    PiMap.Refresh();
+                    XYPiSample.Refresh();
+                    LaPreview.Refresh();
                 }
             }
             //Random rnd = new Random();
@@ -122,7 +123,7 @@ namespace labRoadEditor
 
         private void PiMap_MouseUp(object sender, MouseEventArgs e)
         {
-//
+//  
         }
 
         private void PiMap_MouseDown(object sender, MouseEventArgs e)
@@ -130,12 +131,33 @@ namespace labRoadEditor
             StartPoint = e.Location;
         }
 
+        private void PiSample_MouseDown(object sender, MouseEventArgs e)
+        {
+            int Count = 0;
+            int x = e.X * AmountX / PiSample.Width;
+            int y = e.Y * AmountY / PiSample.Height;
+            for (int i = 0; i < AmountX; i++)
+                for (int j = 0; j < AmountY; j++)
+                    if (i == x && j == y)
+                    {
+                        PiPreview.Image = Resources.road.Clone(Mapparts[Count], PixelFormat.Format32bppArgb);
+                    }
+                    else 
+                    {
+                        Count++;
+                    }
+            mode = Count;
+            XYPiSample.Text = $"{{ {x} : {y} }}";
+        }
+
         private void Fm_Resize(object sender, EventArgs e)
         {
             AllPanel.Width = Width - 4;
             AllPanel.Height = Height - 64 - 2;
             AllPanel.Location = new Point(2, 64);
-            LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - 20);
+            LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - LaPreview.Height);
+            XYPiSample.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height);
+
 
             //AllPanel.Width = Width - 4;
             //AllPanel.Height = Height - 64 - 2;

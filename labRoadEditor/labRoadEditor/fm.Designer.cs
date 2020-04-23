@@ -35,6 +35,7 @@
             this.PiPreview = new System.Windows.Forms.PictureBox();
             this.PiSample = new System.Windows.Forms.PictureBox();
             this.PiMap = new System.Windows.Forms.PictureBox();
+            this.XYPiSample = new System.Windows.Forms.Label();
             this.AllPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiSample)).BeginInit();
@@ -87,7 +88,7 @@
             // 
             this.AllPanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.AllPanel.Controls.Add(this.PiMap);
-            this.AllPanel.Location = new System.Drawing.Point(298, 136);
+            this.AllPanel.Location = new System.Drawing.Point(438, 156);
             this.AllPanel.Name = "AllPanel";
             this.AllPanel.Size = new System.Drawing.Size(826, 615);
             this.AllPanel.TabIndex = 27;
@@ -126,12 +127,25 @@
             this.PiMap.TabIndex = 26;
             this.PiMap.TabStop = false;
             // 
+            // XYPiSample
+            // 
+            this.XYPiSample.AutoSize = true;
+            this.XYPiSample.BackColor = System.Drawing.Color.Transparent;
+            this.XYPiSample.Font = new System.Drawing.Font("Unispace", 15.75F, System.Drawing.FontStyle.Bold);
+            this.XYPiSample.ForeColor = System.Drawing.Color.Black;
+            this.XYPiSample.Location = new System.Drawing.Point(161, 625);
+            this.XYPiSample.Name = "XYPiSample";
+            this.XYPiSample.Size = new System.Drawing.Size(142, 25);
+            this.XYPiSample.TabIndex = 28;
+            this.XYPiSample.Text = "{ 1  : 1 }";
+            // 
             // fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1350, 850);
+            this.Controls.Add(this.XYPiSample);
             this.Controls.Add(this.LaPreview);
             this.Controls.Add(this.PiPreview);
             this.Controls.Add(this.PiSample);
@@ -159,6 +173,7 @@
         private System.Windows.Forms.Label LaPreview;
         private System.Windows.Forms.PictureBox PiMap;
         private System.Windows.Forms.Panel AllPanel;
+        private System.Windows.Forms.Label XYPiSample;
     }
 }
 
