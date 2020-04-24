@@ -19,7 +19,6 @@ namespace labRoadEditor
 {
     public partial class fm : MaterialForm
     {
-        private int CountCFGSave = 0; // 
         private Bitmap b;
         private Point StartPoint;
         private Point CurPoint;
@@ -55,12 +54,14 @@ namespace labRoadEditor
             Download.Click += Download_Click;
             Resize += Fm_Resize;
             PiSample.MouseDown += PiSample_MouseDown;
+            Cleaning.Click += Cleaning_Click;
             StartForm();
         }
         private void StartForm()
         {
             this.Height = 1080;
             this.Width = 1920;
+            BaProgress.Width = Width - 130 * 4;
             PiMap.Height = 4000;
             PiMap.Width = 4000;
             PiPreview.Width = 8 * 20;
@@ -82,6 +83,7 @@ namespace labRoadEditor
             DrawCells();
             PiPreview.Image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
             SaveMap = new int[col, row];
+            PiMap.Refresh();
         }
         private void PiMap_Paint(object sender, PaintEventArgs e)
         {
@@ -89,46 +91,63 @@ namespace labRoadEditor
         }
         private void PiMap_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
+            try
             {
-                if (PiMap.Capture)
+                if (e.Button == MouseButtons.Right)
                 {
-                    CurPoint.X += e.X - StartPoint.X;
-                    CurPoint.Y += e.Y - StartPoint.Y;
-                    StartPoint = e.Location;
-                    PiMap.Refresh();
-                    XYPiSample.Refresh();
-                    LaPreview.Refresh();
+                    if (PiMap.Capture)
+                    {
+                        CurPoint.X += e.X - StartPoint.X;
+                        CurPoint.Y += e.Y - StartPoint.Y;
+                        StartPoint = e.Location;
+                        PiMap.Refresh();
+                        XYPiSample.Refresh();
+                        LaPreview.Refresh();
+                    }
+                }
+                else if (e.Button == MouseButtons.Left)
+                {
+                    using (Graphics g = Graphics.FromImage(b))
+                    {
+                        g.SmoothingMode = SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        int EndPointX = (e.X - CurPoint.X) / cX;
+                        int EndPointY = (e.Y - CurPoint.Y) / cY;
+                        Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
+                        g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
+                        SaveMap[EndPointX, EndPointY] = mode + 1;
+                        PiMap.Refresh();
+                    }
                 }
             }
-            else if (e.Button == MouseButtons.Left)
+            catch
             {
-                using (Graphics g = Graphics.FromImage(b))
-                {
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    int EndPointX = (e.X - CurPoint.X) / cX;
-                    int EndPointY = (e.Y - CurPoint.Y) / cY;
-                    Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
-                    g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
-                    SaveMap[EndPointX, EndPointY] = mode + 1;
-                    PiMap.Refresh();
-                }
+                //
             }
         }
         private void PiMap_MouseDown(object sender, MouseEventArgs e)
         {
             StartPoint = e.Location;
-            using (Graphics g = Graphics.FromImage(b))
+            if (e.Button == MouseButtons.Left) 
             {
-                g.SmoothingMode = SmoothingMode.HighQuality;
-                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                int EndPointX = (e.X - CurPoint.X) / cX;
-                int EndPointY = (e.Y - CurPoint.Y) / cY;
-                Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
-                g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX,cY);
-                SaveMap[EndPointX, EndPointY] = mode + 1;
-                PiMap.Refresh();
+                try
+                {
+                    using (Graphics g = Graphics.FromImage(b))
+                    {
+                        g.SmoothingMode = SmoothingMode.HighQuality;
+                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        int EndPointX = (e.X - CurPoint.X) / cX;
+                        int EndPointY = (e.Y - CurPoint.Y) / cY;
+                        Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
+                        g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
+                        SaveMap[EndPointX, EndPointY] = mode + 1;
+                    }
+                    PiMap.Refresh();
+                }
+                catch
+                {
+                    //
+                }
             }
         }
         private void PiSample_MouseDown(object sender, MouseEventArgs e)
@@ -165,16 +184,20 @@ namespace labRoadEditor
         }
         private void DrawCells()
         {
+            BaProgress.Value = 0;
             using (Graphics g = Graphics.FromImage(b))
             {
                 g.SmoothingMode = SmoothingMode.HighQuality;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                for (int i = 0; i <= row; i++)
+                for (int i = 0; i <= row; i++) 
+                {
                     for (int j = 0; j <= col; j++)
                     {
                         g.DrawLine(new Pen(Color.Silver), 0, i * cY, col * cX, i * cY);
                         g.DrawLine(new Pen(Color.Silver, 1), j * cX, 0, j * cX, row * cY);
                     }
+                    if (i % 2 == 0)  BaProgress.Value += 5;
+                }
                 g.DrawLine(new Pen(Color.White, 1), 0, 0, col * cX, row * cY); // Диагональ ⤡
                 g.DrawLine(new Pen(Color.White, 1), 0, cY * row, cX * col, 0); // Диагональ ⤢
                 g.DrawLine(new Pen(Color.Beige, 5), 0, 0, cX * col, 0); // Линия ➜ 🗘
@@ -182,6 +205,13 @@ namespace labRoadEditor
                 g.DrawLine(new Pen(Color.Beige, 5), cX * col, cY * row, 0, cX * col); // Линия 🠔
                 g.DrawLine(new Pen(Color.Beige, 5), 0, cY * row, 0, 0); // Линия 🠕
             } 
+        }
+        private void Cleaning_Click(object sender, EventArgs e)
+        {
+            b = new Bitmap(PiMap.Width, PiMap.Height);
+            SaveMap = new int[col, row];
+            DrawCells();
+            PiMap.Refresh();
         }
         private void Save_Click(object sender, EventArgs e)
         {
@@ -234,6 +264,11 @@ namespace labRoadEditor
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                b = new Bitmap(PiMap.Width, PiMap.Height);
+                SaveMap = new int[col, row];
+                DrawCells();
+                PiMap.Refresh();
+                BaProgress.Value = 5;
                 string[] lines = File.ReadAllLines($"{ fullPath }\\cfg\\MapRoad.txt");
                 for (int i = 0; i < lines.Length; i++)
                 {
@@ -251,6 +286,7 @@ namespace labRoadEditor
                             }
                         }
                     }
+                    if (i % 2 == 0) BaProgress.Value += 5;
                 }
             }
             catch

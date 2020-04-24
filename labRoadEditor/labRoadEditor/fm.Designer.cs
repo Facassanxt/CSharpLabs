@@ -32,14 +32,16 @@
             this.Save = new System.Windows.Forms.Button();
             this.LaPreview = new System.Windows.Forms.Label();
             this.AllPanel = new System.Windows.Forms.Panel();
+            this.PiMap = new System.Windows.Forms.PictureBox();
             this.PiPreview = new System.Windows.Forms.PictureBox();
             this.PiSample = new System.Windows.Forms.PictureBox();
-            this.PiMap = new System.Windows.Forms.PictureBox();
             this.XYPiSample = new System.Windows.Forms.Label();
+            this.Cleaning = new System.Windows.Forms.Button();
+            this.BaProgress = new MaterialSkin.Controls.MaterialProgressBar();
             this.AllPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiSample)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             this.SuspendLayout();
             // 
             // Download
@@ -93,6 +95,15 @@
             this.AllPanel.Size = new System.Drawing.Size(826, 615);
             this.AllPanel.TabIndex = 27;
             // 
+            // PiMap
+            // 
+            this.PiMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
+            this.PiMap.Location = new System.Drawing.Point(48, 60);
+            this.PiMap.Name = "PiMap";
+            this.PiMap.Size = new System.Drawing.Size(712, 500);
+            this.PiMap.TabIndex = 26;
+            this.PiMap.TabStop = false;
+            // 
             // PiPreview
             // 
             this.PiPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -118,15 +129,6 @@
             this.PiSample.TabIndex = 24;
             this.PiSample.TabStop = false;
             // 
-            // PiMap
-            // 
-            this.PiMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
-            this.PiMap.Location = new System.Drawing.Point(48, 60);
-            this.PiMap.Name = "PiMap";
-            this.PiMap.Size = new System.Drawing.Size(712, 500);
-            this.PiMap.TabIndex = 26;
-            this.PiMap.TabStop = false;
-            // 
             // XYPiSample
             // 
             this.XYPiSample.AutoSize = true;
@@ -139,12 +141,41 @@
             this.XYPiSample.TabIndex = 28;
             this.XYPiSample.Text = "{ 1  : 1 }";
             // 
+            // Cleaning
+            // 
+            this.Cleaning.AutoSize = true;
+            this.Cleaning.BackColor = System.Drawing.Color.Transparent;
+            this.Cleaning.FlatAppearance.BorderSize = 0;
+            this.Cleaning.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Cleaning.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Cleaning.Location = new System.Drawing.Point(388, 24);
+            this.Cleaning.Name = "Cleaning";
+            this.Cleaning.Size = new System.Drawing.Size(121, 39);
+            this.Cleaning.TabIndex = 29;
+            this.Cleaning.Text = "Очистить";
+            this.Cleaning.UseVisualStyleBackColor = false;
+            // 
+            // BaProgress
+            // 
+            this.BaProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BaProgress.BackColor = System.Drawing.Color.Aquamarine;
+            this.BaProgress.Depth = 0;
+            this.BaProgress.Location = new System.Drawing.Point(515, 44);
+            this.BaProgress.Maximum = 105;
+            this.BaProgress.MouseState = MaterialSkin.MouseState.HOVER;
+            this.BaProgress.Name = "BaProgress";
+            this.BaProgress.Size = new System.Drawing.Size(772, 5);
+            this.BaProgress.TabIndex = 31;
+            // 
             // fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1350, 850);
+            this.Controls.Add(this.BaProgress);
+            this.Controls.Add(this.Cleaning);
             this.Controls.Add(this.XYPiSample);
             this.Controls.Add(this.LaPreview);
             this.Controls.Add(this.PiPreview);
@@ -157,9 +188,9 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "labRoadEditor";
             this.AllPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiSample)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PiMap)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,6 +205,8 @@
         private System.Windows.Forms.PictureBox PiMap;
         private System.Windows.Forms.Panel AllPanel;
         private System.Windows.Forms.Label XYPiSample;
+        private System.Windows.Forms.Button Cleaning;
+        private MaterialSkin.Controls.MaterialProgressBar BaProgress;
     }
 }
 
