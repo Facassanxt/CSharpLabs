@@ -32,6 +32,7 @@ namespace labRoadEditor
         private int AmountY = 3; // Блоков в высоту
         private List<Rectangle> Mapparts;
         private int mode = 4; //Выбранный элемент
+        private int[,] SaveMap;
         public fm()
         {
             InitializeComponent();
@@ -80,7 +81,7 @@ namespace labRoadEditor
             ResizeCells();
             DrawCells();
             PiPreview.Image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
-
+            SaveMap = new int[col, row];
         }
         private void PiMap_Paint(object sender, PaintEventArgs e)
         {
@@ -111,6 +112,7 @@ namespace labRoadEditor
                     Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
                     g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
                     PiMap.Refresh();
+                    SaveMap[EndPointX, EndPointY] = mode +1;
                 }
             }
         }
@@ -125,6 +127,7 @@ namespace labRoadEditor
                 int EndPointY = (e.Y - CurPoint.Y) / cY;
                 Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
                 g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX,cY);
+                SaveMap[EndPointX, EndPointY] = mode + 1;
                 PiMap.Refresh();
             }
         }
@@ -182,38 +185,68 @@ namespace labRoadEditor
         }
         private void Save_Click(object sender, EventArgs e)
         {
-            SaveFileDialog MyDialog = new SaveFileDialog();
-            MyDialog.FileName = $"SavePaint_{CountCFGSave}";
-            MyDialog.Filter = $"png (*.png)|*.png";
-            if (MyDialog.ShowDialog() == DialogResult.Cancel)
-                return;
+            String fullPath = Application.StartupPath.ToString();
             try
             {
-                //string path = MyDialog.FileName;
-                //b.Save(path, System.Drawing.Imaging.ImageFormat.Png);
-                //CountFileSave++;
+                if (!Directory.Exists($"{ fullPath }\\cfg"))
+                {
+                    Directory.CreateDirectory($"{ fullPath }\\cfg");
+                }
+                StreamWriter strwrt = new StreamWriter($"{ fullPath }\\cfg\\MapRoad.txt", false);
+                for (int i = 0; i < col; i++)
+                {
+                    for (int j = 0; j < row; j++)
+                    {
+                        if (SaveMap[j, i] == 0)
+                        {
+                            strwrt.Write("*");
+                        }
+                        else
+                        {
+                            strwrt.Write(SaveMap[i, j].ToString());
+                        }
+                    }
+                    strwrt.WriteLine();
+                }
+                strwrt.Close();
+
             }
             catch
             {
-                DialogResult rezult = MessageBox.Show("Невозможно сохранить файл",
+                DialogResult rezult = MessageBox.Show("Непредвиденная ошибка",
                 "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void Download_Click(object sender, EventArgs e)
         {
+            String fullPath = Application.StartupPath.ToString();
             try
             {
-                String fullPath = Application.StartupPath.ToString();
-                if (File.Exists(fullPath) != false)
+                if (!Directory.Exists($"{ fullPath }\\cfg"))
                 {
-                    System.IO.File.Create($"{fullPath}\\cfg\\MapRoad.ini");
+                    DialogResult rezult = MessageBox.Show("Директория не найдена.",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                INIManager manager = new INIManager($"{fullPath}\\cfg\\MapRoad.ini");
-                string name = manager.GetPrivateString("Facassanxt", "0");
-                MessageBox.Show(fullPath);
-                manager.WritePrivateString("Facassanxt", "0", "164482754792524");
-                name = manager.GetPrivateString("Facassanxt", "0");
-                MessageBox.Show(name);
+                else if (!File.Exists($"{ fullPath }\\cfg\\MapRoad.txt"))
+                {
+                    DialogResult rezult = MessageBox.Show("Файл для загрузки не найден или еще не был создан.",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                StreamWriter strwrt = new StreamWriter($"{ fullPath }\\cfg\\MapRoad.txt", false);
+                Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
+                using (Graphics g = Graphics.FromImage(b))
+                {
+                    for (int i = 0; i < col; i++)
+                    {
+                        for (int j = 0; j < row; j++)
+                        {
+                            g.DrawImage(image, i * cX, cY * j, cX, cY);
+                        }
+                    }
+                }
+                strwrt.Close();
             }
             catch
             {
