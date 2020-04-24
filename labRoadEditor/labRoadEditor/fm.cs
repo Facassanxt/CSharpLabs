@@ -111,8 +111,8 @@ namespace labRoadEditor
                     int EndPointY = (e.Y - CurPoint.Y) / cY;
                     Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
                     g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
+                    SaveMap[EndPointX, EndPointY] = mode + 1;
                     PiMap.Refresh();
-                    SaveMap[EndPointX, EndPointY] = mode +1;
                 }
             }
         }
@@ -199,11 +199,11 @@ namespace labRoadEditor
                     {
                         if (SaveMap[j, i] == 0)
                         {
-                            strwrt.Write("*");
+                            strwrt.Write("*|");
                         }
                         else
                         {
-                            strwrt.Write(SaveMap[i, j].ToString());
+                            strwrt.Write($"{SaveMap[j, i]}|");
                         }
                     }
                     strwrt.WriteLine();
@@ -234,19 +234,24 @@ namespace labRoadEditor
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                StreamWriter strwrt = new StreamWriter($"{ fullPath }\\cfg\\MapRoad.txt", false);
-                Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
-                using (Graphics g = Graphics.FromImage(b))
+                string[] lines = File.ReadAllLines($"{ fullPath }\\cfg\\MapRoad.txt");
+                for (int i = 0; i < lines.Length; i++)
                 {
-                    for (int i = 0; i < col; i++)
+                    string[] temp = lines[i].Split('|');
+                    for (int j = 0; j < temp.Length; j++)
                     {
-                        for (int j = 0; j < row; j++)
+                        if (temp[j] != "*")
                         {
-                            g.DrawImage(image, i * cX, cY * j, cX, cY);
+                            int num = Int32.Parse(temp[j]);
+                            using (Graphics g = Graphics.FromImage(b))
+                            {
+                                Image image = Resources.road.Clone(Mapparts[num-1], PixelFormat.Format32bppArgb);
+                                g.DrawImage(image, j * cX, cY * i, cX, cY);
+                                PiMap.Refresh();
+                            }
                         }
                     }
                 }
-                strwrt.Close();
             }
             catch
             {
