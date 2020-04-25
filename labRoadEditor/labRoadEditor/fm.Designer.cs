@@ -37,7 +37,7 @@
             this.PiSample = new System.Windows.Forms.PictureBox();
             this.XYPiSample = new System.Windows.Forms.Label();
             this.Cleaning = new System.Windows.Forms.Button();
-            this.BaProgress = new MaterialSkin.Controls.MaterialProgressBar();
+            this.checkDrawCellsFlag = new System.Windows.Forms.CheckBox();
             this.AllPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
@@ -90,17 +90,17 @@
             // 
             this.AllPanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.AllPanel.Controls.Add(this.PiMap);
-            this.AllPanel.Location = new System.Drawing.Point(438, 156);
+            this.AllPanel.Location = new System.Drawing.Point(0, 61);
             this.AllPanel.Name = "AllPanel";
-            this.AllPanel.Size = new System.Drawing.Size(826, 615);
+            this.AllPanel.Size = new System.Drawing.Size(1355, 796);
             this.AllPanel.TabIndex = 27;
             // 
             // PiMap
             // 
             this.PiMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
-            this.PiMap.Location = new System.Drawing.Point(48, 60);
+            this.PiMap.Location = new System.Drawing.Point(-17, -7);
             this.PiMap.Name = "PiMap";
-            this.PiMap.Size = new System.Drawing.Size(712, 500);
+            this.PiMap.Size = new System.Drawing.Size(1404, 840);
             this.PiMap.TabIndex = 26;
             this.PiMap.TabStop = false;
             // 
@@ -155,26 +155,24 @@
             this.Cleaning.Text = "Очистить";
             this.Cleaning.UseVisualStyleBackColor = false;
             // 
-            // BaProgress
+            // checkDrawCellsFlag
             // 
-            this.BaProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.BaProgress.BackColor = System.Drawing.Color.Aquamarine;
-            this.BaProgress.Depth = 0;
-            this.BaProgress.Location = new System.Drawing.Point(515, 44);
-            this.BaProgress.Maximum = 105;
-            this.BaProgress.MouseState = MaterialSkin.MouseState.HOVER;
-            this.BaProgress.Name = "BaProgress";
-            this.BaProgress.Size = new System.Drawing.Size(772, 5);
-            this.BaProgress.TabIndex = 31;
+            this.checkDrawCellsFlag.AutoSize = true;
+            this.checkDrawCellsFlag.Font = new System.Drawing.Font("Comic Sans MS", 8F);
+            this.checkDrawCellsFlag.Location = new System.Drawing.Point(12, 2);
+            this.checkDrawCellsFlag.Name = "checkDrawCellsFlag";
+            this.checkDrawCellsFlag.Size = new System.Drawing.Size(116, 19);
+            this.checkDrawCellsFlag.TabIndex = 32;
+            this.checkDrawCellsFlag.Text = "Отключить сетку";
+            this.checkDrawCellsFlag.UseVisualStyleBackColor = true;
             // 
             // fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
             this.ClientSize = new System.Drawing.Size(1350, 850);
-            this.Controls.Add(this.BaProgress);
+            this.Controls.Add(this.checkDrawCellsFlag);
             this.Controls.Add(this.Cleaning);
             this.Controls.Add(this.XYPiSample);
             this.Controls.Add(this.LaPreview);
@@ -206,7 +204,7 @@
         private System.Windows.Forms.Panel AllPanel;
         private System.Windows.Forms.Label XYPiSample;
         private System.Windows.Forms.Button Cleaning;
-        private MaterialSkin.Controls.MaterialProgressBar BaProgress;
+        private System.Windows.Forms.CheckBox checkDrawCellsFlag;
     }
 }
 

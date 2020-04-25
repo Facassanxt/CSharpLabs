@@ -14,12 +14,13 @@ using labRoadEditor.Properties;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace labRoadEditor
 {
     public partial class fm : MaterialForm
     {
-        private Bitmap b;
+        private Bitmap b,bl;
         private Point StartPoint;
         private Point CurPoint;
         private int cX;
@@ -32,6 +33,7 @@ namespace labRoadEditor
         private List<Rectangle> Mapparts;
         private int mode = 4; //Выбранный элемент
         private int[,] SaveMap;
+        private bool DrawCellsFlag = true;
         public fm()
         {
             InitializeComponent();
@@ -51,43 +53,65 @@ namespace labRoadEditor
             PiMap.MouseMove += PiMap_MouseMove;
             PiMap.Paint += PiMap_Paint;
             Save.Click += Save_Click;
-            Download.Click += Download_Click;
+            Download.Click += async (s, e) =>
+            {
+                b = new Bitmap(PiMap.Width, PiMap.Height);
+                bl = new Bitmap(PiMap.Width, PiMap.Height);
+                await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
+                SaveMap = new int[col, row];
+                await Task.Run(() => Download_Click());//Асинхонный метод (Позволяет сократить время Загрузки и отрисовки + убирает длительное провисание)
+            };
             Resize += Fm_Resize;
             PiSample.MouseDown += PiSample_MouseDown;
             Cleaning.Click += Cleaning_Click;
+            checkDrawCellsFlag.Click += CheckDrawCellsFlag_Click; 
             StartForm();
         }
-        private void StartForm()
+
+        private async void CheckDrawCellsFlag_Click(object sender, EventArgs e)
+        {
+            if (checkDrawCellsFlag.Checked) DrawCellsFlag = false;
+            else DrawCellsFlag = true;
+            bl = new Bitmap(PiMap.Width, PiMap.Height);
+            await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
+            PiMap.Refresh();
+        }
+
+        private async void StartForm()
         {
             this.Height = 1080;
             this.Width = 1920;
-            BaProgress.Width = Width - 130 * 4;
             PiMap.Height = 4000;
             PiMap.Width = 4000;
+
+            b = new Bitmap(PiMap.Width, PiMap.Height);
+            bl = new Bitmap(PiMap.Width, PiMap.Height);
+            ResizeCells();
+            await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
+
             PiPreview.Width = 8 * 20;
             PiPreview.Height = 8 * 20;
             PiSample.Width = 32 * 10;
             PiSample.Height = 24 * 10;
             AllPanel.Width = Width - 4;
-            AllPanel.Height = Height - 64 -2;
+            AllPanel.Height = Height - 64 - 2;
             AllPanel.Location = new Point(2, 64);
-            PiMap.Location = new Point(0,0);
+            PiMap.Location = new Point(0, 0);
             PiSample.Location = new Point(10, Height - PiSample.Height - 10);
             PiPreview.Location = new Point(10, PiSample.Location.Y - PiPreview.Height - 10);
             LaPreview.Parent = PiMap;
             LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - LaPreview.Height);
-            b = new Bitmap(PiMap.Width, PiMap.Height);
             XYPiSample.Parent = PiMap;
             XYPiSample.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height);
-            ResizeCells();
-            DrawCells();
             PiPreview.Image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
             SaveMap = new int[col, row];
+
             PiMap.Refresh();
         }
         private void PiMap_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(b, CurPoint);
+            e.Graphics.DrawImage(bl, CurPoint);
         }
         private void PiMap_MouseMove(object sender, MouseEventArgs e)
         {
@@ -101,8 +125,6 @@ namespace labRoadEditor
                         CurPoint.Y += e.Y - StartPoint.Y;
                         StartPoint = e.Location;
                         PiMap.Refresh();
-                        XYPiSample.Refresh();
-                        LaPreview.Refresh();
                     }
                 }
                 else if (e.Button == MouseButtons.Left)
@@ -164,10 +186,7 @@ namespace labRoadEditor
                         XYPiSample.Text = $"{{ {x} : {y} }}";
                         return;
                     }
-                    else 
-                    {
-                        Count++;
-                    }
+                    else Count++;
         }
         private void Fm_Resize(object sender, EventArgs e)
         {
@@ -184,20 +203,17 @@ namespace labRoadEditor
         }
         private void DrawCells()
         {
-            BaProgress.Value = 0;
-            using (Graphics g = Graphics.FromImage(b))
+            using (Graphics g = Graphics.FromImage(bl))
             {
                 g.SmoothingMode = SmoothingMode.HighQuality;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                for (int i = 0; i <= row; i++) 
-                {
-                    for (int j = 0; j <= col; j++)
-                    {
-                        g.DrawLine(new Pen(Color.Silver), 0, i * cY, col * cX, i * cY);
-                        g.DrawLine(new Pen(Color.Silver, 1), j * cX, 0, j * cX, row * cY);
-                    }
-                    if (i % 2 == 0)  BaProgress.Value += 5;
-                }
+                if (DrawCellsFlag) 
+                    for (int i = 0; i <= row; i++)
+                        for (int j = 0; j <= col; j++)
+                        {
+                            g.DrawLine(new Pen(Color.Silver), 0, i * cY, col * cX, i * cY);
+                            g.DrawLine(new Pen(Color.Silver, 1), j * cX, 0, j * cX, row * cY);
+                        }
                 g.DrawLine(new Pen(Color.White, 1), 0, 0, col * cX, row * cY); // Диагональ ⤡
                 g.DrawLine(new Pen(Color.White, 1), 0, cY * row, cX * col, 0); // Диагональ ⤢
                 g.DrawLine(new Pen(Color.Beige, 5), 0, 0, cX * col, 0); // Линия ➜ 🗘
@@ -206,11 +222,12 @@ namespace labRoadEditor
                 g.DrawLine(new Pen(Color.Beige, 5), 0, cY * row, 0, 0); // Линия 🠕
             } 
         }
-        private void Cleaning_Click(object sender, EventArgs e)
+        private async void Cleaning_Click(object sender, EventArgs e)
         {
             b = new Bitmap(PiMap.Width, PiMap.Height);
+            bl = new Bitmap(PiMap.Width, PiMap.Height);
             SaveMap = new int[col, row];
-            DrawCells();
+            await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
             PiMap.Refresh();
         }
         private void Save_Click(object sender, EventArgs e)
@@ -247,7 +264,7 @@ namespace labRoadEditor
                 "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void Download_Click(object sender, EventArgs e)
+        private async void Download_Click()
         {
             String fullPath = Application.StartupPath.ToString();
             try
@@ -264,29 +281,23 @@ namespace labRoadEditor
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                b = new Bitmap(PiMap.Width, PiMap.Height);
-                SaveMap = new int[col, row];
-                DrawCells();
-                PiMap.Refresh();
-                BaProgress.Value = 5;
                 string[] lines = File.ReadAllLines($"{ fullPath }\\cfg\\MapRoad.txt");
-                for (int i = 0; i < lines.Length; i++)
+                using (Graphics g = Graphics.FromImage(b))
                 {
-                    string[] temp = lines[i].Split('|');
-                    for (int j = 0; j < temp.Length - 1; j++)
+                    for (int i = 0; i < lines.Length; i++)
                     {
-                        if (temp[j] != "*")
+                        string[] temp = lines[i].Split('|');
+                        for (int j = 0; j < temp.Length - 1; j++)
                         {
-                            int num = Int32.Parse(temp[j]);
-                            using (Graphics g = Graphics.FromImage(b))
+                            if (temp[j] != "*")
                             {
-                                Image image = Resources.road.Clone(Mapparts[num-1], PixelFormat.Format32bppArgb);
+                                int num = Int32.Parse(temp[j]);
+                                Image image = Resources.road.Clone(Mapparts[num - 1], PixelFormat.Format32bppArgb);
+                                SaveMap[j, i] = num;
                                 g.DrawImage(image, j * cX, cY * i, cX, cY);
-                                PiMap.Refresh();
                             }
                         }
                     }
-                    if (i % 2 == 0) BaProgress.Value += 5;
                 }
             }
             catch
