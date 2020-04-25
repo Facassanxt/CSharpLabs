@@ -15,11 +15,13 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace labRoadEditor
 {
     public partial class fm : MaterialForm
     {
+        public int DeltaZoom { get; private set; } = 80;
         private Bitmap b, bl;
         private Point StartPoint;
         private Point CurPoint;
@@ -33,7 +35,7 @@ namespace labRoadEditor
         private List<Rectangle> Mapparts;
         private int mode = 4; //Выбранный элемент
         private int[,] SaveMap;
-        private bool DrawCellsFlag = true;
+        private bool DrawCellsFlag = true, RenderFlag = true;
         public fm()
         {
             InitializeComponent();
@@ -66,8 +68,35 @@ namespace labRoadEditor
             PiSample.MouseDown += PiSample_MouseDown;
             Cleaning.Click += Cleaning_Click;
             checkDrawCellsFlag.Click += CheckDrawCellsFlag_Click;
+            PiMap.MouseWheel += PiMap_MouseWheel;
             StartForm();
         }
+
+        private async void PiMap_MouseWheel(object sender, MouseEventArgs e)
+        {
+            int zoom = e.Delta > 0 ? 2 : -2;
+            DeltaZoom += zoom;
+            if (DeltaZoom < 0)
+            {
+                DeltaZoom = 0;
+                return;
+            }
+            else if (DeltaZoom > 100)
+            {
+                DeltaZoom = 100;
+                return;
+            }
+            else if(RenderFlag)
+            {
+                bl = new Bitmap(4000, 4000);
+                cX += zoom;
+                cY += zoom;
+                DrawCells();
+                PiMap.Refresh();
+                laZoom.Text = $"Zoom: {DeltaZoom} {cX} {cY}%";
+            }
+        }
+
         private async void CheckDrawCellsFlag_Click(object sender, EventArgs e)
         {
             if (checkDrawCellsFlag.Checked) DrawCellsFlag = false;
@@ -103,6 +132,8 @@ namespace labRoadEditor
             LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - LaPreview.Height);
             XYPiSample.Parent = PiMap;
             XYPiSample.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height);
+            laZoom.Parent = PiMap;
+            laZoom.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height - laZoom.Height);
             PiPreview.Image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
             SaveMap = new int[col, row];
 
@@ -135,10 +166,14 @@ namespace labRoadEditor
                         g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                         int EndPointX = (e.X - CurPoint.X) / cX;
                         int EndPointY = (e.Y - CurPoint.Y) / cY;
-                        Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
-                        g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
-                        SaveMap[EndPointX, EndPointY] = mode + 1;
-                        PiMap.Refresh();
+                        if (EndPointX < col && EndPointY < row)
+                        {
+                            Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
+                            g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
+                            SaveMap[EndPointX, EndPointY] = mode + 1;
+                            LaPreview.Text = $"Preview: {EndPointX} {EndPointY}";
+                            PiMap.Refresh();
+                        }
                     }
                 }
             }
@@ -195,6 +230,7 @@ namespace labRoadEditor
             AllPanel.Location = new Point(2, 64);
             LaPreview.Location = new Point(4, AllPanel.Height - 10 - PiSample.Height - 10 - PiPreview.Height - LaPreview.Height);
             XYPiSample.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height);
+            laZoom.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height - laZoom.Height);
         }
         private void ResizeCells()
         {
@@ -203,34 +239,28 @@ namespace labRoadEditor
         }
         private async void DrawCells()
         {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             using (Graphics g = Graphics.FromImage(bl))
             {
-                g.SmoothingMode = SmoothingMode.HighQuality;
-                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                if (DrawCellsFlag) 
-                    for (int i = 0; i <= row; i++) 
-                    {
-                        for (int j = 0; j <= col; j++)
-                        {
-                            await Task.Run(() =>
-                            {
-                                g.DrawLine(new Pen(Color.Silver), 0, i * cY, col * cX, i * cY);
-                                g.DrawLine(new Pen(Color.Silver, 1), j * cX, 0, j * cX, row * cY);
-                            });
-                        }
-                        if( i % 10 == 0) this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
-                    }
                 await Task.Run(() => 
                 {
-                    g.DrawLine(new Pen(Color.White, 1), 0, 0, col * cX, row * cY); // Диагональ ⤡
-                    g.DrawLine(new Pen(Color.White, 1), 0, cY * row, cX * col, 0); // Диагональ ⤢
-                    g.DrawLine(new Pen(Color.Beige, 5), 0, 0, cX * col, 0); // Линия ➜ 🗘
-                    g.DrawLine(new Pen(Color.Beige, 5), cX * col, 0, cX * col, cY * row); // Линия 🠗
-                    g.DrawLine(new Pen(Color.Beige, 5), cX * col, cY * row, 0, cX * col); // Линия 🠔
-                    g.DrawLine(new Pen(Color.Beige, 5), 0, cY * row, 0, 0); // Линия 🠕
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    g.DrawLine(new Pen(Color.White, 1f), 0, 0, col * cX, row * cY); // Диагональ ⤡
+                    g.DrawLine(new Pen(Color.White, 1f), 0, cY * row, cX * col, 0); // Диагональ ⤢
+                    g.DrawLine(new Pen(Color.Beige, 5f), 0, 0, cX * col, 0); // Линия ➜ 🗘
+                    g.DrawLine(new Pen(Color.Beige, 5f), cX * col, 0, cX * col, cY * row); // Линия 🠗
+                    g.DrawLine(new Pen(Color.Beige, 5f), cX * col, cY * row, 0, cX * col); // Линия 🠔
+                    g.DrawLine(new Pen(Color.Beige, 5f), 0, cY * row, 0, 0); // Линия 🠕
+                    if (DrawCellsFlag)
+                        for (int i = 0; i < 40; i++)
+                        {
+                            g.DrawLine(new Pen(Color.Silver, 1f), i * cX, 0, i * cX, row * cY);
+                            g.DrawLine(new Pen(Color.Silver, 1f), 0, i * cY, col * cX, i * cY);
+                        }
                     this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
-                } );
-
+                });
             } 
         }
         private async void Cleaning_Click(object sender, EventArgs e)
@@ -311,7 +341,7 @@ namespace labRoadEditor
                                 });
                             }
                         }
-                        this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
+                        //this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
                     }
                 }
             }

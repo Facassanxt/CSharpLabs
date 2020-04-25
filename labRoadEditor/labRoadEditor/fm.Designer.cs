@@ -38,6 +38,7 @@
             this.XYPiSample = new System.Windows.Forms.Label();
             this.Cleaning = new System.Windows.Forms.Button();
             this.checkDrawCellsFlag = new System.Windows.Forms.CheckBox();
+            this.laZoom = new System.Windows.Forms.Label();
             this.AllPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
@@ -88,7 +89,8 @@
             // 
             // AllPanel
             // 
-            this.AllPanel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.AllPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
+            this.AllPanel.Controls.Add(this.laZoom);
             this.AllPanel.Controls.Add(this.PiMap);
             this.AllPanel.Location = new System.Drawing.Point(0, 61);
             this.AllPanel.Name = "AllPanel";
@@ -98,9 +100,9 @@
             // PiMap
             // 
             this.PiMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
-            this.PiMap.Location = new System.Drawing.Point(-17, -7);
+            this.PiMap.Location = new System.Drawing.Point(-17, 118);
             this.PiMap.Name = "PiMap";
-            this.PiMap.Size = new System.Drawing.Size(1404, 840);
+            this.PiMap.Size = new System.Drawing.Size(1404, 715);
             this.PiMap.TabIndex = 26;
             this.PiMap.TabStop = false;
             // 
@@ -166,6 +168,18 @@
             this.checkDrawCellsFlag.Text = "Отключить сетку";
             this.checkDrawCellsFlag.UseVisualStyleBackColor = true;
             // 
+            // laZoom
+            // 
+            this.laZoom.AutoSize = true;
+            this.laZoom.BackColor = System.Drawing.Color.Transparent;
+            this.laZoom.Font = new System.Drawing.Font("Unispace", 15.75F, System.Drawing.FontStyle.Bold);
+            this.laZoom.ForeColor = System.Drawing.Color.Black;
+            this.laZoom.Location = new System.Drawing.Point(161, 539);
+            this.laZoom.Name = "laZoom";
+            this.laZoom.Size = new System.Drawing.Size(142, 25);
+            this.laZoom.TabIndex = 33;
+            this.laZoom.Text = "Zoom: 100%";
+            // 
             // fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -186,6 +200,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "labRoadEditor";
             this.AllPanel.ResumeLayout(false);
+            this.AllPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PiMap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiSample)).EndInit();
@@ -205,6 +220,7 @@
         private System.Windows.Forms.Label XYPiSample;
         private System.Windows.Forms.Button Cleaning;
         private System.Windows.Forms.CheckBox checkDrawCellsFlag;
+        private System.Windows.Forms.Label laZoom;
     }
 }
 
