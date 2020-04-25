@@ -20,7 +20,7 @@ namespace labRoadEditor
 {
     public partial class fm : MaterialForm
     {
-        private Bitmap b,bl;
+        private Bitmap b, bl;
         private Point StartPoint;
         private Point CurPoint;
         private int cX;
@@ -52,7 +52,7 @@ namespace labRoadEditor
             PiMap.MouseDown += PiMap_MouseDown;
             PiMap.MouseMove += PiMap_MouseMove;
             PiMap.Paint += PiMap_Paint;
-            Save.Click += Save_Click;
+            Save.Click += async (s,e) => await Task.Run(() => Save_Click());
             Download.Click += async (s, e) =>
             {
                 b = new Bitmap(PiMap.Width, PiMap.Height);
@@ -60,14 +60,14 @@ namespace labRoadEditor
                 await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
                 SaveMap = new int[col, row];
                 await Task.Run(() => Download_Click());//Асинхонный метод (Позволяет сократить время Загрузки и отрисовки + убирает длительное провисание)
+                PiMap.Refresh();
             };
             Resize += Fm_Resize;
             PiSample.MouseDown += PiSample_MouseDown;
             Cleaning.Click += Cleaning_Click;
-            checkDrawCellsFlag.Click += CheckDrawCellsFlag_Click; 
+            checkDrawCellsFlag.Click += CheckDrawCellsFlag_Click;
             StartForm();
         }
-
         private async void CheckDrawCellsFlag_Click(object sender, EventArgs e)
         {
             if (checkDrawCellsFlag.Checked) DrawCellsFlag = false;
@@ -201,25 +201,36 @@ namespace labRoadEditor
             cX = PiMap.Width / col;
             cY = PiMap.Height / row;
         }
-        private void DrawCells()
+        private async void DrawCells()
         {
             using (Graphics g = Graphics.FromImage(bl))
             {
                 g.SmoothingMode = SmoothingMode.HighQuality;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 if (DrawCellsFlag) 
-                    for (int i = 0; i <= row; i++)
+                    for (int i = 0; i <= row; i++) 
+                    {
                         for (int j = 0; j <= col; j++)
                         {
-                            g.DrawLine(new Pen(Color.Silver), 0, i * cY, col * cX, i * cY);
-                            g.DrawLine(new Pen(Color.Silver, 1), j * cX, 0, j * cX, row * cY);
+                            await Task.Run(() =>
+                            {
+                                g.DrawLine(new Pen(Color.Silver), 0, i * cY, col * cX, i * cY);
+                                g.DrawLine(new Pen(Color.Silver, 1), j * cX, 0, j * cX, row * cY);
+                            });
                         }
-                g.DrawLine(new Pen(Color.White, 1), 0, 0, col * cX, row * cY); // Диагональ ⤡
-                g.DrawLine(new Pen(Color.White, 1), 0, cY * row, cX * col, 0); // Диагональ ⤢
-                g.DrawLine(new Pen(Color.Beige, 5), 0, 0, cX * col, 0); // Линия ➜ 🗘
-                g.DrawLine(new Pen(Color.Beige, 5), cX * col, 0, cX * col, cY * row); // Линия 🠗
-                g.DrawLine(new Pen(Color.Beige, 5), cX * col, cY * row, 0, cX * col); // Линия 🠔
-                g.DrawLine(new Pen(Color.Beige, 5), 0, cY * row, 0, 0); // Линия 🠕
+                        if( i % 10 == 0) this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
+                    }
+                await Task.Run(() => 
+                {
+                    g.DrawLine(new Pen(Color.White, 1), 0, 0, col * cX, row * cY); // Диагональ ⤡
+                    g.DrawLine(new Pen(Color.White, 1), 0, cY * row, cX * col, 0); // Диагональ ⤢
+                    g.DrawLine(new Pen(Color.Beige, 5), 0, 0, cX * col, 0); // Линия ➜ 🗘
+                    g.DrawLine(new Pen(Color.Beige, 5), cX * col, 0, cX * col, cY * row); // Линия 🠗
+                    g.DrawLine(new Pen(Color.Beige, 5), cX * col, cY * row, 0, cX * col); // Линия 🠔
+                    g.DrawLine(new Pen(Color.Beige, 5), 0, cY * row, 0, 0); // Линия 🠕
+                    this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
+                } );
+
             } 
         }
         private async void Cleaning_Click(object sender, EventArgs e)
@@ -230,7 +241,7 @@ namespace labRoadEditor
             await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
             PiMap.Refresh();
         }
-        private void Save_Click(object sender, EventArgs e)
+        private void Save_Click()
         {
             String fullPath = Application.StartupPath.ToString();
             try
@@ -294,9 +305,13 @@ namespace labRoadEditor
                                 int num = Int32.Parse(temp[j]);
                                 Image image = Resources.road.Clone(Mapparts[num - 1], PixelFormat.Format32bppArgb);
                                 SaveMap[j, i] = num;
-                                g.DrawImage(image, j * cX, cY * i, cX, cY);
+                                await Task.Run(() => 
+                                {
+                                    g.DrawImage(image, j * cX, cY * i, cX, cY);
+                                });
                             }
                         }
+                        this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
                     }
                 }
             }
