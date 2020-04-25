@@ -32,13 +32,14 @@
             this.Save = new System.Windows.Forms.Button();
             this.LaPreview = new System.Windows.Forms.Label();
             this.AllPanel = new System.Windows.Forms.Panel();
+            this.laZoom = new System.Windows.Forms.Label();
             this.PiMap = new System.Windows.Forms.PictureBox();
             this.PiPreview = new System.Windows.Forms.PictureBox();
             this.PiSample = new System.Windows.Forms.PictureBox();
             this.XYPiSample = new System.Windows.Forms.Label();
             this.Cleaning = new System.Windows.Forms.Button();
             this.checkDrawCellsFlag = new System.Windows.Forms.CheckBox();
-            this.laZoom = new System.Windows.Forms.Label();
+            this.buUnload = new System.Windows.Forms.Button();
             this.AllPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
@@ -80,7 +81,7 @@
             this.LaPreview.AutoSize = true;
             this.LaPreview.BackColor = System.Drawing.Color.Transparent;
             this.LaPreview.Font = new System.Drawing.Font("Unispace", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LaPreview.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.LaPreview.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.LaPreview.Location = new System.Drawing.Point(12, 509);
             this.LaPreview.Name = "LaPreview";
             this.LaPreview.Size = new System.Drawing.Size(116, 25);
@@ -96,6 +97,18 @@
             this.AllPanel.Name = "AllPanel";
             this.AllPanel.Size = new System.Drawing.Size(1355, 796);
             this.AllPanel.TabIndex = 27;
+            // 
+            // laZoom
+            // 
+            this.laZoom.AutoSize = true;
+            this.laZoom.BackColor = System.Drawing.Color.Transparent;
+            this.laZoom.Font = new System.Drawing.Font("Unispace", 15.75F, System.Drawing.FontStyle.Bold);
+            this.laZoom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
+            this.laZoom.Location = new System.Drawing.Point(161, 539);
+            this.laZoom.Name = "laZoom";
+            this.laZoom.Size = new System.Drawing.Size(129, 25);
+            this.laZoom.TabIndex = 33;
+            this.laZoom.Text = "Zoom: 30%";
             // 
             // PiMap
             // 
@@ -136,12 +149,12 @@
             this.XYPiSample.AutoSize = true;
             this.XYPiSample.BackColor = System.Drawing.Color.Transparent;
             this.XYPiSample.Font = new System.Drawing.Font("Unispace", 15.75F, System.Drawing.FontStyle.Bold);
-            this.XYPiSample.ForeColor = System.Drawing.Color.Black;
+            this.XYPiSample.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.XYPiSample.Location = new System.Drawing.Point(161, 625);
             this.XYPiSample.Name = "XYPiSample";
-            this.XYPiSample.Size = new System.Drawing.Size(142, 25);
+            this.XYPiSample.Size = new System.Drawing.Size(129, 25);
             this.XYPiSample.TabIndex = 28;
-            this.XYPiSample.Text = "{ 1  : 1 }";
+            this.XYPiSample.Text = "| x | y |";
             // 
             // Cleaning
             // 
@@ -168,17 +181,19 @@
             this.checkDrawCellsFlag.Text = "Отключить сетку";
             this.checkDrawCellsFlag.UseVisualStyleBackColor = true;
             // 
-            // laZoom
+            // buUnload
             // 
-            this.laZoom.AutoSize = true;
-            this.laZoom.BackColor = System.Drawing.Color.Transparent;
-            this.laZoom.Font = new System.Drawing.Font("Unispace", 15.75F, System.Drawing.FontStyle.Bold);
-            this.laZoom.ForeColor = System.Drawing.Color.Black;
-            this.laZoom.Location = new System.Drawing.Point(161, 539);
-            this.laZoom.Name = "laZoom";
-            this.laZoom.Size = new System.Drawing.Size(142, 25);
-            this.laZoom.TabIndex = 33;
-            this.laZoom.Text = "Zoom: 100%";
+            this.buUnload.AutoSize = true;
+            this.buUnload.BackColor = System.Drawing.Color.Transparent;
+            this.buUnload.FlatAppearance.BorderSize = 0;
+            this.buUnload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buUnload.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buUnload.Location = new System.Drawing.Point(515, 24);
+            this.buUnload.Name = "buUnload";
+            this.buUnload.Size = new System.Drawing.Size(127, 39);
+            this.buUnload.TabIndex = 33;
+            this.buUnload.Text = "Выгрузить";
+            this.buUnload.UseVisualStyleBackColor = false;
             // 
             // fm
             // 
@@ -186,6 +201,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
             this.ClientSize = new System.Drawing.Size(1350, 850);
+            this.Controls.Add(this.buUnload);
             this.Controls.Add(this.checkDrawCellsFlag);
             this.Controls.Add(this.Cleaning);
             this.Controls.Add(this.XYPiSample);
@@ -221,6 +237,7 @@
         private System.Windows.Forms.Button Cleaning;
         private System.Windows.Forms.CheckBox checkDrawCellsFlag;
         private System.Windows.Forms.Label laZoom;
+        private System.Windows.Forms.Button buUnload;
     }
 }
 

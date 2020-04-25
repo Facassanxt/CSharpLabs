@@ -16,12 +16,13 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Diagnostics;
 
 namespace labRoadEditor
 {
     public partial class fm : MaterialForm
     {
-        public int DeltaZoom { get; private set; } = 80;
+        public int DeltaZoom { get; private set; } = 30;
         private Bitmap b, bl;
         private Point StartPoint;
         private Point CurPoint;
@@ -36,6 +37,8 @@ namespace labRoadEditor
         private int mode = 4; //Выбранный элемент
         private int[,] SaveMap;
         private bool DrawCellsFlag = true, RenderFlag = true;
+        ImageList pics;
+        
         public fm()
         {
             InitializeComponent();
@@ -44,12 +47,20 @@ namespace labRoadEditor
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.Blue50, Accent.Lime400, TextShade.WHITE);
 
+            pics = new ImageList();
+            pics.ImageSize = new Size(128, 128);
             Mapparts = new List<Rectangle> { };
             for (int i = 0; i < AmountX; i++)
                 for (int j = 0; j < AmountY; j++)
                 {
                     Mapparts.Add(new Rectangle(i * XYmap, j * XYmap, XYmap, XYmap));
                 }
+            for (int i = 0; i < AmountX * AmountY; i++)
+            {
+                Image image = Resources.road.Clone(Mapparts[i], PixelFormat.Format32bppArgb);
+                pics.Images.Add(image);
+            }
+
 
             PiMap.MouseDown += PiMap_MouseDown;
             PiMap.MouseMove += PiMap_MouseMove;
@@ -57,12 +68,16 @@ namespace labRoadEditor
             Save.Click += async (s,e) => await Task.Run(() => Save_Click());
             Download.Click += async (s, e) =>
             {
-                b = new Bitmap(PiMap.Width, PiMap.Height);
-                bl = new Bitmap(PiMap.Width, PiMap.Height);
-                await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
-                SaveMap = new int[col, row];
-                await Task.Run(() => Download_Click());//Асинхонный метод (Позволяет сократить время Загрузки и отрисовки + убирает длительное провисание)
+                b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
+                bl = new Bitmap(PiMap.Width*2, PiMap.Height*2);
+                await Task.Run(() => DrawCells());
+                Array.Clear(SaveMap, 0, SaveMap.Length);
+                Download_Click();
                 PiMap.Refresh();
+            };
+            buUnload.Click += (s, e) =>
+            {
+//
             };
             Resize += Fm_Resize;
             PiSample.MouseDown += PiSample_MouseDown;
@@ -74,7 +89,7 @@ namespace labRoadEditor
 
         private async void PiMap_MouseWheel(object sender, MouseEventArgs e)
         {
-            int zoom = e.Delta > 0 ? 2 : -2;
+            int zoom = e.Delta > 0 ? 5 : -5;
             DeltaZoom += zoom;
             if (DeltaZoom < 0)
             {
@@ -86,14 +101,34 @@ namespace labRoadEditor
                 DeltaZoom = 100;
                 return;
             }
-            else if(RenderFlag)
+            else if (RenderFlag)
             {
-                bl = new Bitmap(4000, 4000);
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                bl = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
+                laZoom.Text = $"Zoom: {DeltaZoom}%";
                 cX += zoom;
                 cY += zoom;
-                DrawCells();
+                b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
                 PiMap.Refresh();
-                laZoom.Text = $"Zoom: {DeltaZoom} {cX} {cY}%";
+                DrawCells();
+                using (Graphics g = Graphics.FromImage(b))
+                {
+                    for (int i = 0; i < col; i++)
+                        for (int j = 0; j < row; j++)
+                        {
+                            int num = SaveMap[j, i];
+                            if (num != -1 && num != 0)
+                            {
+                                await Task.Run(() =>
+                                {
+                                    GC.Collect();
+                                    g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
+                                });
+                            }
+                        }
+                }
+                PiMap.Refresh();
             }
         }
 
@@ -101,7 +136,7 @@ namespace labRoadEditor
         {
             if (checkDrawCellsFlag.Checked) DrawCellsFlag = false;
             else DrawCellsFlag = true;
-            bl = new Bitmap(PiMap.Width, PiMap.Height);
+            bl = new Bitmap(PiMap.Width*2, PiMap.Height*2);
             await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
             PiMap.Refresh();
         }
@@ -110,11 +145,11 @@ namespace labRoadEditor
         {
             this.Height = 1080;
             this.Width = 1920;
-            PiMap.Height = 4000;
-            PiMap.Width = 4000;
+            PiMap.Height = 2000;
+            PiMap.Width = 2000;
 
-            b = new Bitmap(PiMap.Width, PiMap.Height);
-            bl = new Bitmap(PiMap.Width, PiMap.Height);
+            b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
+            bl = new Bitmap(PiMap.Width*2, PiMap.Height*2);
             ResizeCells();
             await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
 
@@ -171,7 +206,7 @@ namespace labRoadEditor
                             Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
                             g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
                             SaveMap[EndPointX, EndPointY] = mode + 1;
-                            LaPreview.Text = $"Preview: {EndPointX} {EndPointY}";
+                            XYPiSample.Text = $"| {EndPointX} | {EndPointY} |";
                             PiMap.Refresh();
                         }
                     }
@@ -198,6 +233,7 @@ namespace labRoadEditor
                         Image image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
                         g.DrawImage(image, EndPointX * cX, cY * EndPointY, cX, cY);
                         SaveMap[EndPointX, EndPointY] = mode + 1;
+                        XYPiSample.Text = $"| {EndPointX} | {EndPointY} |";
                     }
                     PiMap.Refresh();
                 }
@@ -218,7 +254,7 @@ namespace labRoadEditor
                     {
                         PiPreview.Image = Resources.road.Clone(Mapparts[Count], PixelFormat.Format32bppArgb);
                         mode = Count;
-                        XYPiSample.Text = $"{{ {x} : {y} }}";
+                        LaPreview.Text = $"Preview: {x}|{y}";
                         return;
                     }
                     else Count++;
@@ -237,37 +273,34 @@ namespace labRoadEditor
             cX = PiMap.Width / col;
             cY = PiMap.Height / row;
         }
-        private async void DrawCells()
+        private void DrawCells()
         {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
             using (Graphics g = Graphics.FromImage(bl))
             {
-                await Task.Run(() => 
-                {
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    g.DrawLine(new Pen(Color.White, 1f), 0, 0, col * cX, row * cY); // Диагональ ⤡
-                    g.DrawLine(new Pen(Color.White, 1f), 0, cY * row, cX * col, 0); // Диагональ ⤢
-                    g.DrawLine(new Pen(Color.Beige, 5f), 0, 0, cX * col, 0); // Линия ➜ 🗘
-                    g.DrawLine(new Pen(Color.Beige, 5f), cX * col, 0, cX * col, cY * row); // Линия 🠗
-                    g.DrawLine(new Pen(Color.Beige, 5f), cX * col, cY * row, 0, cX * col); // Линия 🠔
-                    g.DrawLine(new Pen(Color.Beige, 5f), 0, cY * row, 0, 0); // Линия 🠕
-                    if (DrawCellsFlag)
-                        for (int i = 0; i < 40; i++)
-                        {
-                            g.DrawLine(new Pen(Color.Silver, 1f), i * cX, 0, i * cX, row * cY);
-                            g.DrawLine(new Pen(Color.Silver, 1f), 0, i * cY, col * cX, i * cY);
-                        }
-                    this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
-                });
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                g.DrawLine(new Pen(Color.White, 1f), 0, 0, col * cX, row * cY); // Диагональ ⤡
+                g.DrawLine(new Pen(Color.White, 1f), 0, cY * row, cX * col, 0); // Диагональ ⤢
+                g.DrawLine(new Pen(Color.Beige, 5f), 0, 0, cX * col, 0); // Линия ➜ 🗘
+                g.DrawLine(new Pen(Color.Beige, 5f), cX * col, 0, cX * col, cY * row); // Линия 🠗
+                g.DrawLine(new Pen(Color.Beige, 5f), cX * col, cY * row, 0, cX * col); // Линия 🠔
+                g.DrawLine(new Pen(Color.Beige, 5f), 0, cY * row, 0, 0); // Линия 🠕
+                if (DrawCellsFlag)
+                    for (int i = 0; i < 40; i++)
+                    {
+                        g.DrawLine(new Pen(Color.Silver, 1f), i * cX, 0, i * cX, row * cY);
+                        g.DrawLine(new Pen(Color.Silver, 1f), 0, i * cY, col * cX, i * cY);
+                    }
+                this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
             } 
         }
         private async void Cleaning_Click(object sender, EventArgs e)
         {
-            b = new Bitmap(PiMap.Width, PiMap.Height);
-            bl = new Bitmap(PiMap.Width, PiMap.Height);
-            SaveMap = new int[col, row];
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            b = new Bitmap(PiMap.Width * 2, PiMap.Height*2);
+            bl = new Bitmap(PiMap.Width * 2, PiMap.Height*2);
+            Array.Clear(SaveMap, 0, SaveMap.Length);
             await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
             PiMap.Refresh();
         }
@@ -285,7 +318,7 @@ namespace labRoadEditor
                 {
                     for (int j = 0; j < row; j++)
                     {
-                        if (SaveMap[j, i] == 0)
+                        if (SaveMap[j, i] == 0 || SaveMap[j, i] == -1)
                         {
                             strwrt.Write("*|");
                         }
@@ -333,23 +366,24 @@ namespace labRoadEditor
                             if (temp[j] != "*")
                             {
                                 int num = Int32.Parse(temp[j]);
-                                Image image = Resources.road.Clone(Mapparts[num - 1], PixelFormat.Format32bppArgb);
-                                SaveMap[j, i] = num;
-                                await Task.Run(() => 
+                                await Task.Run(() =>
                                 {
-                                    g.DrawImage(image, j * cX, cY * i, cX, cY);
+                                    g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
+                                    SaveMap[j, i] = num;
                                 });
                             }
+                            else SaveMap[j, i] = -1;
                         }
-                        //this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
                     }
                 }
+                this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
             }
             catch
             {
                 DialogResult rezult = MessageBox.Show("Непредвиденная ошибка",
                 "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
         }
     }
 }
