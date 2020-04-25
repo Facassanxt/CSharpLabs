@@ -23,7 +23,7 @@ namespace labRoadEditor
     public partial class fm : MaterialForm
     {
         public int DeltaZoom { get; private set; } = 30;
-        private Bitmap b, bl;
+        private Bitmap b,bl;
         private Point StartPoint;
         private Point CurPoint;
         private int cX;
@@ -48,7 +48,7 @@ namespace labRoadEditor
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.Blue50, Accent.Lime400, TextShade.WHITE);
 
             pics = new ImageList();
-            pics.ImageSize = new Size(128, 128);
+            pics.ImageSize = new Size(256, 256);
             Mapparts = new List<Rectangle> { };
             for (int i = 0; i < AmountX; i++)
                 for (int j = 0; j < AmountY; j++)
@@ -69,7 +69,7 @@ namespace labRoadEditor
             Download.Click += async (s, e) =>
             {
                 b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
-                bl = new Bitmap(PiMap.Width*2, PiMap.Height*2);
+                bl = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
                 await Task.Run(() => DrawCells());
                 Array.Clear(SaveMap, 0, SaveMap.Length);
                 Download_Click();
@@ -87,7 +87,7 @@ namespace labRoadEditor
             StartForm();
         }
 
-        private async void PiMap_MouseWheel(object sender, MouseEventArgs e)
+        private void PiMap_MouseWheel(object sender, MouseEventArgs e)
         {
             int zoom = e.Delta > 0 ? 5 : -5;
             DeltaZoom += zoom;
@@ -112,6 +112,8 @@ namespace labRoadEditor
                 b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
                 PiMap.Refresh();
                 DrawCells();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
                 using (Graphics g = Graphics.FromImage(b))
                 {
                     for (int i = 0; i < col; i++)
@@ -120,11 +122,7 @@ namespace labRoadEditor
                             int num = SaveMap[j, i];
                             if (num != -1 && num != 0)
                             {
-                                await Task.Run(() =>
-                                {
-                                    GC.Collect();
-                                    g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
-                                });
+                                g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
                             }
                         }
                 }
@@ -136,7 +134,7 @@ namespace labRoadEditor
         {
             if (checkDrawCellsFlag.Checked) DrawCellsFlag = false;
             else DrawCellsFlag = true;
-            bl = new Bitmap(PiMap.Width*2, PiMap.Height*2);
+            bl = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
             await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
             PiMap.Refresh();
         }
@@ -149,7 +147,7 @@ namespace labRoadEditor
             PiMap.Width = 2000;
 
             b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
-            bl = new Bitmap(PiMap.Width*2, PiMap.Height*2);
+            bl = new Bitmap(PiMap.Width, PiMap.Height);
             ResizeCells();
             await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
 
@@ -274,7 +272,7 @@ namespace labRoadEditor
             cY = PiMap.Height / row;
         }
         private void DrawCells()
-        {
+        {   
             using (Graphics g = Graphics.FromImage(bl))
             {
                 g.SmoothingMode = SmoothingMode.HighQuality;
@@ -299,7 +297,7 @@ namespace labRoadEditor
             GC.Collect();
             GC.WaitForPendingFinalizers();
             b = new Bitmap(PiMap.Width * 2, PiMap.Height*2);
-            bl = new Bitmap(PiMap.Width * 2, PiMap.Height*2);
+            bl = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
             Array.Clear(SaveMap, 0, SaveMap.Length);
             await Task.Run(() => DrawCells()); //Асинхонный метод (Позволяет сократить время отрисовки + убирает длительное провисание)
             PiMap.Refresh();
