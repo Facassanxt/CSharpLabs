@@ -43,11 +43,15 @@
             this.Gridsize = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.buOk = new System.Windows.Forms.Button();
+            this.DownloadPanel = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.buX = new System.Windows.Forms.Button();
             this.AllPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiSample)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gridsize)).BeginInit();
+            this.DownloadPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // Download
@@ -57,6 +61,7 @@
             this.Download.FlatAppearance.BorderSize = 0;
             this.Download.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Download.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Download.ForeColor = System.Drawing.Color.Coral;
             this.Download.Location = new System.Drawing.Point(261, 24);
             this.Download.Name = "Download";
             this.Download.Size = new System.Drawing.Size(121, 39);
@@ -95,6 +100,7 @@
             // AllPanel
             // 
             this.AllPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
+            this.AllPanel.Controls.Add(this.DownloadPanel);
             this.AllPanel.Controls.Add(this.laZoom);
             this.AllPanel.Controls.Add(this.PiMap);
             this.AllPanel.Location = new System.Drawing.Point(0, 61);
@@ -247,6 +253,42 @@
             this.buOk.Text = "✔";
             this.buOk.UseVisualStyleBackColor = false;
             // 
+            // DownloadPanel
+            // 
+            this.DownloadPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.DownloadPanel.Controls.Add(this.buX);
+            this.DownloadPanel.Controls.Add(this.label2);
+            this.DownloadPanel.Location = new System.Drawing.Point(367, 168);
+            this.DownloadPanel.Name = "DownloadPanel";
+            this.DownloadPanel.Size = new System.Drawing.Size(300, 450);
+            this.DownloadPanel.TabIndex = 34;
+            this.DownloadPanel.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Comic Sans MS", 25F);
+            this.label2.Location = new System.Drawing.Point(-8, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(264, 89);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Download Panel";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // buX
+            // 
+            this.buX.AutoSize = true;
+            this.buX.BackColor = System.Drawing.Color.Transparent;
+            this.buX.FlatAppearance.BorderSize = 0;
+            this.buX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buX.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buX.ForeColor = System.Drawing.Color.Coral;
+            this.buX.Location = new System.Drawing.Point(262, -9);
+            this.buX.Name = "buX";
+            this.buX.Size = new System.Drawing.Size(52, 39);
+            this.buX.TabIndex = 37;
+            this.buX.Text = "✖";
+            this.buX.UseVisualStyleBackColor = false;
+            // 
             // fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -276,6 +318,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiSample)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gridsize)).EndInit();
+            this.DownloadPanel.ResumeLayout(false);
+            this.DownloadPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,6 +341,9 @@
         private System.Windows.Forms.NumericUpDown Gridsize;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buOk;
+        private System.Windows.Forms.Panel DownloadPanel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button buX;
     }
 }
 

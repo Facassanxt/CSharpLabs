@@ -70,12 +70,8 @@ namespace labRoadEditor
             PiMap.MouseMove += PiMap_MouseMove;
             PiMap.Paint += PiMap_Paint;
             Save.Click += async (s,e) => await Task.Run(() => Save_Click());
-            Download.Click += async (s, e) =>
+            Download.Click +=  (s, e) =>
             {
-                b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
-                bl = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
-                await Task.Run(() => DrawCells());
-                Array.Clear(SaveMap, 0, SaveMap.Length);
                 Download_Click();
                 PiMap.Refresh();
             };
@@ -98,6 +94,19 @@ namespace labRoadEditor
                     _REND.Start();
                 }
                 PiMap.Refresh();
+            };
+            buX.Click += (s, e) => 
+            {
+                PiMap.Enabled = true;
+                Save.Enabled = true;
+                Download.Enabled = true;
+                Cleaning.Enabled = true;
+                buFillin.Enabled = true;
+                buOk.Enabled = true;
+                Gridsize.Enabled = true;
+                label1.Enabled = true;
+                checkDrawCellsFlag.Enabled = true;
+                DownloadPanel.Visible = false;
             };
             Resize += Fm_Resize;
             PiSample.MouseDown += PiSample_MouseDown;
@@ -152,19 +161,27 @@ namespace labRoadEditor
 
         private void REND()
         {
-            using (Graphics g = Graphics.FromImage(b))
+            try
             {
-                for (int i = 0; i < col; i++) 
+                using (Graphics g = Graphics.FromImage(b))
                 {
-                    for (int j = 0; j < row; j++)
+                    for (int i = 0; i < col; i++)
                     {
-                        SaveMap[j, i] = mode + 1;
-                        g.DrawImage(pics.Images[mode], j * cX, cY * i, cX, cY);
+                        for (int j = 0; j < row; j++)
+                        {
+                            SaveMap[j, i] = mode + 1;
+                            g.DrawImage(pics.Images[mode], j * cX, cY * i, cX, cY);
+                        }
+                        this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
                     }
-                    this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
                 }
+                _REND.Abort();
             }
-            _REND.Abort();
+            catch (Exception)
+            {
+                //
+            }
+
         }
 
         private void PiMap_MouseWheel(object sender, MouseEventArgs e)
@@ -251,6 +268,8 @@ namespace labRoadEditor
             laZoom.Parent = PiMap;
             laZoom.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height - laZoom.Height);
             PiPreview.Image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
+
+            DownloadPanel.Location = new Point(Width/2 - DownloadPanel.Width/2, Height/2 - DownloadPanel.Height / 2);
             SaveMap = new int[col, row];
             for (int i = 0; i < col; i++)
                 for (int j = 0; j < row; j++)
@@ -426,7 +445,28 @@ namespace labRoadEditor
                 "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private async void Download_Click()
+        private void Download_Click() 
+        {
+            //b = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
+            //bl = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
+            //await Task.Run(() => DrawCells());
+            //Array.Clear(SaveMap, 0, SaveMap.Length);
+            PiMap.Enabled = false;
+            Save.Enabled = false;
+            Download.Enabled = false;
+            Cleaning.Enabled = false;
+            buFillin.Enabled = false;
+            buOk.Enabled = false;
+            Gridsize.Enabled = false;
+            label1.Enabled = false;
+            checkDrawCellsFlag.Enabled = false;
+
+
+            buX.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            buX.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            DownloadPanel.Visible = true;
+        }
+        private async void Download_File_Click()
         {
             String fullPath = Application.StartupPath.ToString();
             try
