@@ -104,26 +104,50 @@ namespace labRoadEditor
             Cleaning.Click += Cleaning_Click;
             checkDrawCellsFlag.Click += CheckDrawCellsFlag_Click;
             PiMap.MouseWheel += PiMap_MouseWheel;
+            buOk.Click += BuOk_Click;
             StartForm();
         }
+
+        private void BuOk_Click(object sender, EventArgs e)
+        {
+            int Size = (int)Gridsize.Value;
+            if (Size > 80) DeltaZoom = 10;
+            else if (Size > 50) DeltaZoom = 15;
+            else if (Size > 30) DeltaZoom = 30;
+            else if (Size > 20) DeltaZoom = 45;
+            else if (Size > 10) DeltaZoom = 60;
+            else if (Size > 0) DeltaZoom = 100;
+            laZoom.Text = $"Zoom: {DeltaZoom}%";
+            col = Size;
+            row = Size;
+            StartForm();
+        }
+
         private void REND_Zoom()
         {
-            using (Graphics g = Graphics.FromImage(b))
+            try
             {
-                for (int i = 0; i < col; i++)
+                using (Graphics g = Graphics.FromImage(b))
                 {
-                    for (int j = 0; j < row; j++)
+                    for (int i = 0; i < col; i++)
                     {
-                        int num = SaveMap[j, i];
-                        if (num != -1 && num != 0)
+                        for (int j = 0; j < row; j++)
                         {
-                            g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
+                            int num = SaveMap[j, i];
+                            if (num != -1 && num != 0)
+                            {
+                                g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
+                            }
                         }
+                        this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
                     }
-                    this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
                 }
+                _REND_Zoom.Abort();
             }
-            _REND_Zoom.Abort();
+            catch (Exception)
+            {
+                //
+            }
         }
 
         private void REND()
@@ -147,6 +171,12 @@ namespace labRoadEditor
         {
             int zoom = e.Delta > 0 ? 5 : -5;
             DeltaZoom += zoom;
+            if (row > 8 || col > 8) zoom = zoom + zoom / 2;
+            else if (row >= 5) zoom = -PiMap.Height / 30 / 6;
+            else if (row == 4) zoom = -PiMap.Height / 30 / 4;
+            else if (row == 3) zoom = -PiMap.Height / 30 / 3;
+            else if (row == 2) zoom = -PiMap.Height / 30 / 2;
+            else if (row ==  1) zoom = -PiMap.Height / 30;
             if (DeltaZoom < 0)
             {
                 DeltaZoom = 0;
@@ -414,6 +444,8 @@ namespace labRoadEditor
                     return;
                 }
                 string[] lines = File.ReadAllLines($"{ fullPath }\\cfg\\MapRoad.txt");
+                //int col = lines.Length; // Сетка 
+                //int row = lines.Length; // Сетка 
                 using (Graphics g = Graphics.FromImage(b))
                 {
                     for (int i = 0; i < lines.Length; i++)

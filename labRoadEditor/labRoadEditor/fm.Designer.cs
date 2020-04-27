@@ -40,10 +40,14 @@
             this.Cleaning = new System.Windows.Forms.Button();
             this.checkDrawCellsFlag = new System.Windows.Forms.CheckBox();
             this.buFillin = new System.Windows.Forms.Button();
+            this.Gridsize = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buOk = new System.Windows.Forms.Button();
             this.AllPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiSample)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Gridsize)).BeginInit();
             this.SuspendLayout();
             // 
             // Download
@@ -195,12 +199,63 @@
             this.buFillin.Text = "Заполнить";
             this.buFillin.UseVisualStyleBackColor = false;
             // 
+            // Gridsize
+            // 
+            this.Gridsize.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Gridsize.CausesValidation = false;
+            this.Gridsize.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
+            this.Gridsize.ForeColor = System.Drawing.Color.Coral;
+            this.Gridsize.Location = new System.Drawing.Point(807, 30);
+            this.Gridsize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Gridsize.Name = "Gridsize";
+            this.Gridsize.Size = new System.Drawing.Size(62, 33);
+            this.Gridsize.TabIndex = 35;
+            this.Gridsize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Gridsize.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
+            this.label1.Location = new System.Drawing.Point(653, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(148, 29);
+            this.label1.TabIndex = 34;
+            this.label1.Text = "Размер сетки:";
+            // 
+            // buOk
+            // 
+            this.buOk.AutoSize = true;
+            this.buOk.BackColor = System.Drawing.Color.Transparent;
+            this.buOk.FlatAppearance.BorderSize = 0;
+            this.buOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buOk.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buOk.ForeColor = System.Drawing.Color.Coral;
+            this.buOk.Location = new System.Drawing.Point(875, 24);
+            this.buOk.Name = "buOk";
+            this.buOk.Size = new System.Drawing.Size(52, 39);
+            this.buOk.TabIndex = 36;
+            this.buOk.Text = "✔";
+            this.buOk.UseVisualStyleBackColor = false;
+            // 
             // fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
             this.ClientSize = new System.Drawing.Size(1350, 850);
+            this.Controls.Add(this.buOk);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.Gridsize);
             this.Controls.Add(this.buFillin);
             this.Controls.Add(this.checkDrawCellsFlag);
             this.Controls.Add(this.Cleaning);
@@ -208,9 +263,9 @@
             this.Controls.Add(this.LaPreview);
             this.Controls.Add(this.PiPreview);
             this.Controls.Add(this.PiSample);
-            this.Controls.Add(this.AllPanel);
             this.Controls.Add(this.Download);
             this.Controls.Add(this.Save);
+            this.Controls.Add(this.AllPanel);
             this.ForeColor = System.Drawing.Color.Coral;
             this.Name = "fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -220,6 +275,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PiMap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiSample)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Gridsize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -238,6 +294,9 @@
         private System.Windows.Forms.CheckBox checkDrawCellsFlag;
         private System.Windows.Forms.Label laZoom;
         private System.Windows.Forms.Button buFillin;
+        private System.Windows.Forms.NumericUpDown Gridsize;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buOk;
     }
 }
 
