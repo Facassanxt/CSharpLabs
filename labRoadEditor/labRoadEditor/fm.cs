@@ -30,7 +30,7 @@ namespace labRoadEditor
         private int cY;
         private int col = 40; // Сетка 
         private int row = 40; // Сетка 
-        private int XYmap = 32 * 8; // Размер блока 32px * 8 (Один элмемент)
+        private int XYmap = 16 * 8; // Размер блока 16px * 8 (Один элмемент)
         private int AmountX = 4; // Блоков по ширине
         private int AmountY = 3; // Блоков в высоту
         private List<Rectangle> Mapparts;
@@ -38,17 +38,21 @@ namespace labRoadEditor
         private int[,] SaveMap;
         private bool DrawCellsFlag = true, RenderFlag = true;
         ImageList pics;
-        
+        Thread _REND;
+        Thread _REND_Zoom;
+
         public fm()
         {
             InitializeComponent();
+
+            _REND_Zoom = new Thread(REND_Zoom);
             var skinManager = MaterialSkinManager.Instance;
             skinManager.AddFormToManage(this);
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.Blue50, Accent.Lime400, TextShade.WHITE);
 
             pics = new ImageList();
-            pics.ImageSize = new Size(256, 256);
+            pics.ImageSize = new Size(128, 128);
             Mapparts = new List<Rectangle> { };
             for (int i = 0; i < AmountX; i++)
                 for (int j = 0; j < AmountY; j++)
@@ -75,9 +79,25 @@ namespace labRoadEditor
                 Download_Click();
                 PiMap.Refresh();
             };
-            buUnload.Click += (s, e) =>
+            buFillin.Click += (s, e) =>
             {
-//
+                //myThread.Abort();
+                b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
+                PiMap.Refresh();
+                DrawCells();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                _REND = new Thread(REND);
+                try
+                {
+                    _REND.Start();
+                }
+                catch (Exception)
+                {
+                    _REND.Abort();
+                    _REND.Start();
+                }
+                PiMap.Refresh();
             };
             Resize += Fm_Resize;
             PiSample.MouseDown += PiSample_MouseDown;
@@ -85,6 +105,42 @@ namespace labRoadEditor
             checkDrawCellsFlag.Click += CheckDrawCellsFlag_Click;
             PiMap.MouseWheel += PiMap_MouseWheel;
             StartForm();
+        }
+        private void REND_Zoom()
+        {
+            using (Graphics g = Graphics.FromImage(b))
+            {
+                for (int i = 0; i < col; i++)
+                {
+                    for (int j = 0; j < row; j++)
+                    {
+                        int num = SaveMap[j, i];
+                        if (num != -1 && num != 0)
+                        {
+                            g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
+                        }
+                    }
+                    this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
+                }
+            }
+            _REND_Zoom.Abort();
+        }
+
+        private void REND()
+        {
+            using (Graphics g = Graphics.FromImage(b))
+            {
+                for (int i = 0; i < col; i++) 
+                {
+                    for (int j = 0; j < row; j++)
+                    {
+                        SaveMap[j, i] = mode + 1;
+                        g.DrawImage(pics.Images[mode], j * cX, cY * i, cX, cY);
+                    }
+                    this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
+                }
+            }
+            _REND.Abort();
         }
 
         private void PiMap_MouseWheel(object sender, MouseEventArgs e)
@@ -114,19 +170,16 @@ namespace labRoadEditor
                 DrawCells();
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                using (Graphics g = Graphics.FromImage(b))
+                try
                 {
-                    for (int i = 0; i < col; i++)
-                        for (int j = 0; j < row; j++)
-                        {
-                            int num = SaveMap[j, i];
-                            if (num != -1 && num != 0)
-                            {
-                                g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
-                            }
-                        }
+                    _REND_Zoom.Start();
                 }
-                PiMap.Refresh();
+                catch (Exception)
+                {
+                    _REND_Zoom.Abort();
+                    _REND_Zoom = new Thread(REND_Zoom);
+                    _REND_Zoom.Start();
+                }
             }
         }
 
@@ -169,6 +222,11 @@ namespace labRoadEditor
             laZoom.Location = new Point(10 + PiPreview.Width + 10, AllPanel.Height - 10 - PiSample.Height - XYPiSample.Height - laZoom.Height);
             PiPreview.Image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
             SaveMap = new int[col, row];
+            for (int i = 0; i < col; i++)
+                for (int j = 0; j < row; j++)
+                {
+                    SaveMap[j, i] = -1;
+                }
 
             PiMap.Refresh();
         }
@@ -275,20 +333,22 @@ namespace labRoadEditor
         {   
             using (Graphics g = Graphics.FromImage(bl))
             {
-                g.SmoothingMode = SmoothingMode.HighQuality;
-                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                g.DrawLine(new Pen(Color.White, 1f), 0, 0, col * cX, row * cY); // Диагональ ⤡
-                g.DrawLine(new Pen(Color.White, 1f), 0, cY * row, cX * col, 0); // Диагональ ⤢
-                g.DrawLine(new Pen(Color.Beige, 5f), 0, 0, cX * col, 0); // Линия ➜ 🗘
-                g.DrawLine(new Pen(Color.Beige, 5f), cX * col, 0, cX * col, cY * row); // Линия 🠗
-                g.DrawLine(new Pen(Color.Beige, 5f), cX * col, cY * row, 0, cX * col); // Линия 🠔
-                g.DrawLine(new Pen(Color.Beige, 5f), 0, cY * row, 0, 0); // Линия 🠕
+                g.DrawLine(new Pen(Color.White, 1), 0, 0, col * cX, row * cY); // Диагональ ⤡
+                g.DrawLine(new Pen(Color.White, 1), 0, cY * row, cX * col, 0); // Диагональ ⤢
+                g.DrawLine(new Pen(Color.Beige, 5), 0, 0, cX * col, 0); // Линия ➜ 🗘
+                g.DrawLine(new Pen(Color.Beige, 5), cX * col, 0, cX * col, cY * row); // Линия 🠗
+                g.DrawLine(new Pen(Color.Beige, 5), cX * col, cY * row, 0, cX * col); // Линия 🠔
+                g.DrawLine(new Pen(Color.Beige, 5), 0, cY * row, 0, 0); // Линия 🠕
                 if (DrawCellsFlag)
-                    for (int i = 0; i < 40; i++)
+                    for (int i = 0; i < col; i++) 
                     {
-                        g.DrawLine(new Pen(Color.Silver, 1f), i * cX, 0, i * cX, row * cY);
-                        g.DrawLine(new Pen(Color.Silver, 1f), 0, i * cY, col * cX, i * cY);
+                        g.DrawLine(new Pen(Color.Silver, 1), i * cX, 0, i * cX, row * cY);
+                        for (int j = 0; j < row; j++)
+                        {
+                            g.DrawLine(new Pen(Color.Silver, 1), 0, j * cY, col * cX, j * cY);
+                        }
                     }
+
                 this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
             } 
         }

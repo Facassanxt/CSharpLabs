@@ -39,7 +39,7 @@
             this.XYPiSample = new System.Windows.Forms.Label();
             this.Cleaning = new System.Windows.Forms.Button();
             this.checkDrawCellsFlag = new System.Windows.Forms.CheckBox();
-            this.buUnload = new System.Windows.Forms.Button();
+            this.buFillin = new System.Windows.Forms.Button();
             this.AllPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
@@ -181,19 +181,19 @@
             this.checkDrawCellsFlag.Text = "Отключить сетку";
             this.checkDrawCellsFlag.UseVisualStyleBackColor = true;
             // 
-            // buUnload
+            // buFillin
             // 
-            this.buUnload.AutoSize = true;
-            this.buUnload.BackColor = System.Drawing.Color.Transparent;
-            this.buUnload.FlatAppearance.BorderSize = 0;
-            this.buUnload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buUnload.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buUnload.Location = new System.Drawing.Point(515, 24);
-            this.buUnload.Name = "buUnload";
-            this.buUnload.Size = new System.Drawing.Size(127, 39);
-            this.buUnload.TabIndex = 33;
-            this.buUnload.Text = "Выгрузить";
-            this.buUnload.UseVisualStyleBackColor = false;
+            this.buFillin.AutoSize = true;
+            this.buFillin.BackColor = System.Drawing.Color.Transparent;
+            this.buFillin.FlatAppearance.BorderSize = 0;
+            this.buFillin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buFillin.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buFillin.Location = new System.Drawing.Point(515, 24);
+            this.buFillin.Name = "buFillin";
+            this.buFillin.Size = new System.Drawing.Size(132, 39);
+            this.buFillin.TabIndex = 33;
+            this.buFillin.Text = "Заполнить";
+            this.buFillin.UseVisualStyleBackColor = false;
             // 
             // fm
             // 
@@ -201,7 +201,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(142)))), ((int)(((byte)(123)))));
             this.ClientSize = new System.Drawing.Size(1350, 850);
-            this.Controls.Add(this.buUnload);
+            this.Controls.Add(this.buFillin);
             this.Controls.Add(this.checkDrawCellsFlag);
             this.Controls.Add(this.Cleaning);
             this.Controls.Add(this.XYPiSample);
@@ -237,7 +237,7 @@
         private System.Windows.Forms.Button Cleaning;
         private System.Windows.Forms.CheckBox checkDrawCellsFlag;
         private System.Windows.Forms.Label laZoom;
-        private System.Windows.Forms.Button buUnload;
+        private System.Windows.Forms.Button buFillin;
     }
 }
 
