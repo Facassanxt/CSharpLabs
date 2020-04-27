@@ -52,7 +52,6 @@ namespace GoogleForm
         {
             Random rnd = new Random();
             String temp = FinalURL;
-            Console.WriteLine($"{ form.Count}");
             for (int i = 0; i < form.Count; i++)
             {
                 int CountRandom = form[i].Count;
