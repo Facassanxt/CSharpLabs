@@ -444,8 +444,19 @@ namespace labRoadEditor
                     return;
                 }
                 string[] lines = File.ReadAllLines($"{ fullPath }\\cfg\\MapRoad.txt");
-                //int col = lines.Length; // Сетка 
-                //int row = lines.Length; // Сетка 
+                if ((int)Gridsize.Value <= 2)
+                {
+                    DialogResult rezult = MessageBox.Show("Размер слишком мал, Увеличьте сетку",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                else if ((int)Gridsize.Value < lines.Length)
+                {
+                    col = lines.Length; // Сетка 
+                    row = lines.Length; // Сетка 
+                    StartForm();
+                    Gridsize.Value = lines.Length;
+                }
                 using (Graphics g = Graphics.FromImage(b))
                 {
                     for (int i = 0; i < lines.Length; i++)
