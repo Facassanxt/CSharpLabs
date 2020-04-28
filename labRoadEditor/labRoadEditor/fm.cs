@@ -99,6 +99,9 @@ namespace labRoadEditor
             };
             buX.Click += (s, e) => 
             {
+                DownloadPanel.Visible = false;
+                laDownload.Visible = false;
+                buX.Visible = false;
                 PiMap.Enabled = true;
                 Save.Enabled = true;
                 Download.Enabled = true;
@@ -108,7 +111,6 @@ namespace labRoadEditor
                 Gridsize.Enabled = true;
                 label1.Enabled = true;
                 checkDrawCellsFlag.Enabled = true;
-                DownloadPanel.Visible = false;
             };
             Resize += Fm_Resize;
             PiSample.MouseDown += PiSample_MouseDown;
@@ -232,6 +234,8 @@ namespace labRoadEditor
 
         private async void CheckDrawCellsFlag_Click(object sender, EventArgs e)
         {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             if (checkDrawCellsFlag.Checked) DrawCellsFlag = false;
             else DrawCellsFlag = true;
             bl = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
@@ -270,6 +274,8 @@ namespace labRoadEditor
             PiPreview.Image = Resources.road.Clone(Mapparts[mode], PixelFormat.Format32bppArgb);
 
             DownloadPanel.Location = new Point(Width/2 - DownloadPanel.Width/2, Height/2 - DownloadPanel.Height / 2);
+            laDownload.Location = new Point(DownloadPanel.Location.X - 5, DownloadPanel.Location.Y - laDownload.Height);
+            buX.Location = new Point(DownloadPanel.Location.X + laDownload.Width - 5, DownloadPanel.Location.Y - buX.Height);
             SaveMap = new int[col, row];
             for (int i = 0; i < col; i++)
                 for (int j = 0; j < row; j++)
@@ -459,6 +465,9 @@ namespace labRoadEditor
             buX.FlatAppearance.MouseOverBackColor = Color.Transparent;
             buX.FlatAppearance.MouseDownBackColor = Color.Transparent;
             DownloadPanel.Visible = true;
+            laDownload.Visible = true;
+            buX.Visible = true;
+
 
             DownloadPanel.HorizontalScroll.Maximum = 0;
             DownloadPanel.AutoScroll = false;
@@ -480,8 +489,8 @@ namespace labRoadEditor
                     string NameMapFile = Path.GetFileNameWithoutExtension(file.FullName);
                     Button btn = new Button();
                     btn.Parent = DownloadPanel;
-                    btn.Size = new Size(DownloadPanel.Width, 50);
-                    btn.Location = new Point(0, label2.Height + Count * btn.Height);
+                    btn.Size = new Size(DownloadPanel.Width - 20, 50);
+                    btn.Location = new Point(0, Count * btn.Height);
                     btn.Text = NameMapFile;
                     btn.ForeColor = Color.Coral;
                     btn.Font = new Font("Comic Sans MS", 15f);
@@ -490,6 +499,9 @@ namespace labRoadEditor
                     btn.Visible = true;
                     btn.Click += (s, e) =>
                     {
+                        DownloadPanel.Visible = false;
+                        laDownload.Visible = false;
+                        buX.Visible = false;
                         PiMap.Enabled = true;
                         Save.Enabled = true;
                         Download.Enabled = true;
@@ -499,11 +511,9 @@ namespace labRoadEditor
                         Gridsize.Enabled = true;
                         label1.Enabled = true;
                         checkDrawCellsFlag.Enabled = true;
-                        DownloadPanel.Visible = false;
                         PiMap.Refresh();
                         Download_File_Click(NameMapFile);
                     };
-                    // btn.BringToFront();
                     listBtn.Add(btn);
                     Count++;
                 }
@@ -531,6 +541,7 @@ namespace labRoadEditor
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
                 string[] lines = File.ReadAllLines($".\\cfg\\{NameMapFile}.txt");
                 if ((int)Gridsize.Value < lines.Length)
                 {
@@ -554,6 +565,7 @@ namespace labRoadEditor
                 else if (Size > 10) DeltaZoom = 60;
                 else if (Size > 0) DeltaZoom = 100;
                 laZoom.Text = $"Zoom: {DeltaZoom}%";
+
 
                 using (Graphics g = Graphics.FromImage(b))
                 {
