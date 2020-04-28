@@ -37,6 +37,8 @@ namespace labRoadEditor
         private int mode = 4; //Выбранный элемент
         private int[,] SaveMap;
         private bool DrawCellsFlag = true, RenderFlag = true;
+        private int BugError = 0;
+        List<Button> listBtn;
         ImageList pics;
         Thread _REND;
         Thread _REND_Zoom;
@@ -50,7 +52,7 @@ namespace labRoadEditor
             skinManager.AddFormToManage(this);
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.Blue50, Accent.Lime400, TextShade.WHITE);
-
+            listBtn = new List<Button> { };
             pics = new ImageList();
             pics.ImageSize = new Size(128, 128);
             Mapparts = new List<Rectangle> { };
@@ -189,11 +191,9 @@ namespace labRoadEditor
             int zoom = e.Delta > 0 ? 5 : -5;
             DeltaZoom += zoom;
             if (row > 8 || col > 8) zoom = zoom + zoom / 2;
-            else if (row >= 5) zoom = -PiMap.Height / 30 / 6;
-            else if (row == 4) zoom = -PiMap.Height / 30 / 4;
-            else if (row == 3) zoom = -PiMap.Height / 30 / 3;
-            else if (row == 2) zoom = -PiMap.Height / 30 / 2;
-            else if (row ==  1) zoom = -PiMap.Height / 30;
+            else if (row >= 5) zoom = PiMap.Height * zoom / 30 / 6 / 5;
+            else if (row == 4) zoom = PiMap.Height * zoom / 30 / 4 / 5;
+            else if (row == 3) zoom = PiMap.Height * zoom / 30 / 3 / 5;
             if (DeltaZoom < 0)
             {
                 DeltaZoom = 0;
@@ -413,14 +413,13 @@ namespace labRoadEditor
         }
         private void Save_Click()
         {
-            String fullPath = Application.StartupPath.ToString();
             try
             {
-                if (!Directory.Exists($"{ fullPath }\\cfg"))
+                if (!Directory.Exists($".\\cfg"))
                 {
-                    Directory.CreateDirectory($"{ fullPath }\\cfg");
+                    Directory.CreateDirectory($".\\cfg");
                 }
-                StreamWriter strwrt = new StreamWriter($"{ fullPath }\\cfg\\MapRoad.txt", false);
+                StreamWriter strwrt = new StreamWriter($".\\cfg\\MapRoad {col}x{row}.txt", false);
                 for (int i = 0; i < col; i++)
                 {
                     for (int j = 0; j < row; j++)
@@ -445,12 +444,9 @@ namespace labRoadEditor
                 "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void Download_Click() 
         {
-            //b = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
-            //bl = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
-            //await Task.Run(() => DrawCells());
-            //Array.Clear(SaveMap, 0, SaveMap.Length);
             PiMap.Enabled = false;
             Save.Enabled = false;
             Download.Enabled = false;
@@ -460,43 +456,105 @@ namespace labRoadEditor
             Gridsize.Enabled = false;
             label1.Enabled = false;
             checkDrawCellsFlag.Enabled = false;
-
-
             buX.FlatAppearance.MouseOverBackColor = Color.Transparent;
             buX.FlatAppearance.MouseDownBackColor = Color.Transparent;
             DownloadPanel.Visible = true;
-        }
-        private async void Download_File_Click()
-        {
-            String fullPath = Application.StartupPath.ToString();
+
+            DownloadPanel.HorizontalScroll.Maximum = 0;
+            DownloadPanel.AutoScroll = false;
+            DownloadPanel.VerticalScroll.Visible = false;
+            DownloadPanel.AutoScroll = true;
+
             try
             {
-                if (!Directory.Exists($"{ fullPath }\\cfg"))
+
+                for (int i = 0; i < listBtn.Count; i++)
+                {
+                    DownloadPanel.Controls.Remove(listBtn[i]);
+                }
+                var dirs = new DirectoryInfo(@".\cfg"); // папка с файлами 
+
+                int Count = 0;
+                foreach (FileInfo file in dirs.GetFiles())
+                {
+                    string NameMapFile = Path.GetFileNameWithoutExtension(file.FullName);
+                    Button btn = new Button();
+                    btn.Parent = DownloadPanel;
+                    btn.Size = new Size(DownloadPanel.Width, 50);
+                    btn.Location = new Point(0, label2.Height + Count * btn.Height);
+                    btn.Text = NameMapFile;
+                    btn.ForeColor = Color.Coral;
+                    btn.Font = new Font("Comic Sans MS", 15f);
+                    btn.BackColor = Color.Transparent;
+                    btn.FlatAppearance.BorderColor = this.BackColor;
+                    btn.Visible = true;
+                    btn.Click += (s, e) =>
+                    {
+                        PiMap.Enabled = true;
+                        Save.Enabled = true;
+                        Download.Enabled = true;
+                        Cleaning.Enabled = true;
+                        buFillin.Enabled = true;
+                        buOk.Enabled = true;
+                        Gridsize.Enabled = true;
+                        label1.Enabled = true;
+                        checkDrawCellsFlag.Enabled = true;
+                        DownloadPanel.Visible = false;
+                        PiMap.Refresh();
+                        Download_File_Click(NameMapFile);
+                    };
+                    // btn.BringToFront();
+                    listBtn.Add(btn);
+                    Count++;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
+            }
+
+        }
+        private async void Download_File_Click(String NameMapFile)
+        {
+            try
+            {
+                if (!Directory.Exists($".\\cfg"))
                 {
                     DialogResult rezult = MessageBox.Show("Директория не найдена.",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                else if (!File.Exists($"{ fullPath }\\cfg\\MapRoad.txt"))
+                else if (!File.Exists($".\\cfg\\{NameMapFile}.txt"))
                 {
                     DialogResult rezult = MessageBox.Show("Файл для загрузки не найден или еще не был создан.",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                string[] lines = File.ReadAllLines($"{ fullPath }\\cfg\\MapRoad.txt");
-                if ((int)Gridsize.Value <= 2)
-                {
-                    DialogResult rezult = MessageBox.Show("Размер слишком мал, Увеличьте сетку",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                else if ((int)Gridsize.Value < lines.Length)
+                string[] lines = File.ReadAllLines($".\\cfg\\{NameMapFile}.txt");
+                if ((int)Gridsize.Value < lines.Length)
                 {
                     col = lines.Length; // Сетка 
                     row = lines.Length; // Сетка 
                     StartForm();
                     Gridsize.Value = lines.Length;
                 }
+                else
+                {
+                    b = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
+                    bl = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
+                    DrawCells();
+                    Array.Clear(SaveMap, 0, SaveMap.Length);
+                }
+                int Size = (int)Gridsize.Value;
+                if (Size > 80) DeltaZoom = 10;
+                else if (Size > 50) DeltaZoom = 15;
+                else if (Size > 30) DeltaZoom = 30;
+                else if (Size > 20) DeltaZoom = 45;
+                else if (Size > 10) DeltaZoom = 60;
+                else if (Size > 0) DeltaZoom = 100;
+                laZoom.Text = $"Zoom: {DeltaZoom}%";
+
                 using (Graphics g = Graphics.FromImage(b))
                 {
                     for (int i = 0; i < lines.Length; i++)
@@ -507,22 +565,29 @@ namespace labRoadEditor
                             if (temp[j] != "*")
                             {
                                 int num = Int32.Parse(temp[j]);
-                                await Task.Run(() =>
-                                {
-                                    g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
-                                    SaveMap[j, i] = num;
-                                });
+                                await Task.Run(() => g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY));
+                                SaveMap[j, i] = num;
                             }
                             else SaveMap[j, i] = -1;
                         }
                     }
+
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+
                 }
+                BugError = 0;
                 this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
             }
             catch
             {
-                DialogResult rezult = MessageBox.Show("Непредвиденная ошибка",
-                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                BugError++;
+                if (BugError < 3)
+                {
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    Download_File_Click(NameMapFile);
+                }
             }
             this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
         }

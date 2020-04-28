@@ -122,7 +122,7 @@ namespace GoogleForm
             String FinalURL = "https://docs.google.com/forms/d/e/1FAIpQLSdYNBbgPqrv3nGfDiU9BUdPszDzlzDPSGWenWXCGA0Hf8P5xQ/viewform?usp=pp_url";
             String FF;
             string s = "456-435-2318";
-            // ReadF_ile();
+            //ReadF_ile();
 
             for (int j = 0; j < 100; j++)
             {
