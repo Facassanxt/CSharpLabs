@@ -118,6 +118,7 @@ namespace labRoadEditor
             checkDrawCellsFlag.Click += CheckDrawCellsFlag_Click;
             PiMap.MouseWheel += PiMap_MouseWheel;
             buOk.Click += BuOk_Click;
+            buCFG.Click += (s, e) => { System.Diagnostics.Process.Start("explorer", ".\\cfg");  };
             StartForm();
         }
 
@@ -467,7 +468,6 @@ namespace labRoadEditor
             DownloadPanel.Visible = true;
             laDownload.Visible = true;
             buX.Visible = true;
-
 
             DownloadPanel.HorizontalScroll.Maximum = 0;
             DownloadPanel.AutoScroll = false;

@@ -32,8 +32,8 @@
             this.Save = new System.Windows.Forms.Button();
             this.LaPreview = new System.Windows.Forms.Label();
             this.AllPanel = new System.Windows.Forms.Panel();
-            this.DownloadPanel = new System.Windows.Forms.Panel();
             this.buX = new System.Windows.Forms.Button();
+            this.DownloadPanel = new System.Windows.Forms.Panel();
             this.laDownload = new System.Windows.Forms.Label();
             this.laZoom = new System.Windows.Forms.Label();
             this.PiMap = new System.Windows.Forms.PictureBox();
@@ -46,6 +46,7 @@
             this.Gridsize = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.buOk = new System.Windows.Forms.Button();
+            this.buCFG = new System.Windows.Forms.Button();
             this.AllPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PiMap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PiPreview)).BeginInit();
@@ -109,15 +110,6 @@
             this.AllPanel.Size = new System.Drawing.Size(1355, 796);
             this.AllPanel.TabIndex = 27;
             // 
-            // DownloadPanel
-            // 
-            this.DownloadPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.DownloadPanel.Location = new System.Drawing.Point(388, 177);
-            this.DownloadPanel.Name = "DownloadPanel";
-            this.DownloadPanel.Size = new System.Drawing.Size(290, 441);
-            this.DownloadPanel.TabIndex = 34;
-            this.DownloadPanel.Visible = false;
-            // 
             // buX
             // 
             this.buX.BackColor = System.Drawing.Color.Transparent;
@@ -133,6 +125,15 @@
             this.buX.Text = "✖";
             this.buX.UseVisualStyleBackColor = false;
             this.buX.Visible = false;
+            // 
+            // DownloadPanel
+            // 
+            this.DownloadPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.DownloadPanel.Location = new System.Drawing.Point(388, 177);
+            this.DownloadPanel.Name = "DownloadPanel";
+            this.DownloadPanel.Size = new System.Drawing.Size(290, 441);
+            this.DownloadPanel.TabIndex = 34;
+            this.DownloadPanel.Visible = false;
             // 
             // laDownload
             // 
@@ -213,7 +214,7 @@
             this.Cleaning.FlatAppearance.BorderSize = 0;
             this.Cleaning.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Cleaning.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Cleaning.Location = new System.Drawing.Point(388, 24);
+            this.Cleaning.Location = new System.Drawing.Point(538, 24);
             this.Cleaning.Name = "Cleaning";
             this.Cleaning.Size = new System.Drawing.Size(121, 39);
             this.Cleaning.TabIndex = 29;
@@ -238,7 +239,7 @@
             this.buFillin.FlatAppearance.BorderSize = 0;
             this.buFillin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buFillin.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buFillin.Location = new System.Drawing.Point(515, 24);
+            this.buFillin.Location = new System.Drawing.Point(665, 24);
             this.buFillin.Name = "buFillin";
             this.buFillin.Size = new System.Drawing.Size(132, 39);
             this.buFillin.TabIndex = 33;
@@ -251,7 +252,7 @@
             this.Gridsize.CausesValidation = false;
             this.Gridsize.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
             this.Gridsize.ForeColor = System.Drawing.Color.Coral;
-            this.Gridsize.Location = new System.Drawing.Point(807, 30);
+            this.Gridsize.Location = new System.Drawing.Point(957, 30);
             this.Gridsize.Minimum = new decimal(new int[] {
             3,
             0,
@@ -272,7 +273,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
-            this.label1.Location = new System.Drawing.Point(653, 29);
+            this.label1.Location = new System.Drawing.Point(803, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(148, 29);
             this.label1.TabIndex = 34;
@@ -286,12 +287,27 @@
             this.buOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buOk.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buOk.ForeColor = System.Drawing.Color.Coral;
-            this.buOk.Location = new System.Drawing.Point(875, 24);
+            this.buOk.Location = new System.Drawing.Point(1025, 24);
             this.buOk.Name = "buOk";
             this.buOk.Size = new System.Drawing.Size(52, 39);
             this.buOk.TabIndex = 36;
             this.buOk.Text = "✔";
             this.buOk.UseVisualStyleBackColor = false;
+            // 
+            // buCFG
+            // 
+            this.buCFG.AutoSize = true;
+            this.buCFG.BackColor = System.Drawing.Color.Transparent;
+            this.buCFG.FlatAppearance.BorderSize = 0;
+            this.buCFG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buCFG.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buCFG.ForeColor = System.Drawing.Color.Coral;
+            this.buCFG.Location = new System.Drawing.Point(388, 24);
+            this.buCFG.Name = "buCFG";
+            this.buCFG.Size = new System.Drawing.Size(144, 39);
+            this.buCFG.TabIndex = 37;
+            this.buCFG.Text = "Папка с cfg";
+            this.buCFG.UseVisualStyleBackColor = false;
             // 
             // fm
             // 
@@ -312,6 +328,7 @@
             this.Controls.Add(this.Cleaning);
             this.Controls.Add(this.Download);
             this.Controls.Add(this.Save);
+            this.Controls.Add(this.buCFG);
             this.ForeColor = System.Drawing.Color.Coral;
             this.Name = "fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -346,6 +363,7 @@
         private System.Windows.Forms.Panel DownloadPanel;
         private System.Windows.Forms.Label laDownload;
         private System.Windows.Forms.Button buX;
+        private System.Windows.Forms.Button buCFG;
     }
 }
 
