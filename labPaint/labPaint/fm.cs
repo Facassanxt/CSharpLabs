@@ -19,8 +19,6 @@ namespace labPaint
     public partial class fm : MaterialForm
     {
         private bool isPressed = true;
-        private Point prevPoint;
-        private Point startPoint;
         private Bitmap b;
         int x, y, CountFileSave = 0;
         private int mode, SazePen = 0;
