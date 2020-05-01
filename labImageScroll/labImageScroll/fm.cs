@@ -47,7 +47,7 @@ namespace labImageScroll
 
         private void PictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawImageUnscaled(b, CurPoint);
+            e.Graphics.DrawImage(b, CurPoint);
         }
 
         private void PictureBox1_MouseUp(object sender, MouseEventArgs e)
