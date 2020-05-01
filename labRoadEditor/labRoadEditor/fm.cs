@@ -42,6 +42,7 @@ namespace labRoadEditor
         ImageList pics;
         Thread _REND;
         Thread _REND_Zoom;
+        private bool flag = true;
 
         public fm()
         {
@@ -81,21 +82,24 @@ namespace labRoadEditor
             {
                 //myThread.Abort();
                 b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
-                PiMap.Refresh();
+                PiMap.Invalidate();
                 DrawCells();
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                _REND = new Thread(REND);
-                try
+                if (flag)
                 {
-                    _REND.Start();
+                    _REND = new Thread(REND);
+                    try
+                    {
+                        _REND.Start();
+                    }
+                    catch (Exception)
+                    {
+                        _REND.Abort();
+                        _REND.Start();
+                    }
                 }
-                catch (Exception)
-                {
-                    _REND.Abort();
-                    _REND.Start();
-                }
-                PiMap.Refresh();
+                PiMap.Invalidate();
             };
             buX.Click += (s, e) => 
             {
@@ -153,19 +157,20 @@ namespace labRoadEditor
                                 g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
                             }
                         }
-                        this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
+                        this.Invoke((MethodInvoker)delegate () { PiMap.Invalidate(); });
                     }
                 }
                 _REND_Zoom.Abort();
             }
             catch (Exception)
             {
-                //
+                _REND_Zoom.Abort();
             }
         }
 
         private void REND()
         {
+            flag = false;
             try
             {
                 using (Graphics g = Graphics.FromImage(b))
@@ -177,14 +182,16 @@ namespace labRoadEditor
                             SaveMap[j, i] = mode + 1;
                             g.DrawImage(pics.Images[mode], j * cX, cY * i, cX, cY);
                         }
-                        this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
+                        this.Invoke((MethodInvoker)delegate () { PiMap.Invalidate(); });
                     }
+                    flag = true;
+                    _REND.Abort();
                 }
-                _REND.Abort();
             }
             catch (Exception)
             {
-                //
+                flag = true;
+                _REND.Abort();
             }
 
         }
