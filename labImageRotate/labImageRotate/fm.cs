@@ -25,6 +25,10 @@ namespace labImageRotate
             pictureBox1.Paint += PictureBox1_Paint;
             //pictureBox1.Image.RotateFlip(RotateFlipType.Rotate180FlipX);
 
+            button1.Click += (s, e) => { b.RotateFlip(RotateFlipType.RotateNoneFlipX); pictureBox1.Invalidate(); };
+            button2.Click += (s, e) => { b.RotateFlip(RotateFlipType.RotateNoneFlipY); pictureBox1.Invalidate(); };
+
+
         }
 
         private void PictureBox1_Paint(object sender, PaintEventArgs e)
