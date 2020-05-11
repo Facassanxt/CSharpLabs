@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace labSelectlnGrid
+namespace labImageSelectlnGrid
 {
     public partial class fm : Form
     {
