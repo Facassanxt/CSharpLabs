@@ -63,6 +63,16 @@ namespace labCards.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ca {
+            get {
+                object obj = ResourceManager.GetObject("ca", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cards {
             get {
                 object obj = ResourceManager.GetObject("cards", resourceCulture);

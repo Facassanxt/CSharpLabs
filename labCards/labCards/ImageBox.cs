@@ -38,7 +38,7 @@ namespace labCards
                 {
                     images[n] = new Bitmap(w, h);
                     var g = Graphics.FromImage(images[n]);
-                    g.DrawImage(b, 0, 0, new Rectangle(j * w, i * h, w, h), GraphicsUnit.Point);
+                    g.DrawImage(b, 0, 0, new Rectangle(j * w, i * h, w, h), GraphicsUnit.Pixel);
                     g.Dispose();
                     n++;
                 }
