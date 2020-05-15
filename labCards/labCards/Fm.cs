@@ -49,13 +49,13 @@ namespace labCards
                 {
                     g.DrawImage(ImageRotate,
                         this.Width / 2 - cardCount * imageBox[cardPack[i]].Width / 4 + i * imageBox[cardPack[i]].Width / 4 + cardCount * imageBox[cardPack[i]].Width / 10,
-                        imageBox[cardPack[i]].Height / 2);
+                        imageBox[cardPack[i]].Height - 10);
                 }
                 else 
                 {
                     g.DrawImage(ImageRotate,
                         this.Width / 2 - cardCount * imageBox[cardPack[i]].Width / 4 + i * imageBox[cardPack[i]].Width / 4 + cardCount * imageBox[cardPack[i]].Width / 10,
-                        imageBox[cardPack[i]].Height / 2);
+                        imageBox[cardPack[i]].Height - 10);
                 }
             }
             pictureBox1.Invalidate();
