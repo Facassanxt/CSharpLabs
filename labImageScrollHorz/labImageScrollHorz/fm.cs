@@ -25,7 +25,6 @@ namespace labImageScrollHorz
 
             ImBG = Resources.Game_Background_17;
             this.Height = ImBG.Height;
-            this.Width = ImBG.Width;
             b = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             g = Graphics.FromImage(b);
 

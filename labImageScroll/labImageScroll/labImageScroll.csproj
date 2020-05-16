@@ -83,5 +83,11 @@
   <ItemGroup>
     <None Include="Resources\ozero_gory_otrazhenie_leto_115974_3992x2242.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Game_Background_17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fon.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
