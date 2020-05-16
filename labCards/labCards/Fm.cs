@@ -44,14 +44,14 @@ namespace labCards
             for (int i = 0; i < cardCount; i++)
             {
                 angle += 180 / cardCount;
-                var ImageRotate = RotateImage(imageBox[cardPack[i]], angle,true,true,Color.Transparent);
+                var ImageRotate = RotateImage(imageBox[cardPack[i]], angle, true, true, Color.Transparent);
                 if (angle < 0)
                 {
                     g.DrawImage(ImageRotate,
                         this.Width / 2 - cardCount * imageBox[cardPack[i]].Width / 4 + i * imageBox[cardPack[i]].Width / 4 + cardCount * imageBox[cardPack[i]].Width / 10,
                         imageBox[cardPack[i]].Height - 10);
                 }
-                else 
+                else
                 {
                     g.DrawImage(ImageRotate,
                         this.Width / 2 - cardCount * imageBox[cardPack[i]].Width / 4 + i * imageBox[cardPack[i]].Width / 4 + cardCount * imageBox[cardPack[i]].Width / 10,
@@ -60,6 +60,23 @@ namespace labCards
             }
             pictureBox1.Invalidate();
         }
+        private void GetPointBounds(PointF[] points,
+                    out float xmin, out float xmax,
+                    out float ymin, out float ymax)
+        {
+            xmin = points[0].X;
+            xmax = xmin;
+            ymin = points[0].Y;
+            ymax = ymin;
+            foreach (PointF point in points)
+            {
+                if (xmin > point.X) xmin = point.X;
+                if (xmax < point.X) xmax = point.X;
+                if (ymin > point.Y) ymin = point.Y;
+                if (ymax < point.Y) ymax = point.Y;
+            }
+        }
+
         public static Bitmap RotateImage(Image inputImage, float angleDegrees, bool upsizeOk,
                                    bool clipOk, Color backgroundColor)
         {
@@ -111,13 +128,13 @@ namespace labCards
                     graphicsObject.Clear(backgroundColor);
 
                 // Set up the built-in transformation matrix to do the rotation and maybe scaling
-                graphicsObject.TranslateTransform(newWidth / 2f, newHeight / 2f);
+                graphicsObject.TranslateTransform(newWidth / 2f, newHeight / 2);
 
                 if (scaleFactor != 1f)
                     graphicsObject.ScaleTransform(scaleFactor, scaleFactor);
 
                 graphicsObject.RotateTransform(angleDegrees);
-                graphicsObject.TranslateTransform(-oldWidth / 2f, -oldHeight / 2f);
+                graphicsObject.TranslateTransform(-oldWidth / 2f, -oldHeight / 2);
 
                 // Draw the result 
                 graphicsObject.DrawImage(inputImage, 0, 0);
