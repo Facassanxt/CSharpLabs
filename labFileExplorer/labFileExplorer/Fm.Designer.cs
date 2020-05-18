@@ -1,6 +1,6 @@
 ﻿namespace labFileExplorer
 {
-    partial class Form1
+    partial class Fm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Fm));
             this.toolMenu = new System.Windows.Forms.ToolStrip();
             this.buBack = new System.Windows.Forms.ToolStripButton();
             this.buForward = new System.Windows.Forms.ToolStripButton();
             this.buUp = new System.Windows.Forms.ToolStripButton();
             this.edDir = new System.Windows.Forms.ToolStripTextBox();
             this.buDirSelect = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.DButtons = new System.Windows.Forms.ToolStripDropDownButton();
             this.miViewLargeIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.miViewSmallIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.miViewList = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +45,6 @@
             this.LV = new System.Windows.Forms.ListView();
             this.iLargeIcons = new System.Windows.Forms.ImageList(this.components);
             this.iSmallIcons = new System.Windows.Forms.ImageList(this.components);
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelInfo = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
@@ -55,14 +54,19 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.laDownload = new System.Windows.Forms.Label();
+            this.la = new System.Windows.Forms.Label();
+            this.paPreview = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
             this.toolMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
             this.panelInfo.SuspendLayout();
+            this.paPreview.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolMenu
             // 
+            this.toolMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.toolMenu.AutoSize = false;
             this.toolMenu.BackColor = System.Drawing.Color.Transparent;
             this.toolMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -74,114 +78,144 @@
             this.buUp,
             this.edDir,
             this.buDirSelect,
-            this.toolStripDropDownButton1});
+            this.DButtons});
             this.toolMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.toolMenu.Location = new System.Drawing.Point(56, 9);
+            this.toolMenu.Location = new System.Drawing.Point(9, 0);
             this.toolMenu.Name = "toolMenu";
             this.toolMenu.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolMenu.Size = new System.Drawing.Size(1383, 28);
+            this.toolMenu.ShowItemToolTips = false;
+            this.toolMenu.Size = new System.Drawing.Size(1014, 41);
             this.toolMenu.Stretch = true;
             this.toolMenu.TabIndex = 0;
             this.toolMenu.Text = "toolStrip1";
             // 
             // buBack
             // 
+            this.buBack.AutoSize = false;
             this.buBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buBack.Font = new System.Drawing.Font("Comic Sans MS", 15F);
+            this.buBack.ForeColor = System.Drawing.Color.Tomato;
             this.buBack.Image = ((System.Drawing.Image)(resources.GetObject("buBack.Image")));
             this.buBack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buBack.Name = "buBack";
-            this.buBack.Size = new System.Drawing.Size(23, 19);
-            this.buBack.Text = "◀";
+            this.buBack.Size = new System.Drawing.Size(38, 32);
+            this.buBack.Text = "🢀";
             // 
             // buForward
             // 
+            this.buForward.AutoSize = false;
             this.buForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buForward.Font = new System.Drawing.Font("Comic Sans MS", 15F);
+            this.buForward.ForeColor = System.Drawing.Color.Tomato;
             this.buForward.Image = ((System.Drawing.Image)(resources.GetObject("buForward.Image")));
             this.buForward.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buForward.Name = "buForward";
-            this.buForward.Size = new System.Drawing.Size(23, 19);
-            this.buForward.Text = "▶";
+            this.buForward.Size = new System.Drawing.Size(37, 32);
+            this.buForward.Text = "🡺";
             // 
             // buUp
             // 
+            this.buUp.AutoSize = false;
             this.buUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buUp.Font = new System.Drawing.Font("Comic Sans MS", 15F);
+            this.buUp.ForeColor = System.Drawing.Color.Tomato;
             this.buUp.Image = ((System.Drawing.Image)(resources.GetObject("buUp.Image")));
             this.buUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buUp.Name = "buUp";
-            this.buUp.Size = new System.Drawing.Size(23, 19);
-            this.buUp.Text = "▲";
+            this.buUp.Size = new System.Drawing.Size(34, 32);
+            this.buUp.Text = "🢄";
             // 
             // edDir
             // 
+            this.edDir.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.edDir.AutoSize = false;
+            this.edDir.AutoToolTip = true;
             this.edDir.BackColor = System.Drawing.SystemColors.Control;
-            this.edDir.Font = new System.Drawing.Font("Comic Sans MS", 9F);
+            this.edDir.Font = new System.Drawing.Font("Comic Sans MS", 15F);
             this.edDir.ForeColor = System.Drawing.Color.Tomato;
             this.edDir.Name = "edDir";
-            this.edDir.Size = new System.Drawing.Size(450, 24);
+            this.edDir.Size = new System.Drawing.Size(800, 35);
             // 
             // buDirSelect
             // 
+            this.buDirSelect.AutoSize = false;
+            this.buDirSelect.BackColor = System.Drawing.Color.Transparent;
             this.buDirSelect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buDirSelect.Font = new System.Drawing.Font("Comic Sans MS", 15F);
+            this.buDirSelect.ForeColor = System.Drawing.Color.Tomato;
             this.buDirSelect.Image = ((System.Drawing.Image)(resources.GetObject("buDirSelect.Image")));
             this.buDirSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buDirSelect.Name = "buDirSelect";
-            this.buDirSelect.Size = new System.Drawing.Size(23, 19);
-            this.buDirSelect.Text = "...";
+            this.buDirSelect.Size = new System.Drawing.Size(38, 32);
+            this.buDirSelect.Text = "...⮯";
             // 
-            // toolStripDropDownButton1
+            // DButtons
             // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DButtons.AutoSize = false;
+            this.DButtons.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.DButtons.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miViewLargeIcon,
             this.miViewSmallIcon,
             this.miViewList,
             this.miViewDetails,
             this.miViewTile});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 19);
-            this.toolStripDropDownButton1.Text = "Вид";
+            this.DButtons.Font = new System.Drawing.Font("Comic Sans MS", 15F);
+            this.DButtons.ForeColor = System.Drawing.Color.Tomato;
+            this.DButtons.Image = ((System.Drawing.Image)(resources.GetObject("DButtons.Image")));
+            this.DButtons.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DButtons.Name = "DButtons";
+            this.DButtons.Size = new System.Drawing.Size(63, 32);
+            this.DButtons.Text = "Вид";
             // 
             // miViewLargeIcon
             // 
+            this.miViewLargeIcon.ForeColor = System.Drawing.Color.Tomato;
             this.miViewLargeIcon.Name = "miViewLargeIcon";
-            this.miViewLargeIcon.Size = new System.Drawing.Size(126, 22);
+            this.miViewLargeIcon.Size = new System.Drawing.Size(180, 32);
             this.miViewLargeIcon.Text = "LargeIcon";
             // 
             // miViewSmallIcon
             // 
+            this.miViewSmallIcon.ForeColor = System.Drawing.Color.Tomato;
             this.miViewSmallIcon.Name = "miViewSmallIcon";
-            this.miViewSmallIcon.Size = new System.Drawing.Size(126, 22);
+            this.miViewSmallIcon.Size = new System.Drawing.Size(180, 32);
             this.miViewSmallIcon.Text = "SmallIcon";
             // 
             // miViewList
             // 
+            this.miViewList.ForeColor = System.Drawing.Color.Tomato;
             this.miViewList.Name = "miViewList";
-            this.miViewList.Size = new System.Drawing.Size(126, 22);
+            this.miViewList.Size = new System.Drawing.Size(180, 32);
             this.miViewList.Text = "List";
             // 
             // miViewDetails
             // 
+            this.miViewDetails.ForeColor = System.Drawing.Color.Tomato;
             this.miViewDetails.Name = "miViewDetails";
-            this.miViewDetails.Size = new System.Drawing.Size(126, 22);
+            this.miViewDetails.Size = new System.Drawing.Size(180, 32);
             this.miViewDetails.Text = "Details";
             // 
             // miViewTile
             // 
+            this.miViewTile.ForeColor = System.Drawing.Color.Tomato;
             this.miViewTile.Name = "miViewTile";
-            this.miViewTile.Size = new System.Drawing.Size(126, 22);
+            this.miViewTile.Size = new System.Drawing.Size(180, 32);
             this.miViewTile.Text = "Tile";
             // 
             // LV
             // 
+            this.LV.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.LV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.LV.BackColor = System.Drawing.SystemColors.Control;
             this.LV.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.LV.ForeColor = System.Drawing.Color.LightCoral;
             this.LV.HideSelection = false;
             this.LV.LargeImageList = this.iLargeIcons;
-            this.LV.Location = new System.Drawing.Point(1, 103);
+            this.LV.Location = new System.Drawing.Point(1, 116);
             this.LV.Name = "LV";
-            this.LV.Size = new System.Drawing.Size(1047, 676);
+            this.LV.Size = new System.Drawing.Size(1035, 663);
             this.LV.SmallImageList = this.iSmallIcons;
             this.LV.TabIndex = 1;
             this.LV.UseCompatibleStateImageBehavior = false;
@@ -200,21 +234,17 @@
             this.iSmallIcons.Images.SetKeyName(0, "799655_folder_512x512.png");
             this.iSmallIcons.Images.SetKeyName(1, "75_-Folder_Content-_document_paper_write_note-128.png");
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // panelMenu
             // 
             this.panelMenu.Controls.Add(this.toolMenu);
-            this.panelMenu.Location = new System.Drawing.Point(-2, 63);
+            this.panelMenu.Location = new System.Drawing.Point(2, 59);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(1447, 47);
+            this.panelMenu.Size = new System.Drawing.Size(1034, 51);
             this.panelMenu.TabIndex = 2;
             // 
             // panelInfo
             // 
+            this.panelInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panelInfo.BackColor = System.Drawing.Color.Transparent;
             this.panelInfo.Controls.Add(this.label7);
             this.panelInfo.Controls.Add(this.label6);
@@ -223,8 +253,8 @@
             this.panelInfo.Controls.Add(this.label3);
             this.panelInfo.Controls.Add(this.label2);
             this.panelInfo.Controls.Add(this.label1);
-            this.panelInfo.Controls.Add(this.laDownload);
-            this.panelInfo.Location = new System.Drawing.Point(1051, 550);
+            this.panelInfo.Controls.Add(this.la);
+            this.panelInfo.Location = new System.Drawing.Point(1042, 550);
             this.panelInfo.Name = "panelInfo";
             this.panelInfo.Size = new System.Drawing.Size(386, 229);
             this.panelInfo.TabIndex = 3;
@@ -320,45 +350,67 @@
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.label1.UseMnemonic = false;
             // 
-            // laDownload
+            // la
             // 
-            this.laDownload.BackColor = System.Drawing.Color.Transparent;
-            this.laDownload.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.laDownload.ForeColor = System.Drawing.Color.Tomato;
-            this.laDownload.Location = new System.Drawing.Point(3, 9);
-            this.laDownload.Name = "laDownload";
-            this.laDownload.Size = new System.Drawing.Size(173, 38);
-            this.laDownload.TabIndex = 4;
-            this.laDownload.Text = "Свойство";
-            this.laDownload.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.laDownload.UseMnemonic = false;
+            this.la.BackColor = System.Drawing.Color.Transparent;
+            this.la.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.la.ForeColor = System.Drawing.Color.Tomato;
+            this.la.Location = new System.Drawing.Point(3, 9);
+            this.la.Name = "la";
+            this.la.Size = new System.Drawing.Size(173, 38);
+            this.la.TabIndex = 4;
+            this.la.Text = "Свойство";
+            this.la.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.la.UseMnemonic = false;
             // 
-            // Form1
+            // paPreview
+            // 
+            this.paPreview.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.paPreview.BackColor = System.Drawing.Color.Transparent;
+            this.paPreview.Controls.Add(this.label8);
+            this.paPreview.Location = new System.Drawing.Point(1042, 59);
+            this.paPreview.Name = "paPreview";
+            this.paPreview.Size = new System.Drawing.Size(395, 485);
+            this.paPreview.TabIndex = 4;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 32);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(35, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "label8";
+            // 
+            // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1440, 810);
             this.Controls.Add(this.panelInfo);
+            this.Controls.Add(this.paPreview);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.LV);
-            this.Name = "Form1";
+            this.Name = "Fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "labFileExplorer";
             this.toolMenu.ResumeLayout(false);
             this.toolMenu.PerformLayout();
             this.panelMenu.ResumeLayout(false);
             this.panelInfo.ResumeLayout(false);
+            this.paPreview.ResumeLayout(false);
+            this.paPreview.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.ToolStripButton buBack;
         private System.Windows.Forms.ToolStripButton buForward;
         private System.Windows.Forms.ToolStripButton buUp;
         private System.Windows.Forms.ToolStripTextBox edDir;
         private System.Windows.Forms.ToolStripButton buDirSelect;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripDropDownButton DButtons;
         private System.Windows.Forms.ListView LV;
         private System.Windows.Forms.ToolStripMenuItem miViewLargeIcon;
         private System.Windows.Forms.ToolStripMenuItem miViewSmallIcon;
@@ -367,18 +419,20 @@
         private System.Windows.Forms.ToolStripMenuItem miViewTile;
         private System.Windows.Forms.ImageList iLargeIcons;
         private System.Windows.Forms.ImageList iSmallIcons;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         public System.Windows.Forms.ToolStrip toolMenu;
         private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Panel panelInfo;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label laDownload;
+        private System.Windows.Forms.Label la;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel paPreview;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ToolStripButton buBack;
     }
 }
 

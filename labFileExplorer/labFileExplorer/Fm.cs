@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace labFileExplorer
 {
-    public partial class Form1 : MaterialForm
+    public partial class Fm : MaterialForm
     {
         private string _curDir;
 
@@ -31,7 +31,7 @@ namespace labFileExplorer
         }
         public string SelItem { get; private set; }
 
-        public Form1()
+        public Fm()
         {
             InitializeComponent();
             var skinManager = MaterialSkinManager.Instance;
@@ -39,8 +39,8 @@ namespace labFileExplorer
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.BlueGrey100, Accent.Red400, TextShade.WHITE);
 
-            //CurDir = "D:\\";
-            CurDir = Directory.GetCurrentDirectory();
+            CurDir = "D:\\";
+            //CurDir = Directory.GetCurrentDirectory();
 
 
 
@@ -59,6 +59,8 @@ namespace labFileExplorer
 
             LV.ItemSelectionChanged += (s, e) => SelItem = Path.Combine(CurDir,e.Item.Text);
             LV.DoubleClick += (s, e) => LoadDir(SelItem);
+
+            Resize += Fm_Resize;
 
             LV.Columns.Add("Имя", 200);
             LV.Columns.Add("Дата изменения", 150);
@@ -82,18 +84,42 @@ namespace labFileExplorer
 
         }
 
+        private void Fm_Resize(object sender, EventArgs e)
+        {
+            panelInfo.Location = new Point(LV.Width, paPreview.Height + 64);
+            panelMenu.Width = Width - paPreview.Width;
+            toolMenu.Width = Width - paPreview.Width;
+            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8;
+            //panelMenu.Location = new Point(2, 64);
+        }
+
         private void StartForm()
         {
             this.Height = 1080;
             this.Width = 1920;
-            panelMenu.Width = Width - 4;
-            panelMenu.Height = toolMenu.Height - 4;
+            paPreview.Height = 700;
+            paPreview.Width = 520;
+
+            panelMenu.Width = Width - paPreview.Width;
+            panelMenu.Height = toolMenu.Height - 2;
+            panelMenu.Location = new Point(2, 64);
+
+            LV.Height = Height - panelMenu.Height - 64 - 2;
+            LV.Width = Width - 2 - 2 - paPreview.Width;
+            LV.Location = new Point(2, panelMenu.Height + 64);
+            LV.BackColor = BackColor;
+
+            paPreview.Location = new Point(LV.Width, 64);
+
+            panelInfo.Height = Height - paPreview.Height - 64 - 2;
+            panelInfo.Width = paPreview.Width;
+            panelInfo.Location = new Point(LV.Width, paPreview.Height + 64);
+
             toolMenu.Width = Width;
             toolMenu.Location = new Point(0, 0);
-            panelMenu.Location = new Point(2, 64);
             //panelInfo.Location = new Point(2, 64);
             edDir.BackColor = BackColor;
-            LV.BackColor = BackColor;
+            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8;
         }
 
         private void BuDirSelect_Click(object sender, EventArgs e)
