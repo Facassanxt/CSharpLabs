@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -60,11 +61,17 @@ namespace labFileExplorer
             buDirSelect.Click += BuDirSelect_Click;
             edDir.KeyDown += EdDir_KeyDown;
 
-            miViewLargeIcon.Click += (s, e) => LV.View = View.LargeIcon;
-            miViewSmallIcon.Click += (s, e) => LV.View = View.SmallIcon;
-            miViewList.Click += (s, e) => LV.View = View.List;
-            miViewDetails.Click += (s, e) => LV.View = View.Details;
-            miViewTile.Click += (s, e) => LV.View = View.Tile;
+            miViewLargeIcon.Click += (s, e) => { LV.View = View.LargeIcon; StartForm(); };
+            miViewSmallIcon.Click += (s, e) => { LV.View = View.SmallIcon; StartForm(); };
+            miViewList.Click += (s, e) => { LV.View = View.List; StartForm(); };
+            miViewDetails.Click += (s, e) =>
+            {
+                paDetails.Visible = true;
+                LV.Height = Height - panelMenu.Height - paDetails.Height - 64 - 2;
+                LV.Location = new Point(2, panelMenu.Height + laDetailsName.Height + 64);
+                LV.View = View.Details;
+            };
+            miViewTile.Click += (s, e) => {LV.View = View.Tile; StartForm(); };
 
 
             LV.ItemSelectionChanged += (s, e) => SelItem = Path.Combine(CurDir, e.Item.Text);
@@ -73,7 +80,7 @@ namespace labFileExplorer
             Resize += Fm_Resize;
 
             LV.Columns.Add("Имя", 500);
-            LV.Columns.Add("Дата изменения", 120);
+            LV.Columns.Add("Дата изменения", 150);
             LV.Columns.Add("Тип", 100);
             LV.Columns.Add("Размер", 150);
 
@@ -151,6 +158,16 @@ namespace labFileExplorer
                 return 1;
             }
         }
+        private string checkSize(FileInfo f)
+        {
+            string size;
+            if (f.Length < 1024) size = f.Length.ToString() + " Байт";
+            else if (f.Length < (long)Math.Pow(2, 20)) size = (f.Length/ (long)Math.Pow(2, 10)).ToString() + " КБ";
+            else if (f.Length < (long)Math.Pow(2, 30)) size = (f.Length / (long)Math.Pow(2, 20)).ToString() + " МБ";
+            else if (f.Length < (long)Math.Pow(2, 40)) size = (f.Length / (long)Math.Pow(2, 30)).ToString() + " ГБ";
+            else size = (f.Length / (long)Math.Pow(2, 40)).ToString() + " ТБ";
+            return size;
+        }
 
         private void GetLogicalDrives()
         {
@@ -191,6 +208,7 @@ namespace labFileExplorer
             panelMenu.Width = Width - paPreview.Width;
             toolMenu.Width = Width - paPreview.Width;
             edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8;
+
             //panelMenu.Location = new Point(2, 64);
         }
 
@@ -218,9 +236,18 @@ namespace labFileExplorer
 
             toolMenu.Width = Width;
             toolMenu.Location = new Point(0, 0);
-            //panelInfo.Location = new Point(2, 64);
             edDir.BackColor = BackColor;
             edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8;
+
+            laDetailsName.Location = new Point(0, 0);
+            laDetailsDate.Location = new Point(500, 0);
+            laDetailsType.Location = new Point(650, 0);
+            labDetailsSize.Location = new Point(750, 0);
+
+            paDetails.Visible = false;
+            paDetails.Width = LV.Width;
+            paDetails.Height = laDetailsName.Height;
+            paDetails.Location = LV.Location;
         }
 
         private void BuDirSelect_Click(object sender, EventArgs e)
@@ -260,7 +287,7 @@ namespace labFileExplorer
                 {
                     var f = new FileInfo(item.FullName);
                     string extension = f.Extension;
-                    LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", f.Length.ToString() + " байт" }, checkExtension(f)));
+                    LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", checkSize(f)}, checkExtension(f)));
                 }
                 LV.EndUpdate();
                 CurDir = newDir;
@@ -268,8 +295,16 @@ namespace labFileExplorer
             catch (System.IO.IOException)
             {
                 LV.EndUpdate();
-                LV.Items.Clear();
-                CurDir = newDir;
+                try
+                {
+                    Process.Start(newDir);
+                }
+                catch (Exception)
+                {
+                    LoadDir(edDir.Text);
+                }
+                //LV.Items.Clear();
+                LoadDir(edDir.Text);
             }
             catch (System.Security.SecurityException)
             {

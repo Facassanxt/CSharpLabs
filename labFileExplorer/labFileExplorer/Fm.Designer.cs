@@ -51,17 +51,23 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.la = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.paPreview = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
             this.paLogicalDrives = new System.Windows.Forms.Panel();
+            this.laDetailsName = new System.Windows.Forms.Label();
+            this.laDetailsDate = new System.Windows.Forms.Label();
+            this.paDetails = new System.Windows.Forms.Panel();
+            this.laDetailsType = new System.Windows.Forms.Label();
+            this.labDetailsSize = new System.Windows.Forms.Label();
             this.toolMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
             this.panelInfo.SuspendLayout();
             this.paPreview.SuspendLayout();
+            this.paDetails.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolMenu
@@ -212,11 +218,12 @@
             this.LV.BackColor = System.Drawing.SystemColors.Control;
             this.LV.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.LV.ForeColor = System.Drawing.Color.LightCoral;
+            this.LV.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.LV.HideSelection = false;
             this.LV.LargeImageList = this.iLargeIcons;
-            this.LV.Location = new System.Drawing.Point(1, 116);
+            this.LV.Location = new System.Drawing.Point(1, 152);
             this.LV.Name = "LV";
-            this.LV.Size = new System.Drawing.Size(1035, 663);
+            this.LV.Size = new System.Drawing.Size(1035, 627);
             this.LV.SmallImageList = this.iSmallIcons;
             this.LV.TabIndex = 1;
             this.LV.UseCompatibleStateImageBehavior = false;
@@ -266,9 +273,9 @@
             this.panelInfo.BackColor = System.Drawing.Color.Transparent;
             this.panelInfo.Controls.Add(this.label7);
             this.panelInfo.Controls.Add(this.label6);
+            this.panelInfo.Controls.Add(this.label3);
             this.panelInfo.Controls.Add(this.label5);
             this.panelInfo.Controls.Add(this.label4);
-            this.panelInfo.Controls.Add(this.label3);
             this.panelInfo.Controls.Add(this.label2);
             this.panelInfo.Controls.Add(this.label1);
             this.panelInfo.Controls.Add(this.la);
@@ -329,19 +336,6 @@
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label4.UseMnemonic = false;
             // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.ForeColor = System.Drawing.Color.LightCoral;
-            this.label3.Location = new System.Drawing.Point(16, 88);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(160, 27);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Тип";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label3.UseMnemonic = false;
-            // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.Transparent;
@@ -381,6 +375,19 @@
             this.la.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.la.UseMnemonic = false;
             // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.ForeColor = System.Drawing.Color.LightCoral;
+            this.label3.Location = new System.Drawing.Point(16, 88);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 27);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Тип";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label3.UseMnemonic = false;
+            // 
             // paPreview
             // 
             this.paPreview.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -409,11 +416,79 @@
             this.paLogicalDrives.Size = new System.Drawing.Size(877, 39);
             this.paLogicalDrives.TabIndex = 5;
             // 
+            // laDetailsName
+            // 
+            this.laDetailsName.AutoSize = true;
+            this.laDetailsName.BackColor = System.Drawing.Color.Transparent;
+            this.laDetailsName.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.laDetailsName.ForeColor = System.Drawing.Color.Firebrick;
+            this.laDetailsName.Location = new System.Drawing.Point(14, 0);
+            this.laDetailsName.Name = "laDetailsName";
+            this.laDetailsName.Size = new System.Drawing.Size(50, 26);
+            this.laDetailsName.TabIndex = 12;
+            this.laDetailsName.Text = "Имя";
+            this.laDetailsName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.laDetailsName.UseMnemonic = false;
+            // 
+            // laDetailsDate
+            // 
+            this.laDetailsDate.AutoSize = true;
+            this.laDetailsDate.BackColor = System.Drawing.Color.Transparent;
+            this.laDetailsDate.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.laDetailsDate.ForeColor = System.Drawing.Color.Firebrick;
+            this.laDetailsDate.Location = new System.Drawing.Point(75, 0);
+            this.laDetailsDate.Name = "laDetailsDate";
+            this.laDetailsDate.Size = new System.Drawing.Size(56, 26);
+            this.laDetailsDate.TabIndex = 12;
+            this.laDetailsDate.Text = "Дата";
+            this.laDetailsDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.laDetailsDate.UseMnemonic = false;
+            // 
+            // paDetails
+            // 
+            this.paDetails.Controls.Add(this.labDetailsSize);
+            this.paDetails.Controls.Add(this.laDetailsType);
+            this.paDetails.Controls.Add(this.laDetailsName);
+            this.paDetails.Controls.Add(this.laDetailsDate);
+            this.paDetails.Location = new System.Drawing.Point(12, 113);
+            this.paDetails.Name = "paDetails";
+            this.paDetails.Size = new System.Drawing.Size(1021, 33);
+            this.paDetails.TabIndex = 13;
+            // 
+            // laDetailsType
+            // 
+            this.laDetailsType.AutoSize = true;
+            this.laDetailsType.BackColor = System.Drawing.Color.Transparent;
+            this.laDetailsType.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.laDetailsType.ForeColor = System.Drawing.Color.Firebrick;
+            this.laDetailsType.Location = new System.Drawing.Point(244, 0);
+            this.laDetailsType.Name = "laDetailsType";
+            this.laDetailsType.Size = new System.Drawing.Size(49, 26);
+            this.laDetailsType.TabIndex = 12;
+            this.laDetailsType.Text = "Тип";
+            this.laDetailsType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.laDetailsType.UseMnemonic = false;
+            // 
+            // labDetailsSize
+            // 
+            this.labDetailsSize.AutoSize = true;
+            this.labDetailsSize.BackColor = System.Drawing.Color.Transparent;
+            this.labDetailsSize.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labDetailsSize.ForeColor = System.Drawing.Color.Firebrick;
+            this.labDetailsSize.Location = new System.Drawing.Point(300, 0);
+            this.labDetailsSize.Name = "labDetailsSize";
+            this.labDetailsSize.Size = new System.Drawing.Size(74, 26);
+            this.labDetailsSize.TabIndex = 13;
+            this.labDetailsSize.Text = "Размер";
+            this.labDetailsSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labDetailsSize.UseMnemonic = false;
+            // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1440, 810);
+            this.Controls.Add(this.paDetails);
             this.Controls.Add(this.paLogicalDrives);
             this.Controls.Add(this.panelInfo);
             this.Controls.Add(this.paPreview);
@@ -428,6 +503,8 @@
             this.panelInfo.ResumeLayout(false);
             this.paPreview.ResumeLayout(false);
             this.paPreview.PerformLayout();
+            this.paDetails.ResumeLayout(false);
+            this.paDetails.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -461,6 +538,11 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ToolStripButton buBack;
         private System.Windows.Forms.Panel paLogicalDrives;
+        private System.Windows.Forms.Label laDetailsName;
+        private System.Windows.Forms.Label laDetailsDate;
+        private System.Windows.Forms.Panel paDetails;
+        private System.Windows.Forms.Label labDetailsSize;
+        private System.Windows.Forms.Label laDetailsType;
     }
 }
 
