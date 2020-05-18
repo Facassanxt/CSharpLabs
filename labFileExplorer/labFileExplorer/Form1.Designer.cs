@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolMenu = new System.Windows.Forms.ToolStrip();
             this.buBack = new System.Windows.Forms.ToolStripButton();
             this.buForward = new System.Windows.Forms.ToolStripButton();
             this.buUp = new System.Windows.Forms.ToolStripButton();
@@ -45,23 +45,44 @@
             this.LV = new System.Windows.Forms.ListView();
             this.iLargeIcons = new System.Windows.Forms.ImageList(this.components);
             this.iSmallIcons = new System.Windows.Forms.ImageList(this.components);
-            this.toolStrip1.SuspendLayout();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.panelMenu = new System.Windows.Forms.Panel();
+            this.panelInfo = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.laDownload = new System.Windows.Forms.Label();
+            this.toolMenu.SuspendLayout();
+            this.panelMenu.SuspendLayout();
+            this.panelInfo.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStrip1
+            // toolMenu
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolMenu.AutoSize = false;
+            this.toolMenu.BackColor = System.Drawing.Color.Transparent;
+            this.toolMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.toolMenu.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buBack,
             this.buForward,
             this.buUp,
             this.edDir,
             this.buDirSelect,
             this.toolStripDropDownButton1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.toolMenu.Location = new System.Drawing.Point(56, 9);
+            this.toolMenu.Name = "toolMenu";
+            this.toolMenu.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.toolMenu.Size = new System.Drawing.Size(1383, 28);
+            this.toolMenu.Stretch = true;
+            this.toolMenu.TabIndex = 0;
+            this.toolMenu.Text = "toolStrip1";
             // 
             // buBack
             // 
@@ -69,7 +90,7 @@
             this.buBack.Image = ((System.Drawing.Image)(resources.GetObject("buBack.Image")));
             this.buBack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buBack.Name = "buBack";
-            this.buBack.Size = new System.Drawing.Size(23, 22);
+            this.buBack.Size = new System.Drawing.Size(23, 19);
             this.buBack.Text = "◀";
             // 
             // buForward
@@ -78,7 +99,7 @@
             this.buForward.Image = ((System.Drawing.Image)(resources.GetObject("buForward.Image")));
             this.buForward.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buForward.Name = "buForward";
-            this.buForward.Size = new System.Drawing.Size(23, 22);
+            this.buForward.Size = new System.Drawing.Size(23, 19);
             this.buForward.Text = "▶";
             // 
             // buUp
@@ -87,14 +108,16 @@
             this.buUp.Image = ((System.Drawing.Image)(resources.GetObject("buUp.Image")));
             this.buUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buUp.Name = "buUp";
-            this.buUp.Size = new System.Drawing.Size(23, 22);
+            this.buUp.Size = new System.Drawing.Size(23, 19);
             this.buUp.Text = "▲";
             // 
             // edDir
             // 
-            this.edDir.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.edDir.BackColor = System.Drawing.SystemColors.Control;
+            this.edDir.Font = new System.Drawing.Font("Comic Sans MS", 9F);
+            this.edDir.ForeColor = System.Drawing.Color.Tomato;
             this.edDir.Name = "edDir";
-            this.edDir.Size = new System.Drawing.Size(450, 25);
+            this.edDir.Size = new System.Drawing.Size(450, 24);
             // 
             // buDirSelect
             // 
@@ -102,7 +125,7 @@
             this.buDirSelect.Image = ((System.Drawing.Image)(resources.GetObject("buDirSelect.Image")));
             this.buDirSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buDirSelect.Name = "buDirSelect";
-            this.buDirSelect.Size = new System.Drawing.Size(23, 22);
+            this.buDirSelect.Size = new System.Drawing.Size(23, 19);
             this.buDirSelect.Text = "...";
             // 
             // toolStripDropDownButton1
@@ -117,47 +140,48 @@
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 19);
             this.toolStripDropDownButton1.Text = "Вид";
             // 
             // miViewLargeIcon
             // 
             this.miViewLargeIcon.Name = "miViewLargeIcon";
-            this.miViewLargeIcon.Size = new System.Drawing.Size(180, 22);
+            this.miViewLargeIcon.Size = new System.Drawing.Size(126, 22);
             this.miViewLargeIcon.Text = "LargeIcon";
             // 
             // miViewSmallIcon
             // 
             this.miViewSmallIcon.Name = "miViewSmallIcon";
-            this.miViewSmallIcon.Size = new System.Drawing.Size(180, 22);
+            this.miViewSmallIcon.Size = new System.Drawing.Size(126, 22);
             this.miViewSmallIcon.Text = "SmallIcon";
             // 
             // miViewList
             // 
             this.miViewList.Name = "miViewList";
-            this.miViewList.Size = new System.Drawing.Size(180, 22);
+            this.miViewList.Size = new System.Drawing.Size(126, 22);
             this.miViewList.Text = "List";
             // 
             // miViewDetails
             // 
             this.miViewDetails.Name = "miViewDetails";
-            this.miViewDetails.Size = new System.Drawing.Size(180, 22);
+            this.miViewDetails.Size = new System.Drawing.Size(126, 22);
             this.miViewDetails.Text = "Details";
             // 
             // miViewTile
             // 
             this.miViewTile.Name = "miViewTile";
-            this.miViewTile.Size = new System.Drawing.Size(180, 22);
+            this.miViewTile.Size = new System.Drawing.Size(126, 22);
             this.miViewTile.Text = "Tile";
             // 
             // LV
             // 
-            this.LV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LV.BackColor = System.Drawing.SystemColors.Control;
+            this.LV.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.LV.HideSelection = false;
             this.LV.LargeImageList = this.iLargeIcons;
-            this.LV.Location = new System.Drawing.Point(0, 25);
+            this.LV.Location = new System.Drawing.Point(1, 103);
             this.LV.Name = "LV";
-            this.LV.Size = new System.Drawing.Size(800, 425);
+            this.LV.Size = new System.Drawing.Size(1047, 676);
             this.LV.SmallImageList = this.iSmallIcons;
             this.LV.TabIndex = 1;
             this.LV.UseCompatibleStateImageBehavior = false;
@@ -176,25 +200,159 @@
             this.iSmallIcons.Images.SetKeyName(0, "799655_folder_512x512.png");
             this.iSmallIcons.Images.SetKeyName(1, "75_-Folder_Content-_document_paper_write_note-128.png");
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // panelMenu
+            // 
+            this.panelMenu.Controls.Add(this.toolMenu);
+            this.panelMenu.Location = new System.Drawing.Point(-2, 63);
+            this.panelMenu.Name = "panelMenu";
+            this.panelMenu.Size = new System.Drawing.Size(1447, 47);
+            this.panelMenu.TabIndex = 2;
+            // 
+            // panelInfo
+            // 
+            this.panelInfo.BackColor = System.Drawing.Color.Transparent;
+            this.panelInfo.Controls.Add(this.label7);
+            this.panelInfo.Controls.Add(this.label6);
+            this.panelInfo.Controls.Add(this.label5);
+            this.panelInfo.Controls.Add(this.label4);
+            this.panelInfo.Controls.Add(this.label3);
+            this.panelInfo.Controls.Add(this.label2);
+            this.panelInfo.Controls.Add(this.label1);
+            this.panelInfo.Controls.Add(this.laDownload);
+            this.panelInfo.Location = new System.Drawing.Point(1051, 550);
+            this.panelInfo.Name = "panelInfo";
+            this.panelInfo.Size = new System.Drawing.Size(386, 229);
+            this.panelInfo.TabIndex = 3;
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.ForeColor = System.Drawing.Color.LightCoral;
+            this.label7.Location = new System.Drawing.Point(16, 196);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(160, 27);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Дата изменения";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label7.UseMnemonic = false;
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.ForeColor = System.Drawing.Color.LightCoral;
+            this.label6.Location = new System.Drawing.Point(16, 169);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(160, 27);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Дата создания";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label6.UseMnemonic = false;
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.ForeColor = System.Drawing.Color.LightCoral;
+            this.label5.Location = new System.Drawing.Point(16, 142);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(160, 27);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Путь";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label5.UseMnemonic = false;
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.ForeColor = System.Drawing.Color.LightCoral;
+            this.label4.Location = new System.Drawing.Point(16, 115);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(160, 27);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Расширение";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label4.UseMnemonic = false;
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.ForeColor = System.Drawing.Color.LightCoral;
+            this.label3.Location = new System.Drawing.Point(16, 88);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(160, 27);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Тип";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label3.UseMnemonic = false;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.ForeColor = System.Drawing.Color.LightCoral;
+            this.label2.Location = new System.Drawing.Point(16, 61);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(160, 27);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Имя";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label2.UseMnemonic = false;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.Color.Tomato;
+            this.label1.Location = new System.Drawing.Point(182, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(194, 38);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Значение";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label1.UseMnemonic = false;
+            // 
+            // laDownload
+            // 
+            this.laDownload.BackColor = System.Drawing.Color.Transparent;
+            this.laDownload.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.laDownload.ForeColor = System.Drawing.Color.Tomato;
+            this.laDownload.Location = new System.Drawing.Point(3, 9);
+            this.laDownload.Name = "laDownload";
+            this.laDownload.Size = new System.Drawing.Size(173, 38);
+            this.laDownload.TabIndex = 4;
+            this.laDownload.Text = "Свойство";
+            this.laDownload.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.laDownload.UseMnemonic = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1440, 810);
+            this.Controls.Add(this.panelInfo);
+            this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.LV);
-            this.Controls.Add(this.toolStrip1);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "labFileExplorer";
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolMenu.ResumeLayout(false);
+            this.toolMenu.PerformLayout();
+            this.panelMenu.ResumeLayout(false);
+            this.panelInfo.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton buBack;
         private System.Windows.Forms.ToolStripButton buForward;
         private System.Windows.Forms.ToolStripButton buUp;
@@ -209,6 +367,18 @@
         private System.Windows.Forms.ToolStripMenuItem miViewTile;
         private System.Windows.Forms.ImageList iLargeIcons;
         private System.Windows.Forms.ImageList iSmallIcons;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        public System.Windows.Forms.ToolStrip toolMenu;
+        private System.Windows.Forms.Panel panelMenu;
+        private System.Windows.Forms.Panel panelInfo;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label laDownload;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }
 
