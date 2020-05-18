@@ -112,6 +112,7 @@ namespace labImageScrollHorz
             if (this.Capture)
             {
                 UpdateDrawXG(startPoint.X - e.X);
+                UpdateDrawXBG((startPoint.X - e.X)/10);
                 startPoint = e.Location;
                 this.Invalidate();
             }
