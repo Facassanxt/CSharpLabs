@@ -62,14 +62,13 @@ namespace labFileExplorer
 
             Resize += Fm_Resize;
 
-            LV.Columns.Add("Имя", 200);
-            LV.Columns.Add("Дата изменения", 150);
+            LV.Columns.Add("Имя", 500);
+            LV.Columns.Add("Дата изменения", 120);
             LV.Columns.Add("Тип", 100);
             LV.Columns.Add("Размер", 150);
 
 
-            Text += " : Drivers=" + string.Join(" ", Directory.GetLogicalDrives());
-
+            GetLogicalDrives();
             StartForm();
             LoadDir(CurDir);
 
@@ -82,6 +81,45 @@ namespace labFileExplorer
              *   
              */
 
+        }
+
+        private void GetLogicalDrives()
+        {
+            try
+            {
+                string[] drives = System.IO.Directory.GetLogicalDrives();
+                int Count = 0;
+                foreach (string str in drives)
+                {
+                    Button btn = new Button();
+                    btn.BackColor = System.Drawing.Color.Transparent;
+                    btn.FlatAppearance.BorderSize = 0;
+                    btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+                    btn.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                    btn.ForeColor = System.Drawing.Color.Coral;
+                    btn.TextAlign = ContentAlignment.MiddleCenter;
+                    btn.UseVisualStyleBackColor = false;
+                    btn.Parent = paLogicalDrives;
+                    btn.Size = new Size(60, 39);
+                    btn.Text = str;
+                    btn.Location = new Point(Count * btn.Width, 0);
+                    btn.FlatAppearance.BorderSize = 0;
+                    btn.Click += (s, e) =>
+                    {
+                        LoadDir(str);
+                    };
+                    Count++;
+                }
+            }
+            catch (System.IO.IOException)
+            {
+                System.Console.WriteLine("An I/O error occurs.");
+            }
+            catch (System.Security.SecurityException)
+            {
+                System.Console.WriteLine("The caller does not have the " +
+                    "required permission.");
+            }
         }
 
         private void Fm_Resize(object sender, EventArgs e)
@@ -141,24 +179,59 @@ namespace labFileExplorer
 
         private void LoadDir(string newDir)
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(newDir);
-            LV.BeginUpdate();
-            LV.Items.Clear();
-            foreach (var item in directoryInfo.GetDirectories())
+            try
             {
-                var f = new FileInfo(item.FullName);
-                //LV.Items.Add(item.Name, 0);
-                LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Папка", ""}, 0));
+                DirectoryInfo directoryInfo = new DirectoryInfo(newDir);
+                LV.BeginUpdate();
+                LV.Items.Clear();
+                foreach (var item in directoryInfo.GetDirectories())
+                {
+                    var f = new FileInfo(item.FullName);
+                    LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Папка", "" }, 0));
 
+                }
+                foreach (var item in directoryInfo.GetFiles())
+                {
+                    var f = new FileInfo(item.FullName);
+                    string extension = f.Extension;
+                    if (extension == ".txt")
+                    {
+                        LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", f.Length.ToString() + " байт" }, -1));
+                    }
+                    else
+                    {
+                        LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", f.Length.ToString() + " байт" }, 1));
+                    }
+                }
+                LV.EndUpdate();
+                CurDir = newDir;
             }
-            foreach (var item in directoryInfo.GetFiles())
+            catch (System.IO.IOException)
             {
-                var f = new FileInfo(item.FullName);
-                //LV.Items.Add(item.Name, 1);
-                LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", f.Length.ToString() + " байт" }, 1));
+                foreach (var drive in DriveInfo.GetDrives())
+                {
+                    try
+                    {
+                        Console.WriteLine("Имя диска: " + drive.Name);
+                        Console.WriteLine("Файловая система: " + drive.DriveFormat);
+                        Console.WriteLine("Тип диска: " + drive.DriveType);
+                        Console.WriteLine("Объем доступного свободного места (в байтах): " + drive.AvailableFreeSpace);
+                        Console.WriteLine("Готов ли диск: " + drive.IsReady);
+                        Console.WriteLine("Корневой каталог диска: " + drive.RootDirectory);
+                        Console.WriteLine("Общий объем свободного места, доступного на диске (в байтах): " + drive.TotalFreeSpace);
+                        Console.WriteLine("Размер диска (в байтах): " + drive.TotalSize);
+                        Console.WriteLine("Метка тома диска: " + drive.VolumeLabel);
+                    }
+                    catch { }
+
+                    Console.WriteLine();
+                }
             }
-            LV.EndUpdate();
-            CurDir = newDir;
+            catch (System.Security.SecurityException)
+            {
+                System.Console.WriteLine("The caller does not have the " +
+                    "required permission.");
+            }
         }
     }
 }

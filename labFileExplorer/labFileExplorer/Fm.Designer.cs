@@ -57,6 +57,8 @@
             this.la = new System.Windows.Forms.Label();
             this.paPreview = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
+            this.paLogicalDrives = new System.Windows.Forms.Panel();
+            this.Save = new System.Windows.Forms.Button();
             this.toolMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
             this.panelInfo.SuspendLayout();
@@ -80,7 +82,7 @@
             this.buDirSelect,
             this.DButtons});
             this.toolMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.toolMenu.Location = new System.Drawing.Point(9, 0);
+            this.toolMenu.Location = new System.Drawing.Point(0, 10);
             this.toolMenu.Name = "toolMenu";
             this.toolMenu.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.toolMenu.ShowItemToolTips = false;
@@ -383,11 +385,36 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "label8";
             // 
+            // paLogicalDrives
+            // 
+            this.paLogicalDrives.BackColor = System.Drawing.Color.Transparent;
+            this.paLogicalDrives.Location = new System.Drawing.Point(159, 25);
+            this.paLogicalDrives.Name = "paLogicalDrives";
+            this.paLogicalDrives.Size = new System.Drawing.Size(877, 39);
+            this.paLogicalDrives.TabIndex = 5;
+            // 
+            // Save
+            // 
+            this.Save.AutoSize = true;
+            this.Save.BackColor = System.Drawing.Color.Transparent;
+            this.Save.FlatAppearance.BorderSize = 0;
+            this.Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Save.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Save.ForeColor = System.Drawing.Color.Coral;
+            this.Save.Location = new System.Drawing.Point(1197, 25);
+            this.Save.Name = "Save";
+            this.Save.Size = new System.Drawing.Size(127, 39);
+            this.Save.TabIndex = 23;
+            this.Save.Text = "Сохранить";
+            this.Save.UseVisualStyleBackColor = false;
+            // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1440, 810);
+            this.Controls.Add(this.Save);
+            this.Controls.Add(this.paLogicalDrives);
             this.Controls.Add(this.panelInfo);
             this.Controls.Add(this.paPreview);
             this.Controls.Add(this.panelMenu);
@@ -402,6 +429,7 @@
             this.paPreview.ResumeLayout(false);
             this.paPreview.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -433,6 +461,8 @@
         private System.Windows.Forms.Panel paPreview;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ToolStripButton buBack;
+        private System.Windows.Forms.Panel paLogicalDrives;
+        private System.Windows.Forms.Button Save;
     }
 }
 
