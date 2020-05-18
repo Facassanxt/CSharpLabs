@@ -46,7 +46,16 @@ namespace labFileExplorer
 
             //buBack.Click += (s, e) => LV.GoBack();
             //buForward.Click += (s, e) => wb.GoForward();
-            buUp.Click += (s, e) => LoadDir(Directory.GetParent(CurDir).ToString());
+            buUp.Click += (s, e) =>
+            {
+                try
+                {
+                    LoadDir(Directory.GetParent(CurDir).ToString());
+                }
+                catch (Exception)
+                {
+                }
+            };
             buDirSelect.Click += BuDirSelect_Click;
             edDir.KeyDown += EdDir_KeyDown;
 
@@ -76,10 +85,27 @@ namespace labFileExplorer
              * По расширению файла менять картинку  
                 //f.Extension
              *  Добавить меню выбора размера файла (Кб,Мб)
-             *   Выбор диска
              *   Больше инфы
              *   
              */
+            //foreach (var drive in DriveInfo.GetDrives())
+            //{
+            //    try
+            //    {
+            //        Console.WriteLine("Имя диска: " + drive.Name);
+            //        Console.WriteLine("Файловая система: " + drive.DriveFormat);
+            //        Console.WriteLine("Тип диска: " + drive.DriveType);
+            //        Console.WriteLine("Объем доступного свободного места (в байтах): " + drive.AvailableFreeSpace);
+            //        Console.WriteLine("Готов ли диск: " + drive.IsReady);
+            //        Console.WriteLine("Корневой каталог диска: " + drive.RootDirectory);
+            //        Console.WriteLine("Общий объем свободного места, доступного на диске (в байтах): " + drive.TotalFreeSpace);
+            //        Console.WriteLine("Размер диска (в байтах): " + drive.TotalSize);
+            //        Console.WriteLine("Метка тома диска: " + drive.VolumeLabel);
+            //    }
+            //    catch { }
+
+            //    Console.WriteLine();
+            //}
 
         }
 
@@ -111,14 +137,8 @@ namespace labFileExplorer
                     Count++;
                 }
             }
-            catch (System.IO.IOException)
+            catch (Exception)
             {
-                System.Console.WriteLine("An I/O error occurs.");
-            }
-            catch (System.Security.SecurityException)
-            {
-                System.Console.WriteLine("The caller does not have the " +
-                    "required permission.");
             }
         }
 
@@ -179,6 +199,9 @@ namespace labFileExplorer
 
         private void LoadDir(string newDir)
         {
+            LV.Visible = true;
+            LV.BringToFront();
+            LV.Refresh();
             try
             {
                 DirectoryInfo directoryInfo = new DirectoryInfo(newDir);
@@ -208,29 +231,18 @@ namespace labFileExplorer
             }
             catch (System.IO.IOException)
             {
-                foreach (var drive in DriveInfo.GetDrives())
-                {
-                    try
-                    {
-                        Console.WriteLine("Имя диска: " + drive.Name);
-                        Console.WriteLine("Файловая система: " + drive.DriveFormat);
-                        Console.WriteLine("Тип диска: " + drive.DriveType);
-                        Console.WriteLine("Объем доступного свободного места (в байтах): " + drive.AvailableFreeSpace);
-                        Console.WriteLine("Готов ли диск: " + drive.IsReady);
-                        Console.WriteLine("Корневой каталог диска: " + drive.RootDirectory);
-                        Console.WriteLine("Общий объем свободного места, доступного на диске (в байтах): " + drive.TotalFreeSpace);
-                        Console.WriteLine("Размер диска (в байтах): " + drive.TotalSize);
-                        Console.WriteLine("Метка тома диска: " + drive.VolumeLabel);
-                    }
-                    catch { }
-
-                    Console.WriteLine();
-                }
+                LV.EndUpdate();
+                LV.Items.Clear();
+                CurDir = newDir;
             }
             catch (System.Security.SecurityException)
             {
                 System.Console.WriteLine("The caller does not have the " +
                     "required permission.");
+            }
+            catch (Exception)
+            {
+                LV.Items.Clear();
             }
         }
     }
