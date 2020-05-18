@@ -17,17 +17,17 @@ namespace labFileExplorer
     {
         private string _curDir;
 
-        public string CurDir 
-        { 
+        public string CurDir
+        {
             get
             {
                 return _curDir;
             }
-            private set 
+            private set
             {
                 _curDir = value;
                 edDir.Text = value;
-            }  
+            }
         }
         public string SelItem { get; private set; }
 
@@ -39,7 +39,8 @@ namespace labFileExplorer
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.BlueGrey100, Accent.Red400, TextShade.WHITE);
 
-            CurDir = "D:\\";
+
+            CurDir = "C:\\";
             //CurDir = Directory.GetCurrentDirectory();
 
 
@@ -66,7 +67,7 @@ namespace labFileExplorer
             miViewTile.Click += (s, e) => LV.View = View.Tile;
 
 
-            LV.ItemSelectionChanged += (s, e) => SelItem = Path.Combine(CurDir,e.Item.Text);
+            LV.ItemSelectionChanged += (s, e) => SelItem = Path.Combine(CurDir, e.Item.Text);
             LV.DoubleClick += (s, e) => LoadDir(SelItem);
 
             Resize += Fm_Resize;
@@ -107,6 +108,48 @@ namespace labFileExplorer
             //    Console.WriteLine();
             //}
 
+        }
+
+        private int checkExtension(FileInfo item)
+        {
+            var ex = item.Extension.ToLower();
+            // Поддерживаемые форматы графических файлов
+            if (ex == ".jpg" || ex == ".jpeg" || ex == ".jp2" || ex == ".png" || ex == ".gif" || ex == ".raw" || ex == ".tiff" || ex == ".bmp" || ex == ".psd" || ex == ".fid")
+            {
+                return 2;
+            } // Поддерживаемые форматы видеофайлов
+            else if (ex == ".asf" || ex == ".mkv" || ex == ".avi" || ex == ".mp4" || ex == ".m4v" || ex == ".mov" || ex == ".mpg" || ex == ".mpeg" || ex == ".swf" || ex == ".wmv" || ex == ".sfl")
+            {
+                return 3;
+            } // Поддерживаемые форматы звуковых файлов
+            else if (ex == ".aiff" || ex == ".au" || ex == ".mid" || ex == ".midi" || ex == ".mp3" || ex == ".m4a" || ex == ".mp4" || ex == ".wav" || ex == ".wma")
+            {
+                return 4;
+            }// Поддерживаемые форматы архивирования 
+            else if (ex == ".zip" || ex == ".arj" || ex == ".rar" || ex == ".cab" || ex == ".tar" || ex == ".lzh" || ex == ".jar" || ex == ".iso" || ex == ".7z" || ex == ".tgz" || ex == ".tar-gz" || ex == ".tar")
+            {
+                return 5;
+            }// Поддерживаемые форматы текстовые 
+            else if (ex == ".txt" || ex == ".rtf" || ex == ".doc" || ex == ".docx" || ex == ".odt" || ex == ".pdf" || ex == ".html" || ex == ".log" || ex == ".ini")
+            {
+                return 6;
+            }// Поддерживаемые форматы Исполняемые 
+            else if (ex == ".exe" || ex == ".bat" || ex == ".bin" || ex == ".msi" || ex == ".cmd")
+            {
+                return 7;
+            }// Поддерживаемые форматы Скрипты и файлы с кодом 
+            else if (ex == ".cs" || ex == ".asp" || ex == ".aspx" || ex == ".c" || ex == ".cgi" || ex == ".class" || ex == ".cpp" || ex == ".dtd" || ex == ".fla" || ex == ".h" || ex == ".java" || ex == ".js" || ex == ".json" || ex == ".lua" || ex == ".php" || ex == ".sln" || ex == ".py" || ex == ".dll" || ex == ".sys" || ex == ".dat" || ex == ".bak")
+            {
+                return 8;
+            }// Нет расширения
+            else if (ex == "")
+            {
+                return 9;
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         private void GetLogicalDrives()
@@ -217,14 +260,7 @@ namespace labFileExplorer
                 {
                     var f = new FileInfo(item.FullName);
                     string extension = f.Extension;
-                    if (extension == ".txt")
-                    {
-                        LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", f.Length.ToString() + " байт" }, -1));
-                    }
-                    else
-                    {
-                        LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", f.Length.ToString() + " байт" }, 1));
-                    }
+                    LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", f.Length.ToString() + " байт" }, checkExtension(f)));
                 }
                 LV.EndUpdate();
                 CurDir = newDir;

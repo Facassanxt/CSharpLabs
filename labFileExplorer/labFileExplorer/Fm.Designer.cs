@@ -172,35 +172,35 @@
             // 
             this.miViewLargeIcon.ForeColor = System.Drawing.Color.Tomato;
             this.miViewLargeIcon.Name = "miViewLargeIcon";
-            this.miViewLargeIcon.Size = new System.Drawing.Size(180, 32);
+            this.miViewLargeIcon.Size = new System.Drawing.Size(179, 32);
             this.miViewLargeIcon.Text = "LargeIcon";
             // 
             // miViewSmallIcon
             // 
             this.miViewSmallIcon.ForeColor = System.Drawing.Color.Tomato;
             this.miViewSmallIcon.Name = "miViewSmallIcon";
-            this.miViewSmallIcon.Size = new System.Drawing.Size(180, 32);
+            this.miViewSmallIcon.Size = new System.Drawing.Size(179, 32);
             this.miViewSmallIcon.Text = "SmallIcon";
             // 
             // miViewList
             // 
             this.miViewList.ForeColor = System.Drawing.Color.Tomato;
             this.miViewList.Name = "miViewList";
-            this.miViewList.Size = new System.Drawing.Size(180, 32);
+            this.miViewList.Size = new System.Drawing.Size(179, 32);
             this.miViewList.Text = "List";
             // 
             // miViewDetails
             // 
             this.miViewDetails.ForeColor = System.Drawing.Color.Tomato;
             this.miViewDetails.Name = "miViewDetails";
-            this.miViewDetails.Size = new System.Drawing.Size(180, 32);
+            this.miViewDetails.Size = new System.Drawing.Size(179, 32);
             this.miViewDetails.Text = "Details";
             // 
             // miViewTile
             // 
             this.miViewTile.ForeColor = System.Drawing.Color.Tomato;
             this.miViewTile.Name = "miViewTile";
-            this.miViewTile.Size = new System.Drawing.Size(180, 32);
+            this.miViewTile.Size = new System.Drawing.Size(179, 32);
             this.miViewTile.Text = "Tile";
             // 
             // LV
@@ -227,6 +227,14 @@
             this.iLargeIcons.TransparentColor = System.Drawing.Color.Transparent;
             this.iLargeIcons.Images.SetKeyName(0, "799655_folder_512x512.png");
             this.iLargeIcons.Images.SetKeyName(1, "75_-Folder_Content-_document_paper_write_note-128.png");
+            this.iLargeIcons.Images.SetKeyName(2, "Image-1_240.png");
+            this.iLargeIcons.Images.SetKeyName(3, "Film-Roll_240.png");
+            this.iLargeIcons.Images.SetKeyName(4, "Music-Note 1_240.png");
+            this.iLargeIcons.Images.SetKeyName(5, "Box-2_240.png");
+            this.iLargeIcons.Images.SetKeyName(6, "Edit-Note 2_240.png");
+            this.iLargeIcons.Images.SetKeyName(7, "Processor-1_240.png");
+            this.iLargeIcons.Images.SetKeyName(8, "Gear-2_240.png");
+            this.iLargeIcons.Images.SetKeyName(9, "Barcode-Scann_240.png");
             // 
             // iSmallIcons
             // 
@@ -234,6 +242,15 @@
             this.iSmallIcons.TransparentColor = System.Drawing.Color.Transparent;
             this.iSmallIcons.Images.SetKeyName(0, "799655_folder_512x512.png");
             this.iSmallIcons.Images.SetKeyName(1, "75_-Folder_Content-_document_paper_write_note-128.png");
+            this.iSmallIcons.Images.SetKeyName(2, "Image-1_240.png");
+            this.iSmallIcons.Images.SetKeyName(3, "Film-Roll_240.png");
+            this.iSmallIcons.Images.SetKeyName(4, "Music-Note 1_240.png");
+            this.iSmallIcons.Images.SetKeyName(5, "Box-2_240.png");
+            this.iSmallIcons.Images.SetKeyName(6, "Edit-Note 2_240.png");
+            this.iSmallIcons.Images.SetKeyName(7, "Processor-1_240.png");
+            this.iSmallIcons.Images.SetKeyName(8, "Gear-2_240.png");
+            this.iSmallIcons.Images.SetKeyName(9, "Barcode-Scann_240.png");
+            this.iSmallIcons.Images.SetKeyName(10, "75_-Folder_Content-_document_paper_write_note-128.png");
             // 
             // panelMenu
             // 
