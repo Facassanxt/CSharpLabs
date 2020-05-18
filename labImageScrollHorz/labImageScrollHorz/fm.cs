@@ -65,7 +65,39 @@ namespace labImageScrollHorz
             }
             this.Invalidate();
         }
-
+        private void UpdateDraw_XG_BG(int v , bool flag)
+        {
+            if (flag)
+            {
+                drawXG -= v;
+                if (drawXG > 0)
+                {
+                    drawXG -= ImG.Width;
+                }
+                else
+                {
+                    if (drawXG < -ImG.Width)
+                    {
+                        drawXG += ImG.Width;
+                    }
+                }
+            }
+            else
+            {
+                drawXBG -= v;
+                if (drawXBG > 0)
+                {
+                    drawXBG -= ImG.Width;
+                }
+                else
+                {
+                    if (drawXBG < -ImG.Width)
+                    {
+                        drawXBG += ImG.Width;
+                    }
+                }
+            }
+        }
         private void UpdateDrawXG(int v)
         {
             drawXG -= v;
