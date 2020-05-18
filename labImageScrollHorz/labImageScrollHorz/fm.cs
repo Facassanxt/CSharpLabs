@@ -18,7 +18,7 @@ namespace labImageScrollHorz
         private Bitmap BitG, BitBG;
         private Graphics gG, gBG;
         private Point startPoint;
-        private int drawXG, drawXBG;
+        private int drawXG, drawXBG, Draw, speed = 10;
 
         public fm()
         {
@@ -44,9 +44,9 @@ namespace labImageScrollHorz
 
         private void Fm_MouseWheel(object sender, MouseEventArgs e)
         {
-            int rangeimage = e.Delta > 0 ? 10 : -10;
-            UpdateDrawXG(rangeimage);
-            UpdateDrawXBG(rangeimage/10);
+            int rangeimage = e.Delta > 0 ? speed : -speed;
+            UpdateDraw_XG_BG(rangeimage,true);
+            UpdateDraw_XG_BG(rangeimage/speed, false);
             this.Invalidate();
         }
 
@@ -55,81 +55,32 @@ namespace labImageScrollHorz
             switch (e.KeyCode)
             {
                 case Keys.Left:
-                    UpdateDrawXG(-10);
-                    UpdateDrawXBG(-10 / 10);
+                    UpdateDraw_XG_BG(-speed, true);
+                    UpdateDraw_XG_BG(-speed / speed, false);
                     break;
                 case Keys.Right:
-                    UpdateDrawXG(10);
-                    UpdateDrawXBG(10 / 10);
+                    UpdateDraw_XG_BG(speed, true);
+                    UpdateDraw_XG_BG(speed / speed, false);
                     break;
             }
             this.Invalidate();
         }
         private void UpdateDraw_XG_BG(int v , bool flag)
         {
-            if (flag)
-            {
-                drawXG -= v;
-                if (drawXG > 0)
-                {
-                    drawXG -= ImG.Width;
-                }
-                else
-                {
-                    if (drawXG < -ImG.Width)
-                    {
-                        drawXG += ImG.Width;
-                    }
-                }
-            }
+            if (flag) Draw = drawXG;
+            else Draw = drawXBG;
+            Draw -= v;
+            if (Draw > 0) Draw -= ImG.Width;
             else
             {
-                drawXBG -= v;
-                if (drawXBG > 0)
+                if (Draw < -ImG.Width)
                 {
-                    drawXBG -= ImG.Width;
-                }
-                else
-                {
-                    if (drawXBG < -ImG.Width)
-                    {
-                        drawXBG += ImG.Width;
-                    }
+                    Draw += ImG.Width;
                 }
             }
+            if (flag) drawXG = Draw;
+            else drawXBG = Draw;
         }
-        private void UpdateDrawXG(int v)
-        {
-            drawXG -= v;
-            if (drawXG > 0)
-            {
-                drawXG -= ImG.Width;
-            }
-            else
-            {
-                if (drawXG < -ImG.Width)
-                {
-                    drawXG += ImG.Width;
-                }
-            }
-        }
-
-        private void UpdateDrawXBG(int v)
-        {
-            drawXBG -= v;
-            if (drawXBG > 0)
-            {
-                drawXBG -= ImG.Width;
-            }
-            else
-            {
-                if (drawXBG < -ImG.Width)
-                {
-                    drawXBG += ImG.Width;
-                }
-            }
-        }
-
         private void UpdateBG()
         {
             for (int i = 0; i < 3; i++)
@@ -143,8 +94,8 @@ namespace labImageScrollHorz
         {
             if (this.Capture)
             {
-                UpdateDrawXG(startPoint.X - e.X);
-                UpdateDrawXBG((startPoint.X - e.X)/10);
+                UpdateDraw_XG_BG(startPoint.X - e.X,true);
+                UpdateDraw_XG_BG((startPoint.X - e.X)/speed, false);
                 startPoint = e.Location;
                 this.Invalidate();
             }
