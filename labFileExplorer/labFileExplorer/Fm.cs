@@ -55,6 +55,14 @@ namespace labFileExplorer
             "Метка тома диска: ",
             };
             CurDir = "C:\\";
+            /*TO DO
+             * Историю вперед и назад
+             * Прокрутку LV на колесеко мышки
+             * Скрытие panelInfo
+             * Сортирвка
+             * Поиск
+             */
+
             //CurDir = Directory.GetCurrentDirectory();
 
 
