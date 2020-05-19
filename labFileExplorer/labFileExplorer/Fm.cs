@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace labFileExplorer
 {
     public partial class Fm : MaterialForm
@@ -31,7 +30,8 @@ namespace labFileExplorer
             }
         }
         public string SelItem { get; private set; }
-
+        List<Label> listlabel;
+        List<string> listLabelString;
         public Fm()
         {
             InitializeComponent();
@@ -41,6 +41,19 @@ namespace labFileExplorer
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.BlueGrey100, Accent.Red400, TextShade.WHITE);
 
 
+            listlabel = new List<Label> { };
+            listLabelString = new List<string> 
+            {
+            "Имя диска: ",
+           "Файловая система: ",
+            "Тип диска: ",
+            "Объем доступного свободного места (в байтах): ",
+            "Готов ли диск: ",
+            "Корневой каталог диска: ",
+            "Общий объем свободного места, доступного на диске (в байтах): ",
+            "Размер диска (в байтах): ",
+            "Метка тома диска: ",
+        };
             CurDir = "C:\\";
             //CurDir = Directory.GetCurrentDirectory();
 
@@ -71,11 +84,12 @@ namespace labFileExplorer
                 LV.Location = new Point(2, panelMenu.Height + laDetailsName.Height + 64);
                 LV.View = View.Details;
             };
-            miViewTile.Click += (s, e) => {LV.View = View.Tile; StartForm(); };
+            miViewTile.Click += (s, e) => { LV.View = View.Tile; StartForm(); };
 
 
             LV.ItemSelectionChanged += (s, e) => SelItem = Path.Combine(CurDir, e.Item.Text);
             LV.DoubleClick += (s, e) => LoadDir(SelItem);
+            LV.Click += (s, e) => FileFullInfo(SelItem);
 
             Resize += Fm_Resize;
 
@@ -84,37 +98,113 @@ namespace labFileExplorer
             LV.Columns.Add("Тип", 100);
             LV.Columns.Add("Размер", 150);
 
-
             GetLogicalDrives();
             StartForm();
             LoadDir(CurDir);
+        }
 
-            /* TODO HW
-             * По расширению файла менять картинку  
-                //f.Extension
-             *  Добавить меню выбора размера файла (Кб,Мб)
-             *   Больше инфы
-             *   
-             */
-            //foreach (var drive in DriveInfo.GetDrives())
-            //{
-            //    try
-            //    {
-            //        Console.WriteLine("Имя диска: " + drive.Name);
-            //        Console.WriteLine("Файловая система: " + drive.DriveFormat);
-            //        Console.WriteLine("Тип диска: " + drive.DriveType);
-            //        Console.WriteLine("Объем доступного свободного места (в байтах): " + drive.AvailableFreeSpace);
-            //        Console.WriteLine("Готов ли диск: " + drive.IsReady);
-            //        Console.WriteLine("Корневой каталог диска: " + drive.RootDirectory);
-            //        Console.WriteLine("Общий объем свободного места, доступного на диске (в байтах): " + drive.TotalFreeSpace);
-            //        Console.WriteLine("Размер диска (в байтах): " + drive.TotalSize);
-            //        Console.WriteLine("Метка тома диска: " + drive.VolumeLabel);
-            //    }
-            //    catch { }
+        private void DiscFullInfo(string path)
+        {
+            foreach (var drive in DriveInfo.GetDrives())
+            {
+                if (drive.Name == path)
+                {
 
-            //    Console.WriteLine();
-            //}
+                    for (int i = 0; i < listlabel.Count; i++)
+                    {
+                        panelInfo.Controls.Remove(listlabel[i]);
+                    }
+                    int counter = 0;
+                    for (int i = 0; i < 9; i++)
+                    {
+                        try
+                        {
+                            //Label labelvalue = new Label();
+                            //labelvalue.BackColor = System.Drawing.Color.Transparent;
+                            //labelvalue.Font = new System.Drawing.Font("Comic Sans MS", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                            //labelvalue.ForeColor = System.Drawing.Color.LightCoral;
+                            //labelvalue.TextAlign = ContentAlignment.MiddleLeft;
+                            //labelvalue.Parent = panelInfo;
+                            //labelvalue.Size = new Size(panelInfo.Width - labelname.Location.X + labelname.Width, 27);
+                            //labelvalue.Text = kvp.value;
+                            //labelvalue.UseMnemonic = false;
+                            //labelvalue.Location = new System.Drawing.Point(215, laProperty.Height + 2 + labelvalue.Height * counter);
+                            //listlabel.Add(labelvalue);
+                            //counter++;
 
+                            //Console.WriteLine("Имя диска: " + drive.Name);
+                            //Console.WriteLine("Файловая система: " + drive.DriveFormat);
+                            //Console.WriteLine("Тип диска: " + drive.DriveType);
+                            //Console.WriteLine("Объем доступного свободного места (в байтах): " + drive.AvailableFreeSpace);
+                            //Console.WriteLine("Готов ли диск: " + drive.IsReady);
+                            //Console.WriteLine("Корневой каталог диска: " + drive.RootDirectory);
+                            //Console.WriteLine("Общий объем свободного места, доступного на диске (в байтах): " + drive.TotalFreeSpace);
+                            //Console.WriteLine("Размер диска (в байтах): " + drive.TotalSize);
+                            //Console.WriteLine("Метка тома диска: " + drive.VolumeLabel);
+                        }
+                        catch { }
+                    }
+                }
+            }
+        }
+
+        [STAThread]
+        private void FileFullInfo(string SelItem)
+        {
+
+            for (int i = 0; i < listlabel.Count; i++)
+            {
+                panelInfo.Controls.Remove(listlabel[i]);
+            }
+
+            var path = SelItem; // к примеру
+            var dir = Path.GetDirectoryName(path);
+            var file = Path.GetFileName(path);
+
+            var shell = new Shell32.Shell();
+            var folder = shell.NameSpace(dir);
+            var folderItem = folder.ParseName(file);
+
+            var names =
+                (from idx in Enumerable.Range(0, short.MaxValue)
+                 let key = folder.GetDetailsOf(null, idx)
+                 where !string.IsNullOrEmpty(key)
+                 select (idx, key)).ToDictionary(p => p.idx, p => p.key);
+
+            var properties =
+                (from idx in names.Keys
+                 orderby idx
+                 let value = folder.GetDetailsOf(folderItem, idx)
+                 where !string.IsNullOrEmpty(value)
+                 select (name: names[idx], value)).ToList();
+            int counter = 0;
+            foreach (var kvp in properties)
+            {
+                Label labelname = new Label();
+                labelname.BackColor = System.Drawing.Color.Transparent;
+                labelname.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                labelname.ForeColor = System.Drawing.Color.LightCoral;
+                labelname.TextAlign = ContentAlignment.MiddleLeft;
+                labelname.Parent = panelInfo;
+                labelname.Size = new Size(215, 27);
+                labelname.Text = kvp.name;
+                labelname.UseMnemonic = false;
+                labelname.Location = new System.Drawing.Point(0, laProperty.Height + 2 + labelname.Height * counter);
+                listlabel.Add(labelname);
+
+                Label labelvalue = new Label();
+                labelvalue.BackColor = System.Drawing.Color.Transparent;
+                labelvalue.Font = new System.Drawing.Font("Comic Sans MS", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                labelvalue.ForeColor = System.Drawing.Color.LightCoral;
+                labelvalue.TextAlign = ContentAlignment.MiddleLeft;
+                labelvalue.Parent = panelInfo;
+                labelvalue.Size = new Size(panelInfo.Width - labelname.Location.X + labelname.Width, 27);
+                labelvalue.Text = kvp.value;
+                labelvalue.UseMnemonic = false;
+                labelvalue.Location = new System.Drawing.Point(215, laProperty.Height + 2 + labelvalue.Height * counter);
+                listlabel.Add(labelvalue);
+                counter++;
+            }
         }
 
         private int checkExtension(FileInfo item)
@@ -192,6 +282,7 @@ namespace labFileExplorer
                     btn.FlatAppearance.BorderSize = 0;
                     btn.Click += (s, e) =>
                     {
+                        DiscFullInfo(str);
                         LoadDir(str);
                     };
                     Count++;
@@ -204,7 +295,8 @@ namespace labFileExplorer
 
         private void Fm_Resize(object sender, EventArgs e)
         {
-            panelInfo.Location = new Point(LV.Width, paPreview.Height + 64);
+            paDetails.Width = LV.Width;
+            panelInfo.Location = new Point(LV.Width, 64);
             panelMenu.Width = Width - paPreview.Width;
             toolMenu.Width = Width - paPreview.Width;
             edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8;
@@ -227,12 +319,13 @@ namespace labFileExplorer
             LV.Width = Width - 2 - 2 - paPreview.Width;
             LV.Location = new Point(2, panelMenu.Height + 64);
             LV.BackColor = BackColor;
+            LV.Scrollable = false;
 
             paPreview.Location = new Point(LV.Width, 64);
 
-            panelInfo.Height = Height - paPreview.Height - 64 - 2;
+            panelInfo.Height = Height - 64 - 2;
             panelInfo.Width = paPreview.Width;
-            panelInfo.Location = new Point(LV.Width, paPreview.Height + 64);
+            panelInfo.Location = new Point(LV.Width, 64);
 
             toolMenu.Width = Width;
             toolMenu.Location = new Point(0, 0);

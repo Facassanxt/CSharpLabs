@@ -47,26 +47,18 @@
             this.iSmallIcons = new System.Windows.Forms.ImageList(this.components);
             this.panelMenu = new System.Windows.Forms.Panel();
             this.panelInfo = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.la = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.paPreview = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
+            this.laProperty = new System.Windows.Forms.Label();
             this.paLogicalDrives = new System.Windows.Forms.Panel();
             this.laDetailsName = new System.Windows.Forms.Label();
             this.laDetailsDate = new System.Windows.Forms.Label();
             this.paDetails = new System.Windows.Forms.Panel();
             this.laDetailsType = new System.Windows.Forms.Label();
             this.labDetailsSize = new System.Windows.Forms.Label();
+            this.paPreview = new System.Windows.Forms.Panel();
             this.toolMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
             this.panelInfo.SuspendLayout();
-            this.paPreview.SuspendLayout();
             this.paDetails.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -271,90 +263,19 @@
             // 
             this.panelInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panelInfo.BackColor = System.Drawing.Color.Transparent;
-            this.panelInfo.Controls.Add(this.label7);
-            this.panelInfo.Controls.Add(this.label6);
-            this.panelInfo.Controls.Add(this.label3);
-            this.panelInfo.Controls.Add(this.label5);
-            this.panelInfo.Controls.Add(this.label4);
-            this.panelInfo.Controls.Add(this.label2);
             this.panelInfo.Controls.Add(this.label1);
-            this.panelInfo.Controls.Add(this.la);
-            this.panelInfo.Location = new System.Drawing.Point(1042, 550);
+            this.panelInfo.Controls.Add(this.laProperty);
+            this.panelInfo.Location = new System.Drawing.Point(1042, 506);
             this.panelInfo.Name = "panelInfo";
-            this.panelInfo.Size = new System.Drawing.Size(386, 229);
+            this.panelInfo.Size = new System.Drawing.Size(386, 273);
             this.panelInfo.TabIndex = 3;
-            // 
-            // label7
-            // 
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.ForeColor = System.Drawing.Color.LightCoral;
-            this.label7.Location = new System.Drawing.Point(16, 196);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(160, 27);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Дата изменения";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label7.UseMnemonic = false;
-            // 
-            // label6
-            // 
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.ForeColor = System.Drawing.Color.LightCoral;
-            this.label6.Location = new System.Drawing.Point(16, 169);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(160, 27);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Дата создания";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label6.UseMnemonic = false;
-            // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.ForeColor = System.Drawing.Color.LightCoral;
-            this.label5.Location = new System.Drawing.Point(16, 142);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(160, 27);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Путь";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label5.UseMnemonic = false;
-            // 
-            // label4
-            // 
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.LightCoral;
-            this.label4.Location = new System.Drawing.Point(16, 115);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(160, 27);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Расширение";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label4.UseMnemonic = false;
-            // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.LightCoral;
-            this.label2.Location = new System.Drawing.Point(16, 61);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(160, 27);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Имя";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label2.UseMnemonic = false;
             // 
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.Color.Tomato;
-            this.label1.Location = new System.Drawing.Point(182, 9);
+            this.label1.Location = new System.Drawing.Point(250, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(194, 38);
             this.label1.TabIndex = 5;
@@ -362,51 +283,18 @@
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.label1.UseMnemonic = false;
             // 
-            // la
+            // laProperty
             // 
-            this.la.BackColor = System.Drawing.Color.Transparent;
-            this.la.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.la.ForeColor = System.Drawing.Color.Tomato;
-            this.la.Location = new System.Drawing.Point(3, 9);
-            this.la.Name = "la";
-            this.la.Size = new System.Drawing.Size(173, 38);
-            this.la.TabIndex = 4;
-            this.la.Text = "Свойство";
-            this.la.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.la.UseMnemonic = false;
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.ForeColor = System.Drawing.Color.LightCoral;
-            this.label3.Location = new System.Drawing.Point(16, 88);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 27);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Тип";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label3.UseMnemonic = false;
-            // 
-            // paPreview
-            // 
-            this.paPreview.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.paPreview.BackColor = System.Drawing.Color.Transparent;
-            this.paPreview.Controls.Add(this.label8);
-            this.paPreview.Location = new System.Drawing.Point(1042, 59);
-            this.paPreview.Name = "paPreview";
-            this.paPreview.Size = new System.Drawing.Size(395, 485);
-            this.paPreview.TabIndex = 4;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 32);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "label8";
+            this.laProperty.BackColor = System.Drawing.Color.Transparent;
+            this.laProperty.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.laProperty.ForeColor = System.Drawing.Color.Tomato;
+            this.laProperty.Location = new System.Drawing.Point(0, 0);
+            this.laProperty.Name = "laProperty";
+            this.laProperty.Size = new System.Drawing.Size(173, 38);
+            this.laProperty.TabIndex = 4;
+            this.laProperty.Text = "Свойство";
+            this.laProperty.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.laProperty.UseMnemonic = false;
             // 
             // paLogicalDrives
             // 
@@ -483,6 +371,17 @@
             this.labDetailsSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labDetailsSize.UseMnemonic = false;
             // 
+            // paPreview
+            // 
+            this.paPreview.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.paPreview.BackColor = System.Drawing.Color.Transparent;
+            this.paPreview.Location = new System.Drawing.Point(1042, 59);
+            this.paPreview.Name = "paPreview";
+            this.paPreview.Size = new System.Drawing.Size(395, 441);
+            this.paPreview.TabIndex = 4;
+            this.paPreview.Visible = false;
+            // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -501,8 +400,6 @@
             this.toolMenu.PerformLayout();
             this.panelMenu.ResumeLayout(false);
             this.panelInfo.ResumeLayout(false);
-            this.paPreview.ResumeLayout(false);
-            this.paPreview.PerformLayout();
             this.paDetails.ResumeLayout(false);
             this.paDetails.PerformLayout();
             this.ResumeLayout(false);
@@ -527,15 +424,7 @@
         private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Panel panelInfo;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label la;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel paPreview;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label laProperty;
         private System.Windows.Forms.ToolStripButton buBack;
         private System.Windows.Forms.Panel paLogicalDrives;
         private System.Windows.Forms.Label laDetailsName;
@@ -543,6 +432,7 @@
         private System.Windows.Forms.Panel paDetails;
         private System.Windows.Forms.Label labDetailsSize;
         private System.Windows.Forms.Label laDetailsType;
+        private System.Windows.Forms.Panel paPreview;
     }
 }
 
