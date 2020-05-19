@@ -57,7 +57,6 @@ namespace labFileExplorer
             CurDir = "C:\\";
             /*TO DO
              * Историю вперед и назад
-             * Прокрутку LV на колесеко мышки
              * Скрытие panelInfo
              * Сортирвка
              * Поиск
@@ -352,7 +351,6 @@ namespace labFileExplorer
             LV.Width = Width - 2 - 2 - paPreview.Width;
             LV.Location = new Point(2, panelMenu.Height + 64);
             LV.BackColor = BackColor;
-            LV.Scrollable = false;
 
             paPreview.Location = new Point(LV.Width, 64);
 
