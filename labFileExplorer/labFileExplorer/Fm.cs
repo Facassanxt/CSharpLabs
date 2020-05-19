@@ -47,13 +47,13 @@ namespace labFileExplorer
             "Имя диска: ",
            "Файловая система: ",
             "Тип диска: ",
-            "Объем доступного свободного места (в байтах): ",
+            "Объем доступного свободного места: ",
             "Готов ли диск: ",
             "Корневой каталог диска: ",
             "Общий объем свободного места, доступного на диске (в байтах): ",
-            "Размер диска (в байтах): ",
+            "Размер диска: ",
             "Метка тома диска: ",
-        };
+            };
             CurDir = "C:\\";
             //CurDir = Directory.GetCurrentDirectory();
 
@@ -114,35 +114,54 @@ namespace labFileExplorer
                     {
                         panelInfo.Controls.Remove(listlabel[i]);
                     }
-                    int counter = 0;
-                    for (int i = 0; i < 9; i++)
+                    try
                     {
-                        try
+                        List<string> listDriveString;
+                        listDriveString = new List<string>
                         {
-                            //Label labelvalue = new Label();
-                            //labelvalue.BackColor = System.Drawing.Color.Transparent;
-                            //labelvalue.Font = new System.Drawing.Font("Comic Sans MS", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-                            //labelvalue.ForeColor = System.Drawing.Color.LightCoral;
-                            //labelvalue.TextAlign = ContentAlignment.MiddleLeft;
-                            //labelvalue.Parent = panelInfo;
-                            //labelvalue.Size = new Size(panelInfo.Width - labelname.Location.X + labelname.Width, 27);
-                            //labelvalue.Text = kvp.value;
-                            //labelvalue.UseMnemonic = false;
-                            //labelvalue.Location = new System.Drawing.Point(215, laProperty.Height + 2 + labelvalue.Height * counter);
-                            //listlabel.Add(labelvalue);
-                            //counter++;
+                        drive.Name,
+                        drive.DriveFormat,
+                        drive.DriveType.ToString(),
+                        (drive.AvailableFreeSpace / (double)Math.Pow(2, 30)).ToString() + " ГБ",
+                        drive.IsReady.ToString(),
+                        drive.RootDirectory.ToString(),
+                        drive.RootDirectory.ToString(),
+                        (drive.TotalSize / (double)Math.Pow(2, 30)).ToString() + " ГБ",
+                        drive.VolumeLabel,
+                        };
+                        for (int i = 0; i < 9; i++)
+                        {
+                            try
+                            {
+                                Label labelname = new Label();
+                                labelname.BackColor = System.Drawing.Color.Transparent;
+                                labelname.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                                labelname.ForeColor = System.Drawing.Color.LightCoral;
+                                labelname.TextAlign = ContentAlignment.MiddleLeft;
+                                labelname.Parent = panelInfo;
+                                labelname.Size = new Size(215, 27);
+                                labelname.Text = listLabelString[i];
+                                labelname.UseMnemonic = false;
+                                labelname.Location = new System.Drawing.Point(0, laProperty.Height + 2 + labelname.Height * i);
+                                listlabel.Add(labelname);
 
-                            //Console.WriteLine("Имя диска: " + drive.Name);
-                            //Console.WriteLine("Файловая система: " + drive.DriveFormat);
-                            //Console.WriteLine("Тип диска: " + drive.DriveType);
-                            //Console.WriteLine("Объем доступного свободного места (в байтах): " + drive.AvailableFreeSpace);
-                            //Console.WriteLine("Готов ли диск: " + drive.IsReady);
-                            //Console.WriteLine("Корневой каталог диска: " + drive.RootDirectory);
-                            //Console.WriteLine("Общий объем свободного места, доступного на диске (в байтах): " + drive.TotalFreeSpace);
-                            //Console.WriteLine("Размер диска (в байтах): " + drive.TotalSize);
-                            //Console.WriteLine("Метка тома диска: " + drive.VolumeLabel);
+                                Label labelvalue = new Label();
+                                labelvalue.BackColor = System.Drawing.Color.Transparent;
+                                labelvalue.Font = new System.Drawing.Font("Comic Sans MS", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                                labelvalue.ForeColor = System.Drawing.Color.LightCoral;
+                                labelvalue.TextAlign = ContentAlignment.MiddleLeft;
+                                labelvalue.Parent = panelInfo;
+                                labelvalue.Size = new Size(panelInfo.Width - labelname.Location.X + labelname.Width, 27);
+                                labelvalue.Text = listDriveString[i];
+                                labelvalue.UseMnemonic = false;
+                                labelvalue.Location = new System.Drawing.Point(215, laProperty.Height + 2 + labelvalue.Height * i);
+                                listlabel.Add(labelvalue);
+                            }
+                            catch { }
                         }
-                        catch { }
+                    }
+                    catch (Exception)
+                    {
                     }
                 }
             }
@@ -152,58 +171,64 @@ namespace labFileExplorer
         private void FileFullInfo(string SelItem)
         {
 
-            for (int i = 0; i < listlabel.Count; i++)
+            try
             {
-                panelInfo.Controls.Remove(listlabel[i]);
+                for (int i = 0; i < listlabel.Count; i++)
+                {
+                    panelInfo.Controls.Remove(listlabel[i]);
+                }
+
+                var path = SelItem; // к примеру
+                var dir = Path.GetDirectoryName(path);
+                var file = Path.GetFileName(path);
+
+                var shell = new Shell32.Shell();
+                var folder = shell.NameSpace(dir);
+                var folderItem = folder.ParseName(file);
+
+                var names =
+                    (from idx in Enumerable.Range(0, short.MaxValue)
+                     let key = folder.GetDetailsOf(null, idx)
+                     where !string.IsNullOrEmpty(key)
+                     select (idx, key)).ToDictionary(p => p.idx, p => p.key);
+
+                var properties =
+                    (from idx in names.Keys
+                     orderby idx
+                     let value = folder.GetDetailsOf(folderItem, idx)
+                     where !string.IsNullOrEmpty(value)
+                     select (name: names[idx], value)).ToList();
+                int counter = 0;
+                foreach (var kvp in properties)
+                {
+                    Label labelname = new Label();
+                    labelname.BackColor = System.Drawing.Color.Transparent;
+                    labelname.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                    labelname.ForeColor = System.Drawing.Color.LightCoral;
+                    labelname.TextAlign = ContentAlignment.MiddleLeft;
+                    labelname.Parent = panelInfo;
+                    labelname.Size = new Size(215, 27);
+                    labelname.Text = kvp.name;
+                    labelname.UseMnemonic = false;
+                    labelname.Location = new System.Drawing.Point(0, laProperty.Height + 2 + labelname.Height * counter);
+                    listlabel.Add(labelname);
+
+                    Label labelvalue = new Label();
+                    labelvalue.BackColor = System.Drawing.Color.Transparent;
+                    labelvalue.Font = new System.Drawing.Font("Comic Sans MS", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                    labelvalue.ForeColor = System.Drawing.Color.LightCoral;
+                    labelvalue.TextAlign = ContentAlignment.MiddleLeft;
+                    labelvalue.Parent = panelInfo;
+                    labelvalue.Size = new Size(panelInfo.Width - labelname.Location.X + labelname.Width, 27);
+                    labelvalue.Text = kvp.value;
+                    labelvalue.UseMnemonic = false;
+                    labelvalue.Location = new System.Drawing.Point(215, laProperty.Height + 2 + labelvalue.Height * counter);
+                    listlabel.Add(labelvalue);
+                    counter++;
+                }
             }
-
-            var path = SelItem; // к примеру
-            var dir = Path.GetDirectoryName(path);
-            var file = Path.GetFileName(path);
-
-            var shell = new Shell32.Shell();
-            var folder = shell.NameSpace(dir);
-            var folderItem = folder.ParseName(file);
-
-            var names =
-                (from idx in Enumerable.Range(0, short.MaxValue)
-                 let key = folder.GetDetailsOf(null, idx)
-                 where !string.IsNullOrEmpty(key)
-                 select (idx, key)).ToDictionary(p => p.idx, p => p.key);
-
-            var properties =
-                (from idx in names.Keys
-                 orderby idx
-                 let value = folder.GetDetailsOf(folderItem, idx)
-                 where !string.IsNullOrEmpty(value)
-                 select (name: names[idx], value)).ToList();
-            int counter = 0;
-            foreach (var kvp in properties)
+            catch (Exception)
             {
-                Label labelname = new Label();
-                labelname.BackColor = System.Drawing.Color.Transparent;
-                labelname.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-                labelname.ForeColor = System.Drawing.Color.LightCoral;
-                labelname.TextAlign = ContentAlignment.MiddleLeft;
-                labelname.Parent = panelInfo;
-                labelname.Size = new Size(215, 27);
-                labelname.Text = kvp.name;
-                labelname.UseMnemonic = false;
-                labelname.Location = new System.Drawing.Point(0, laProperty.Height + 2 + labelname.Height * counter);
-                listlabel.Add(labelname);
-
-                Label labelvalue = new Label();
-                labelvalue.BackColor = System.Drawing.Color.Transparent;
-                labelvalue.Font = new System.Drawing.Font("Comic Sans MS", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-                labelvalue.ForeColor = System.Drawing.Color.LightCoral;
-                labelvalue.TextAlign = ContentAlignment.MiddleLeft;
-                labelvalue.Parent = panelInfo;
-                labelvalue.Size = new Size(panelInfo.Width - labelname.Location.X + labelname.Width, 27);
-                labelvalue.Text = kvp.value;
-                labelvalue.UseMnemonic = false;
-                labelvalue.Location = new System.Drawing.Point(215, laProperty.Height + 2 + labelvalue.Height * counter);
-                listlabel.Add(labelvalue);
-                counter++;
             }
         }
 
