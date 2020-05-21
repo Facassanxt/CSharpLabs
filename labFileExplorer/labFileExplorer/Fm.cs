@@ -80,8 +80,16 @@ namespace labFileExplorer
             {
                 try
                 {
-                    LoadDir(Directory.GetParent(CurDir).ToString());
-                    CountSearch = 0;
+                    if (CountSearch > 0)
+                    {
+                        CountSearch = 0;
+                        LoadDir(CurDir);
+                    }
+                    else
+                    {
+                        CountSearch = 0;
+                        LoadDir(Directory.GetParent(CurDir).ToString());
+                    }
 
                 }
                 catch (Exception)
@@ -399,7 +407,7 @@ namespace labFileExplorer
                     btn.TextAlign = ContentAlignment.MiddleCenter;
                     btn.UseVisualStyleBackColor = false;
                     btn.Parent = paLogicalDrives;
-                    btn.Size = new Size(60, 39);
+                    btn.Size = new Size(65, 39);
                     btn.Text = str;
                     btn.Location = new Point(Count * btn.Width, 0);
                     btn.FlatAppearance.BorderSize = 0;
@@ -422,6 +430,7 @@ namespace labFileExplorer
         {
             paDetails.Width = LV.Width;
             panelInfo.Location = new Point(LV.Width, 64);
+            panelInfo.Height = Height - 64 - 2;
             panelMenu.Width = Width - paPreview.Width;
             toolMenu.Width = Width - paPreview.Width;
             edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8 - edSearch.Width;
