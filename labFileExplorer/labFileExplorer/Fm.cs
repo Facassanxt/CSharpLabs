@@ -35,6 +35,8 @@ namespace labFileExplorer
         List<Label> listlabel;
         List<string> listLabelString;
         public int current_position { get; private set; } = 0;
+        public int CountSearch { get; set; } = 0;
+
         private History step = new History();
         public Fm()
         {
@@ -59,27 +61,28 @@ namespace labFileExplorer
             };
             CurDir = "C:\\";
             step.add(CurDir);
+            CountSearch = 0;
+            DiscFullInfo(CurDir);
             /*TO DO
              * Скрытие panelInfo
-             * Сортирвка
-             * Поиск
              */
 
-            //CurDir = Directory.GetCurrentDirectory();
-
-
-
-            buBack.Click += (s, e) => LoadDir(step.getFromHistory(step.CurrentStep - 1));
-            buForward.Click += (s, e) => LoadDir(step.getFromHistory(step.CurrentStep + 1));
+            buBack.Click += (s, e) => { LoadDir(step.getFromHistory(step.CurrentStep - 1)); CountSearch = 0; };
+            buForward.Click += (s, e) => { LoadDir(step.getFromHistory(step.CurrentStep + 1)); CountSearch = 0; };
             laDetailsName.Click += (s,e) => La_Click(0);
             laDetailsDate.Click += (s, e) => La_Click(1);
             laDetailsType.Click += (s, e) => La_Click(2);
             labDetailsSize.Click += (s, e) => La_Click(3);
+            edSearch.GotFocus += (s, e) => edSearchText(true);
+            edSearch.LostFocus += (s, e) => edSearchText(false);
+            edSearch.KeyDown += EdSearch_KeyDown;
             buUp.Click += (s, e) =>
             {
                 try
                 {
                     LoadDir(Directory.GetParent(CurDir).ToString());
+                    CountSearch = 0;
+
                 }
                 catch (Exception)
                 {
@@ -111,6 +114,7 @@ namespace labFileExplorer
                     if (words[words.Length-1] == item.Name)
                     {
                         step.add(SelItem);
+                        CountSearch = 0;
                     }
                 }
                 LoadDir(SelItem);
@@ -127,6 +131,52 @@ namespace labFileExplorer
             GetLogicalDrives();
             StartForm();
             LoadDir(CurDir);
+        }
+        public void edSearchText(bool flag)
+        {
+            if (flag)
+            {
+                if (edSearch.Text == "Поиск: *.*") edSearch.Text = "";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(edSearch.Text)) edSearch.Text = "Поиск: *.*";
+        }
+        private void EdSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                LV.Items.Clear();
+                DirectoryInfo directoryInfo = new DirectoryInfo(CurDir);
+                CountSearch = 0;
+                FindInDir(directoryInfo, edSearch.Text,true);
+                edDir.Text = $"{CurDir} = {CountSearch} совпадений! (500 Максимум)";
+            }
+        }
+        public void FindInDir(DirectoryInfo dir, string pattern, bool recursive)
+        {
+            if (CountSearch >= 500) return;
+            try
+            {
+                foreach (FileInfo file in dir.GetFiles(pattern))
+                {
+                    var f = new FileInfo(file.FullName);
+                    LV.Items.Add(new ListViewItem(new string[] { file.FullName, f.LastWriteTime.ToString(), "Файл", checkSize(f) }, checkExtension(f)));
+                    edDir.Text = $"{CurDir} = {CountSearch} совпадений!";
+                    if (CountSearch >= 500) return;
+                    else if (CountSearch % 100 == 0) Refresh();
+                    CountSearch++;
+                }
+                if (recursive)
+                {
+                    foreach (DirectoryInfo subdir in dir.GetDirectories())
+                    {
+                        FindInDir(subdir, pattern, recursive);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void La_Click(int number)
@@ -226,7 +276,7 @@ namespace labFileExplorer
                     panelInfo.Controls.Remove(listlabel[i]);
                 }
 
-                var path = SelItem; // к примеру
+                var path = SelItem;
                 var dir = Path.GetDirectoryName(path);
                 var file = Path.GetFileName(path);
 
@@ -356,6 +406,7 @@ namespace labFileExplorer
                     btn.Click += (s, e) =>
                     {
                         step.add(str);
+                        CountSearch = 0;
                         DiscFullInfo(str);
                         LoadDir(str);
                     };
@@ -373,9 +424,7 @@ namespace labFileExplorer
             panelInfo.Location = new Point(LV.Width, 64);
             panelMenu.Width = Width - paPreview.Width;
             toolMenu.Width = Width - paPreview.Width;
-            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8;
-
-            //panelMenu.Location = new Point(2, 64);
+            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8 - edSearch.Width;
         }
 
         private void StartForm()
@@ -400,10 +449,13 @@ namespace labFileExplorer
             panelInfo.Width = paPreview.Width;
             panelInfo.Location = new Point(LV.Width, 64);
 
+
             toolMenu.Width = Width;
             toolMenu.Location = new Point(0, 0);
             edDir.BackColor = BackColor;
-            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8;
+            edSearch.BackColor = BackColor;
+            edDir.Width = 100;
+            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8 - edSearch.Width;
 
             laDetailsName.Location = new Point(0, 0);
             laDetailsDate.Location = new Point(500, 0);
@@ -422,6 +474,8 @@ namespace labFileExplorer
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 LoadDir(dialog.SelectedPath);
+                step.add(dialog.SelectedPath);
+                CountSearch = 0;
             }
         }
 
@@ -430,19 +484,18 @@ namespace labFileExplorer
             if (e.KeyCode == Keys.Enter)
             {
                 LoadDir(edDir.Text);
+                step.add(edDir.Text);
+                CountSearch = 0;
             }
         }
 
         private void LoadDir(string newDir)
         {
-            LV.Visible = true;
-            LV.BringToFront();
-            LV.Refresh();
             try
             {
                 DirectoryInfo directoryInfo = new DirectoryInfo(newDir);
                 LV.BeginUpdate();
-                LV.Items.Clear();
+                if (CountSearch <= 0) LV.Items.Clear();
                 foreach (var item in directoryInfo.GetDirectories())
                 {
                     var f = new FileInfo(item.FullName);
@@ -452,7 +505,6 @@ namespace labFileExplorer
                 foreach (var item in directoryInfo.GetFiles())
                 {
                     var f = new FileInfo(item.FullName);
-                    string extension = f.Extension;
                     LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", checkSize(f)}, checkExtension(f)));
                 }
                 LV.EndUpdate();
@@ -460,6 +512,7 @@ namespace labFileExplorer
                 CurDir = newDir;
             }
             catch (System.IO.IOException)
+
             {
                 LV.EndUpdate();
                 try
@@ -468,9 +521,8 @@ namespace labFileExplorer
                 }
                 catch (Exception)
                 {
-                    LoadDir(CurDir);
                 }
-                //LV.Items.Clear();
+                if (CountSearch <= 0) LoadDir(CurDir);
             }
             catch (System.Security.SecurityException)
             {

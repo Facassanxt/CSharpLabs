@@ -42,6 +42,7 @@
             this.miViewList = new System.Windows.Forms.ToolStripMenuItem();
             this.miViewDetails = new System.Windows.Forms.ToolStripMenuItem();
             this.miViewTile = new System.Windows.Forms.ToolStripMenuItem();
+            this.edSearch = new System.Windows.Forms.ToolStripTextBox();
             this.LV = new System.Windows.Forms.ListView();
             this.iLargeIcons = new System.Windows.Forms.ImageList(this.components);
             this.iSmallIcons = new System.Windows.Forms.ImageList(this.components);
@@ -64,8 +65,6 @@
             // 
             // toolMenu
             // 
-            this.toolMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.toolMenu.AutoSize = false;
             this.toolMenu.BackColor = System.Drawing.Color.Transparent;
             this.toolMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -77,7 +76,8 @@
             this.buUp,
             this.edDir,
             this.buDirSelect,
-            this.DButtons});
+            this.DButtons,
+            this.edSearch});
             this.toolMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolMenu.Location = new System.Drawing.Point(0, 10);
             this.toolMenu.Name = "toolMenu";
@@ -133,7 +133,7 @@
             this.edDir.Font = new System.Drawing.Font("Comic Sans MS", 15F);
             this.edDir.ForeColor = System.Drawing.Color.Tomato;
             this.edDir.Name = "edDir";
-            this.edDir.Size = new System.Drawing.Size(800, 35);
+            this.edDir.Size = new System.Drawing.Size(600, 35);
             // 
             // buDirSelect
             // 
@@ -200,6 +200,19 @@
             this.miViewTile.Name = "miViewTile";
             this.miViewTile.Size = new System.Drawing.Size(179, 32);
             this.miViewTile.Text = "Tile";
+            // 
+            // edSearch
+            // 
+            this.edSearch.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.edSearch.AutoSize = false;
+            this.edSearch.AutoToolTip = true;
+            this.edSearch.BackColor = System.Drawing.SystemColors.Control;
+            this.edSearch.Font = new System.Drawing.Font("Comic Sans MS", 15F);
+            this.edSearch.ForeColor = System.Drawing.Color.RosyBrown;
+            this.edSearch.Name = "edSearch";
+            this.edSearch.Size = new System.Drawing.Size(150, 35);
+            this.edSearch.Text = "Поиск: *.*";
+            this.edSearch.ToolTipText = "\r\n";
             // 
             // LV
             // 
@@ -433,6 +446,7 @@
         private System.Windows.Forms.Label labDetailsSize;
         private System.Windows.Forms.Label laDetailsType;
         private System.Windows.Forms.Panel paPreview;
+        private System.Windows.Forms.ToolStripTextBox edSearch;
     }
 }
 
