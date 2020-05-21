@@ -32,6 +32,8 @@ namespace labFileExplorer
         public string SelItem { get; private set; }
         List<Label> listlabel;
         List<string> listLabelString;
+        public int current_position { get; private set; } = 0;
+        private History step = new History();
         public Fm()
         {
             InitializeComponent();
@@ -39,7 +41,6 @@ namespace labFileExplorer
             skinManager.AddFormToManage(this);
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.BlueGrey100, Accent.Red400, TextShade.WHITE);
-
 
             listlabel = new List<Label> { };
             listLabelString = new List<string> 
@@ -55,8 +56,8 @@ namespace labFileExplorer
             "Метка тома диска: ",
             };
             CurDir = "C:\\";
+            step.add(CurDir);
             /*TO DO
-             * Историю вперед и назад
              * Скрытие panelInfo
              * Сортирвка
              * Поиск
@@ -66,8 +67,8 @@ namespace labFileExplorer
 
 
 
-            //buBack.Click += (s, e) => LV.GoBack();
-            //buForward.Click += (s, e) => wb.GoForward();
+            buBack.Click += (s, e) => LoadDir(step.getFromHistory(step.CurrentStep - 1));
+            buForward.Click += (s, e) => LoadDir(step.getFromHistory(step.CurrentStep + 1));
             buUp.Click += (s, e) =>
             {
                 try
@@ -95,7 +96,19 @@ namespace labFileExplorer
 
 
             LV.ItemSelectionChanged += (s, e) => SelItem = Path.Combine(CurDir, e.Item.Text);
-            LV.DoubleClick += (s, e) => LoadDir(SelItem);
+            LV.DoubleClick += (s, e) =>
+            {
+                string[] words = SelItem.Split('\\');
+                DirectoryInfo directoryInfo = new DirectoryInfo(CurDir);
+                foreach (var item in directoryInfo.GetDirectories())
+                {
+                    if (words[words.Length-1] == item.Name)
+                    {
+                        step.add(SelItem);
+                    }
+                }
+                LoadDir(SelItem);
+            };
             LV.Click += (s, e) => FileFullInfo(SelItem);
 
             Resize += Fm_Resize;
@@ -177,7 +190,6 @@ namespace labFileExplorer
         [STAThread]
         private void FileFullInfo(string SelItem)
         {
-
             try
             {
                 for (int i = 0; i < listlabel.Count; i++)
@@ -314,6 +326,7 @@ namespace labFileExplorer
                     btn.FlatAppearance.BorderSize = 0;
                     btn.Click += (s, e) =>
                     {
+                        step.add(str);
                         DiscFullInfo(str);
                         LoadDir(str);
                     };
@@ -414,6 +427,7 @@ namespace labFileExplorer
                     LV.Items.Add(new ListViewItem(new string[] { item.Name, f.LastWriteTime.ToString(), "Файл", checkSize(f)}, checkExtension(f)));
                 }
                 LV.EndUpdate();
+
                 CurDir = newDir;
             }
             catch (System.IO.IOException)
@@ -425,10 +439,9 @@ namespace labFileExplorer
                 }
                 catch (Exception)
                 {
-                    LoadDir(edDir.Text);
+                    LoadDir(CurDir);
                 }
                 //LV.Items.Clear();
-                LoadDir(edDir.Text);
             }
             catch (System.Security.SecurityException)
             {
@@ -437,7 +450,7 @@ namespace labFileExplorer
             }
             catch (Exception)
             {
-                LV.Items.Clear();
+                LoadDir(CurDir);
             }
         }
     }

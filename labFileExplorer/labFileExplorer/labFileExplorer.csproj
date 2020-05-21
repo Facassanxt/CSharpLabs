@@ -73,6 +73,7 @@
     <Compile Include="Fm.Designer.cs">
       <DependentUpon>Fm.cs</DependentUpon>
     </Compile>
+    <Compile Include="History.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Fm.resx">
