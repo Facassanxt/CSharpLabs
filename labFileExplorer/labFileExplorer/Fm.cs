@@ -1,6 +1,7 @@
 ﻿using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,7 @@ namespace labFileExplorer
 {
     public partial class Fm : MaterialForm
     {
+        private ColumnHeader SortingColumn = null;
         private string _curDir;
 
         public string CurDir
@@ -69,6 +71,10 @@ namespace labFileExplorer
 
             buBack.Click += (s, e) => LoadDir(step.getFromHistory(step.CurrentStep - 1));
             buForward.Click += (s, e) => LoadDir(step.getFromHistory(step.CurrentStep + 1));
+            laDetailsName.Click += (s,e) => La_Click(0);
+            laDetailsDate.Click += (s, e) => La_Click(1);
+            laDetailsType.Click += (s, e) => La_Click(2);
+            labDetailsSize.Click += (s, e) => La_Click(3);
             buUp.Click += (s, e) =>
             {
                 try
@@ -121,6 +127,29 @@ namespace labFileExplorer
             GetLogicalDrives();
             StartForm();
             LoadDir(CurDir);
+        }
+
+        private void La_Click(int number)
+        {
+            ColumnHeader new_sorting_column = LV.Columns[number];
+            System.Windows.Forms.SortOrder sort_order;
+            if (SortingColumn == null) sort_order = SortOrder.Ascending;
+            else
+            {
+                if (new_sorting_column == SortingColumn)
+                {
+                    if (SortingColumn.Text.StartsWith("> ")) sort_order = SortOrder.Descending;
+                    else sort_order = SortOrder.Ascending;
+                }
+                else sort_order = SortOrder.Ascending;
+                SortingColumn.Text = SortingColumn.Text.Substring(2);
+            }
+            SortingColumn = new_sorting_column;
+            if (sort_order == SortOrder.Ascending) SortingColumn.Text = "> " + SortingColumn.Text;
+            else SortingColumn.Text = "< " + SortingColumn.Text;
+            LV.ListViewItemSorter =
+                new ListViewComparer(number, sort_order);
+            LV.Sort();
         }
 
         private void DiscFullInfo(string path)
@@ -451,6 +480,44 @@ namespace labFileExplorer
             catch (Exception)
             {
                 LoadDir(CurDir);
+            }
+        }
+
+        public class ListViewComparer : System.Collections.IComparer
+        {
+            private int ColumnNumber;
+            private SortOrder SortOrder;
+            public ListViewComparer(int column_number,
+                SortOrder sort_order)
+            {
+                ColumnNumber = column_number;
+                SortOrder = sort_order;
+            }
+            public int Compare(object object_x, object object_y)
+            {
+                ListViewItem item_x = object_x as ListViewItem;
+                ListViewItem item_y = object_y as ListViewItem;
+                string string_x;
+                if (item_x.SubItems.Count <= ColumnNumber) string_x = "";
+                else string_x = item_x.SubItems[ColumnNumber].Text;
+                string string_y;
+                if (item_y.SubItems.Count <= ColumnNumber) string_y = "";
+                else string_y = item_y.SubItems[ColumnNumber].Text;
+                int result;
+                double double_x, double_y;
+                if (double.TryParse(string_x, out double_x) &&
+                    double.TryParse(string_y, out double_y))
+                    result = double_x.CompareTo(double_y);
+                else
+                {
+                    DateTime date_x, date_y;
+                    if (DateTime.TryParse(string_x, out date_x) &&
+                        DateTime.TryParse(string_y, out date_y)) 
+                        result = date_x.CompareTo(date_y);
+                    else result = string_x.CompareTo(string_y);
+                }
+                if (SortOrder == SortOrder.Ascending) return result;
+                else return -result;
             }
         }
     }
