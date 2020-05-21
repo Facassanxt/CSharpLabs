@@ -38,6 +38,8 @@ namespace labFileExplorer
         public int CountSearch { get; set; } = 0;
 
         private History step = new History();
+        private bool infoVisible = true;
+
         public Fm()
         {
             InitializeComponent();
@@ -76,6 +78,27 @@ namespace labFileExplorer
             edSearch.GotFocus += (s, e) => edSearchText(true);
             edSearch.LostFocus += (s, e) => edSearchText(false);
             edSearch.KeyDown += EdSearch_KeyDown;
+            cbInfo.Click += (s, e) => 
+            {
+                if (cbInfo.Checked)
+                {
+                    infoVisible = false;
+                    panelInfo.Width = 2;
+                    panelInfo.Height = 0;
+                    panelInfo.Visible = infoVisible;
+                    cbInfo.Text = "Открыть панель Свойств";
+                    Width++;
+                }
+                else
+                {
+                    infoVisible = true;
+                    panelInfo.Width = paPreview.Width;
+                    panelInfo.Height = Height - 64 - 2;
+                    panelInfo.Visible = infoVisible;
+                    cbInfo.Text = "Скрыть панель Свойств";
+                    Width--;
+                }
+            };
             buUp.Click += (s, e) =>
             {
                 try
@@ -127,7 +150,7 @@ namespace labFileExplorer
                 }
                 LoadDir(SelItem);
             };
-            LV.Click += (s, e) => FileFullInfo(SelItem);
+            LV.Click += (s, e) => { if (infoVisible) FileFullInfo(SelItem); };
 
             Resize += Fm_Resize;
 
@@ -415,7 +438,7 @@ namespace labFileExplorer
                     {
                         step.add(str);
                         CountSearch = 0;
-                        DiscFullInfo(str);
+                        if (infoVisible) DiscFullInfo(str);
                         LoadDir(str);
                     };
                     Count++;
@@ -428,12 +451,16 @@ namespace labFileExplorer
 
         private void Fm_Resize(object sender, EventArgs e)
         {
+            LV.Width = Width - 2 - 2 - panelInfo.Width;
             paDetails.Width = LV.Width;
-            panelInfo.Location = new Point(LV.Width, 64);
-            panelInfo.Height = Height - 64 - 2;
-            panelMenu.Width = Width - paPreview.Width;
-            toolMenu.Width = Width - paPreview.Width;
-            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8 - edSearch.Width;
+            if (infoVisible)
+            {
+                panelInfo.Location = new Point(LV.Width, 64);
+                panelInfo.Height = Height - 64 - 2;
+            }
+            panelMenu.Width = Width - panelInfo.Width - 5;
+            toolMenu.Width = Width - panelInfo.Width;
+            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - panelInfo.Width - 8 - edSearch.Width;
         }
 
         private void StartForm()
@@ -442,20 +469,20 @@ namespace labFileExplorer
             this.Width = 1920;
             paPreview.Height = 700;
             paPreview.Width = 520;
+            panelInfo.Height = Height - 64 - 2;
+            panelInfo.Width = paPreview.Width;
 
-            panelMenu.Width = Width - paPreview.Width;
+            panelMenu.Width = Width - panelInfo.Width;
             panelMenu.Height = toolMenu.Height - 2;
             panelMenu.Location = new Point(2, 64);
 
             LV.Height = Height - panelMenu.Height - 64 - 2;
-            LV.Width = Width - 2 - 2 - paPreview.Width;
+            LV.Width = Width - 2 - 2 - panelInfo.Width;
             LV.Location = new Point(2, panelMenu.Height + 64);
             LV.BackColor = BackColor;
 
             paPreview.Location = new Point(LV.Width, 64);
 
-            panelInfo.Height = Height - 64 - 2;
-            panelInfo.Width = paPreview.Width;
             panelInfo.Location = new Point(LV.Width, 64);
 
 
@@ -464,7 +491,7 @@ namespace labFileExplorer
             edDir.BackColor = BackColor;
             edSearch.BackColor = BackColor;
             edDir.Width = 100;
-            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - paPreview.Width - 8 - edSearch.Width;
+            edDir.Width = Width - 2 - buBack.Width - buForward.Width - buUp.Width - buDirSelect.Width - DButtons.Width - panelInfo.Width - 8 - edSearch.Width;
 
             laDetailsName.Location = new Point(0, 0);
             laDetailsDate.Location = new Point(500, 0);

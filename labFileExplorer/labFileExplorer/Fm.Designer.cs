@@ -57,6 +57,7 @@
             this.labDetailsSize = new System.Windows.Forms.Label();
             this.laDetailsType = new System.Windows.Forms.Label();
             this.paPreview = new System.Windows.Forms.Panel();
+            this.cbInfo = new System.Windows.Forms.CheckBox();
             this.toolMenu.SuspendLayout();
             this.panelMenu.SuspendLayout();
             this.panelInfo.SuspendLayout();
@@ -226,9 +227,9 @@
             this.LV.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.LV.HideSelection = false;
             this.LV.LargeImageList = this.iLargeIcons;
-            this.LV.Location = new System.Drawing.Point(1, 152);
+            this.LV.Location = new System.Drawing.Point(2, 152);
             this.LV.Name = "LV";
-            this.LV.Size = new System.Drawing.Size(1035, 627);
+            this.LV.Size = new System.Drawing.Size(1044, 795);
             this.LV.SmallImageList = this.iSmallIcons;
             this.LV.TabIndex = 1;
             this.LV.UseCompatibleStateImageBehavior = false;
@@ -278,9 +279,9 @@
             this.panelInfo.BackColor = System.Drawing.Color.Transparent;
             this.panelInfo.Controls.Add(this.label1);
             this.panelInfo.Controls.Add(this.laProperty);
-            this.panelInfo.Location = new System.Drawing.Point(1042, 506);
+            this.panelInfo.Location = new System.Drawing.Point(1050, 392);
             this.panelInfo.Name = "panelInfo";
-            this.panelInfo.Size = new System.Drawing.Size(386, 273);
+            this.panelInfo.Size = new System.Drawing.Size(338, 461);
             this.panelInfo.TabIndex = 3;
             // 
             // label1
@@ -389,17 +390,34 @@
             this.paPreview.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.paPreview.BackColor = System.Drawing.Color.Transparent;
-            this.paPreview.Location = new System.Drawing.Point(1042, 69);
+            this.paPreview.Location = new System.Drawing.Point(1050, 69);
             this.paPreview.Name = "paPreview";
-            this.paPreview.Size = new System.Drawing.Size(395, 431);
+            this.paPreview.Size = new System.Drawing.Size(350, 320);
             this.paPreview.TabIndex = 4;
             this.paPreview.Visible = false;
+            // 
+            // cbInfo
+            // 
+            this.cbInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbInfo.AutoSize = true;
+            this.cbInfo.BackColor = System.Drawing.Color.Transparent;
+            this.cbInfo.FlatAppearance.BorderSize = 0;
+            this.cbInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbInfo.Font = new System.Drawing.Font("Comic Sans MS", 18F);
+            this.cbInfo.ForeColor = System.Drawing.Color.Tomato;
+            this.cbInfo.Location = new System.Drawing.Point(1102, 26);
+            this.cbInfo.Name = "cbInfo";
+            this.cbInfo.Size = new System.Drawing.Size(298, 37);
+            this.cbInfo.TabIndex = 15;
+            this.cbInfo.Text = "Скрыть панель Свойств";
+            this.cbInfo.UseVisualStyleBackColor = false;
             // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1440, 810);
+            this.ClientSize = new System.Drawing.Size(1400, 950);
+            this.Controls.Add(this.cbInfo);
             this.Controls.Add(this.paDetails);
             this.Controls.Add(this.paLogicalDrives);
             this.Controls.Add(this.panelInfo);
@@ -416,6 +434,7 @@
             this.paDetails.ResumeLayout(false);
             this.paDetails.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -447,6 +466,7 @@
         private System.Windows.Forms.Label laDetailsType;
         private System.Windows.Forms.Panel paPreview;
         private System.Windows.Forms.ToolStripTextBox edSearch;
+        private System.Windows.Forms.CheckBox cbInfo;
     }
 }
 
