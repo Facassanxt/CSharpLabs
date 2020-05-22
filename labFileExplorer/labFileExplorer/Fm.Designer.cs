@@ -424,6 +424,7 @@
             this.Controls.Add(this.paPreview);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.LV);
+            this.MinimumSize = new System.Drawing.Size(890, 610);
             this.Name = "Fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "labFileExplorer";

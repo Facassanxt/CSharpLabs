@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace labFileExplorer
@@ -34,8 +35,8 @@ namespace labFileExplorer
         public string SelItem { get; private set; }
         List<Label> listlabel;
         List<string> listLabelString;
-        public int current_position { get; private set; } = 0;
-        public int CountSearch { get; set; } = 0;
+        public short current_position { get; private set; } = 0;
+        public short CountSearch { get; set; } = 0;
 
         private History step = new History();
         private bool infoVisible = true;
@@ -65,9 +66,7 @@ namespace labFileExplorer
             step.add(CurDir);
             CountSearch = 0;
             DiscFullInfo(CurDir);
-            /*TO DO
-             * Скрытие panelInfo
-             */
+
 
             buBack.Click += (s, e) => { LoadDir(step.getFromHistory(step.CurrentStep - 1)); CountSearch = 0; };
             buForward.Click += (s, e) => { LoadDir(step.getFromHistory(step.CurrentStep + 1)); CountSearch = 0; };
@@ -176,11 +175,21 @@ namespace labFileExplorer
         {
             if (e.KeyCode == Keys.Enter)
             {
-                LV.Items.Clear();
-                DirectoryInfo directoryInfo = new DirectoryInfo(CurDir);
-                CountSearch = 0;
-                FindInDir(directoryInfo, edSearch.Text,true);
-                edDir.Text = $"{CurDir} = {CountSearch} совпадений! (500 Максимум)";
+                string[] words = edSearch.Text.Split('.');
+                try
+                {
+                    if (words[0].Length > 0 && words[1].Length > 0)
+                    {
+                        LV.Items.Clear();
+                        DirectoryInfo directoryInfo = new DirectoryInfo(CurDir);
+                        CountSearch = 0;
+                        FindInDir(directoryInfo, edSearch.Text, true);
+                        edDir.Text = $"{CurDir} = {CountSearch} совпадений! (500 Максимум)";
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
         }
         public void FindInDir(DirectoryInfo dir, string pattern, bool recursive)
@@ -210,7 +219,7 @@ namespace labFileExplorer
             }
         }
 
-        private void La_Click(int number)
+        private void La_Click(byte number)
         {
             ColumnHeader new_sorting_column = LV.Columns[number];
             System.Windows.Forms.SortOrder sort_order;
@@ -240,7 +249,7 @@ namespace labFileExplorer
                 if (drive.Name == path)
                 {
 
-                    for (int i = 0; i < listlabel.Count; i++)
+                    for (byte i = 0; i < listlabel.Count; i++)
                     {
                         panelInfo.Controls.Remove(listlabel[i]);
                     }
@@ -259,7 +268,7 @@ namespace labFileExplorer
                         (drive.TotalSize / (double)Math.Pow(2, 30)).ToString() + " ГБ",
                         drive.VolumeLabel,
                         };
-                        for (int i = 0; i < 9; i++)
+                        for (byte i = 0; i < 9; i++)
                         {
                             try
                             {
@@ -302,7 +311,7 @@ namespace labFileExplorer
         {
             try
             {
-                for (int i = 0; i < listlabel.Count; i++)
+                for (byte i = 0; i < listlabel.Count; i++)
                 {
                     panelInfo.Controls.Remove(listlabel[i]);
                 }
@@ -327,7 +336,7 @@ namespace labFileExplorer
                      let value = folder.GetDetailsOf(folderItem, idx)
                      where !string.IsNullOrEmpty(value)
                      select (name: names[idx], value)).ToList();
-                int counter = 0;
+                byte counter = 0;
                 foreach (var kvp in properties)
                 {
                     Label labelname = new Label();
@@ -361,7 +370,7 @@ namespace labFileExplorer
             }
         }
 
-        private int checkExtension(FileInfo item)
+        private byte checkExtension(FileInfo item)
         {
             var ex = item.Extension.ToLower();
             // Поддерживаемые форматы графических файлов
