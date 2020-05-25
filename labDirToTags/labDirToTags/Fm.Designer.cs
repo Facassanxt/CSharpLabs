@@ -49,11 +49,11 @@
             this.edTags.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.edTags.Font = new System.Drawing.Font("Comic Sans MS", 12F);
             this.edTags.ForeColor = System.Drawing.Color.LightCoral;
-            this.edTags.Location = new System.Drawing.Point(0, 76);
+            this.edTags.Location = new System.Drawing.Point(0, 97);
             this.edTags.Multiline = true;
             this.edTags.Name = "edTags";
             this.edTags.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.edTags.Size = new System.Drawing.Size(791, 374);
+            this.edTags.Size = new System.Drawing.Size(791, 670);
             this.edTags.TabIndex = 0;
             this.edTags.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -96,7 +96,8 @@
             this.edDir.Font = new System.Drawing.Font("Comic Sans MS", 15F);
             this.edDir.ForeColor = System.Drawing.Color.Tomato;
             this.edDir.Name = "edDir";
-            this.edDir.Size = new System.Drawing.Size(750, 35);
+            this.edDir.ReadOnly = true;
+            this.edDir.Size = new System.Drawing.Size(400, 35);
             // 
             // buDirSelect
             // 
@@ -126,14 +127,16 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Comic Sans MS", 9F);
             this.label1.ForeColor = System.Drawing.Color.Tomato;
             this.label1.Location = new System.Drawing.Point(423, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(368, 38);
+            this.label1.Size = new System.Drawing.Size(368, 54);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Есть ограничения на максимально кол-во, иначе зависает))";
+            this.label1.Text = "Есть ограничения на максимальное кол-во, иначе зависает))\r\nЕсли где-то есть .exe " +
+    "и т.п, это не расширение, а имя..\r\nФильтр Count > 1\r\n";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label1.UseMnemonic = false;
             // 
@@ -141,11 +144,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 767);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.laTags);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.edTags);
+            this.MinimumSize = new System.Drawing.Size(650, 600);
             this.Name = "Fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "labDirToTags";

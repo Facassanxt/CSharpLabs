@@ -19,10 +19,30 @@ namespace labDirToTags
             InitializeComponent();
             buDirSelect.Click += BuDirSelect_Click;
             edDir.TextChanged += EdDir_TextChanged;
-
-            //edTags
+            Resize += Fm_Resize;
             edDir.Text = Directory.GetCurrentDirectory();
+            startform();
             
+        }
+
+        private void startform()
+        {
+            Height = Screen.PrimaryScreen.Bounds.Height / 3 * 2;
+            Width = Screen.PrimaryScreen.Bounds.Width / 3 * 2;
+            laTags.Location = new Point(0, panelMenu.Height);
+            label1.Location = new Point(Width - label1.Width, panelMenu.Height);
+            edTags.Location = new Point(0, panelMenu.Height + label1.Height);
+            panelMenu.Width = Width;
+            toolMenu.Width = panelMenu.Width;
+            panelMenu.Location = new Point(0, 0);
+            edDir.Width = Width - buDirSelect.Width - 25;
+        }
+
+        private void Fm_Resize(object sender, EventArgs e)
+        {
+            panelMenu.Width = Width;
+            toolMenu.Width = panelMenu.Width;
+            edDir.Width = Width - buDirSelect.Width - 25;
         }
 
         private void EdDir_TextChanged(object sender, EventArgs e)

@@ -24,26 +24,27 @@ namespace labDirToTags
             FindInDir(directoryInfo, true, dir);
             str = str.Remove(str.Length-1);
             var a = str.Split(new string[] { " ", "\\", "«", "»", "(", ")","  ",","}, StringSplitOptions.None).ToArray();
-            Console.WriteLine(a.Length);
-            //a = a.Where(v => v.Length > 0).Select(v => v.TrimEnd(',')).Distinct().OrderBy(v => v).ToArray();
             var result = a
              .Select(str => new { Name = str, Count = a.Count(s => s == str) })
-             .Where(obj => obj.Count > 0)
+             .Where(obj => obj.Count > 1 && obj.Name.Length > 1)
              .Distinct()
-             .ToDictionary(obj => obj.Name, obj => obj.Count).OrderByDescending(obj => obj.Value).Select(obj => $"{obj.Key.TrimEnd(' ')} - {obj.Value}").ToArray();
+             .ToDictionary(obj => obj.Name, obj => obj.Count)
+             .OrderByDescending(obj => obj.Value)
+             .Select(obj => $"{obj.Key} - {obj.Value}")
+             .ToArray();
             CountSearchTags = result.Length;
             return result;
         }
 
         private void FindInDir(DirectoryInfo dir, bool recursive, string spl)
         {
-            if (CountSearch >= 1000) return;
+            if (CountSearch >= 2500) return;
             try
             {
                 foreach (FileInfo file in dir.GetFiles())
                 {
-                    str += file.FullName.Substring(spl.Length).TrimStart('\\').Replace("\\"," ") + " ";
-                    if (CountSearch >= 1000) return;
+                    str += file.FullName.Substring(spl.Length).TrimStart('\\').Replace("\\"," ").Replace(file.Extension,"") + " ";
+                    if (CountSearch >= 2500) return;
                     CountSearch++;
                 }
                 if (recursive)
