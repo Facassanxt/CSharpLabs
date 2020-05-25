@@ -474,8 +474,8 @@ namespace labFileExplorer
 
         private void StartForm()
         {
-            this.Height = 1080;
-            this.Width = 1920;
+            this.Height = Screen.PrimaryScreen.Bounds.Height / 3 * 2;
+            this.Width = Screen.PrimaryScreen.Bounds.Width / 3 * 2;
             paPreview.Height = 700;
             paPreview.Width = 520;
             panelInfo.Height = Height - 64 - 2;
