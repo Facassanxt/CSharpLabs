@@ -28,46 +28,95 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Fm));
             this.edTags = new System.Windows.Forms.TextBox();
-            this.edDir = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.panelMenu = new System.Windows.Forms.Panel();
+            this.toolMenu = new System.Windows.Forms.ToolStrip();
+            this.edDir = new System.Windows.Forms.ToolStripTextBox();
+            this.buDirSelect = new System.Windows.Forms.ToolStripButton();
+            this.panelMenu.SuspendLayout();
+            this.toolMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // edTags
             // 
-            this.edTags.Location = new System.Drawing.Point(12, 78);
+            this.edTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.edTags.BackColor = System.Drawing.SystemColors.Control;
+            this.edTags.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.edTags.Location = new System.Drawing.Point(9, 47);
             this.edTags.Multiline = true;
             this.edTags.Name = "edTags";
             this.edTags.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.edTags.Size = new System.Drawing.Size(776, 360);
+            this.edTags.Size = new System.Drawing.Size(776, 403);
             this.edTags.TabIndex = 0;
+            // 
+            // panelMenu
+            // 
+            this.panelMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelMenu.Controls.Add(this.toolMenu);
+            this.panelMenu.Location = new System.Drawing.Point(0, 0);
+            this.panelMenu.Name = "panelMenu";
+            this.panelMenu.Size = new System.Drawing.Size(800, 41);
+            this.panelMenu.TabIndex = 3;
+            // 
+            // toolMenu
+            // 
+            this.toolMenu.AutoSize = false;
+            this.toolMenu.BackColor = System.Drawing.Color.Transparent;
+            this.toolMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.toolMenu.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.edDir,
+            this.buDirSelect});
+            this.toolMenu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.toolMenu.Location = new System.Drawing.Point(0, 0);
+            this.toolMenu.Name = "toolMenu";
+            this.toolMenu.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.toolMenu.ShowItemToolTips = false;
+            this.toolMenu.Size = new System.Drawing.Size(791, 35);
+            this.toolMenu.Stretch = true;
+            this.toolMenu.TabIndex = 0;
+            this.toolMenu.Text = "toolStrip1";
             // 
             // edDir
             // 
-            this.edDir.Location = new System.Drawing.Point(12, 28);
+            this.edDir.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.edDir.AutoSize = false;
+            this.edDir.AutoToolTip = true;
+            this.edDir.BackColor = System.Drawing.SystemColors.Control;
+            this.edDir.Font = new System.Drawing.Font("Comic Sans MS", 15F);
+            this.edDir.ForeColor = System.Drawing.Color.Tomato;
             this.edDir.Name = "edDir";
-            this.edDir.Size = new System.Drawing.Size(567, 20);
-            this.edDir.TabIndex = 1;
+            this.edDir.Size = new System.Drawing.Size(750, 35);
             // 
-            // button1
+            // buDirSelect
             // 
-            this.button1.Location = new System.Drawing.Point(585, 25);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(203, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buDirSelect.AutoSize = false;
+            this.buDirSelect.BackColor = System.Drawing.Color.Transparent;
+            this.buDirSelect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buDirSelect.Font = new System.Drawing.Font("Comic Sans MS", 15F);
+            this.buDirSelect.ForeColor = System.Drawing.Color.Tomato;
+            this.buDirSelect.Image = ((System.Drawing.Image)(resources.GetObject("buDirSelect.Image")));
+            this.buDirSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.buDirSelect.Name = "buDirSelect";
+            this.buDirSelect.Size = new System.Drawing.Size(38, 32);
+            this.buDirSelect.Text = "...⮯";
             // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.edDir);
+            this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.edTags);
             this.Name = "Fm";
             this.Text = "labDirToTags";
+            this.panelMenu.ResumeLayout(false);
+            this.toolMenu.ResumeLayout(false);
+            this.toolMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -76,8 +125,10 @@
         #endregion
 
         private System.Windows.Forms.TextBox edTags;
-        private System.Windows.Forms.TextBox edDir;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panelMenu;
+        public System.Windows.Forms.ToolStrip toolMenu;
+        private System.Windows.Forms.ToolStripTextBox edDir;
+        private System.Windows.Forms.ToolStripButton buDirSelect;
     }
 }
 

@@ -16,14 +16,28 @@ namespace labDirToTags
         public Fm()
         {
             InitializeComponent();
+            buDirSelect.Click += BuDirSelect_Click;
+            edDir.TextChanged += EdDir_TextChanged;
 
             //edTags
             edDir.Text = Directory.GetCurrentDirectory();
+        }
 
-            string s = @"D:\Фото\МосПолитех\2020.01.19 Семинар «ООП» (Иванов, Сидоров)\2020010121300-002.jpg";
+        private void EdDir_TextChanged(object sender, EventArgs e)
+        {
+            string s = edDir.Text;
             var a = s.Split(new char[] { ' ', '\\', '«', '»', '(', ')' }).ToArray();
             a = a.Where(v => v.Length > 0).Select(v => v.TrimEnd(',')).OrderBy(v => v).ToArray();
             edTags.Text = string.Join(Environment.NewLine, a);
+        }
+
+        private void BuDirSelect_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                edDir.Text = dialog.SelectedPath;
+            }
         }
     }
 }
