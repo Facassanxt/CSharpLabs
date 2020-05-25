@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace labDirToTags
@@ -16,38 +17,40 @@ namespace labDirToTags
 
         public string[] CountTags(string dir)
         {
-            str = "";
+            str = null;
             CountSearchTags = 0;
             CountSearch = 0;
             DirectoryInfo directoryInfo = new DirectoryInfo(dir);
-            FindInDir(directoryInfo, true);
-            var a = str.Split(new char[] { ' ', '\\', '«', '»', '(', ')' }).ToArray();
+            FindInDir(directoryInfo, true, dir);
+            str = str.Remove(str.Length-1);
+            var a = str.Split(new string[] { " ", "\\", "«", "»", "(", ")","  ",","}, StringSplitOptions.None).ToArray();
+            Console.WriteLine(a.Length);
             //a = a.Where(v => v.Length > 0).Select(v => v.TrimEnd(',')).Distinct().OrderBy(v => v).ToArray();
-            CountSearchTags = a.Where(v => v.Length > 0).Select(v => v.TrimEnd(',')).Distinct().Count();
             var result = a
              .Select(str => new { Name = str, Count = a.Count(s => s == str) })
-             .Where(obj => obj.Count > 1)
+             .Where(obj => obj.Count > 0)
              .Distinct()
-             .ToDictionary(obj => obj.Name, obj => obj.Count).Select(obj => $"{obj.Key} - {obj.Value}").ToArray();
+             .ToDictionary(obj => obj.Name, obj => obj.Count).OrderByDescending(obj => obj.Value).Select(obj => $"{obj.Key.TrimEnd(' ')} - {obj.Value}").ToArray();
+            CountSearchTags = result.Length;
             return result;
         }
 
-        private void FindInDir(DirectoryInfo dir, bool recursive)
+        private void FindInDir(DirectoryInfo dir, bool recursive, string spl)
         {
-            if (CountSearch >= 500) return;
+            if (CountSearch >= 1000) return;
             try
             {
                 foreach (FileInfo file in dir.GetFiles())
                 {
-                    str += file.FullName + " ";
-                    if (CountSearch >= 500) return;
+                    str += file.FullName.Substring(spl.Length).TrimStart('\\').Replace("\\"," ") + " ";
+                    if (CountSearch >= 1000) return;
                     CountSearch++;
                 }
                 if (recursive)
                 {
                     foreach (DirectoryInfo subdir in dir.GetDirectories())
                     {
-                        FindInDir(subdir, recursive);
+                        FindInDir(subdir, recursive, spl);
                     }
                 }
             }

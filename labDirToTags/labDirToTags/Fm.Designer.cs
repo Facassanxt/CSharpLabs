@@ -35,6 +35,7 @@
             this.edDir = new System.Windows.Forms.ToolStripTextBox();
             this.buDirSelect = new System.Windows.Forms.ToolStripButton();
             this.laTags = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panelMenu.SuspendLayout();
             this.toolMenu.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +47,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.edTags.BackColor = System.Drawing.SystemColors.Control;
             this.edTags.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.edTags.Font = new System.Drawing.Font("Comic Sans MS", 9F);
+            this.edTags.Font = new System.Drawing.Font("Comic Sans MS", 12F);
             this.edTags.ForeColor = System.Drawing.Color.LightCoral;
             this.edTags.Location = new System.Drawing.Point(0, 76);
             this.edTags.Multiline = true;
@@ -54,6 +55,7 @@
             this.edTags.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.edTags.Size = new System.Drawing.Size(791, 374);
             this.edTags.TabIndex = 0;
+            this.edTags.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // panelMenu
             // 
@@ -116,17 +118,31 @@
             this.laTags.ForeColor = System.Drawing.Color.Tomato;
             this.laTags.Location = new System.Drawing.Point(3, 35);
             this.laTags.Name = "laTags";
-            this.laTags.Size = new System.Drawing.Size(785, 38);
+            this.laTags.Size = new System.Drawing.Size(431, 38);
             this.laTags.TabIndex = 5;
             this.laTags.Text = "Найдено Tag\'ов - ";
             this.laTags.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.laTags.UseMnemonic = false;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Comic Sans MS", 9F);
+            this.label1.ForeColor = System.Drawing.Color.Tomato;
+            this.label1.Location = new System.Drawing.Point(423, 40);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(368, 38);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Есть ограничения на максимально кол-во, иначе зависает))";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label1.UseMnemonic = false;
             // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.laTags);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.edTags);
@@ -149,6 +165,7 @@
         private System.Windows.Forms.ToolStripTextBox edDir;
         private System.Windows.Forms.ToolStripButton buDirSelect;
         private System.Windows.Forms.Label laTags;
+        private System.Windows.Forms.Label label1;
     }
 }
 
