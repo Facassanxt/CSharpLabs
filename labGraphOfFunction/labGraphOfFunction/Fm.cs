@@ -373,8 +373,8 @@ namespace labGraphOfFunction
 
         private void StartForm()
         {
-            this.Height = 1080;
-            this.Width = 1920;
+            this.Height = Screen.PrimaryScreen.Bounds.Height / 2;
+            this.Width = Screen.PrimaryScreen.Bounds.Width / 2;
             trackBarK.Width = Width - 4;
             trackBarK.Height = 30;
             trackBarB.Width = trackBarK.Width;
