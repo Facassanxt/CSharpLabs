@@ -131,6 +131,7 @@
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.edTags);
             this.Name = "Fm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "labDirToTags";
             this.panelMenu.ResumeLayout(false);
             this.toolMenu.ResumeLayout(false);

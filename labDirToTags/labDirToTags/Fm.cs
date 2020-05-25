@@ -27,6 +27,7 @@ namespace labDirToTags
 
         private void EdDir_TextChanged(object sender, EventArgs e)
         {
+            edTags.Clear();
             var arr = tags.CountTags(edDir.Text);
             edTags.Text = string.Join(Environment.NewLine, arr);
             laTags.Text = $"Найдено Tag'ов - {tags.CountSearchTags}";
