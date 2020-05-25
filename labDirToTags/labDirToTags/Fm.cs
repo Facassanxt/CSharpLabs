@@ -13,6 +13,7 @@ namespace labDirToTags
 {
     public partial class Fm : Form
     {
+        private Tags tags = new Tags();
         public Fm()
         {
             InitializeComponent();
@@ -21,14 +22,14 @@ namespace labDirToTags
 
             //edTags
             edDir.Text = Directory.GetCurrentDirectory();
+            
         }
 
         private void EdDir_TextChanged(object sender, EventArgs e)
         {
-            string s = edDir.Text;
-            var a = s.Split(new char[] { ' ', '\\', '«', '»', '(', ')' }).ToArray();
-            a = a.Where(v => v.Length > 0).Select(v => v.TrimEnd(',')).OrderBy(v => v).ToArray();
-            edTags.Text = string.Join(Environment.NewLine, a);
+            var arr = tags.CountTags(edDir.Text);
+            edTags.Text = string.Join(Environment.NewLine, arr);
+            laTags.Text = $"Найдено Tag'ов - {tags.CountSearchTags}";
         }
 
         private void BuDirSelect_Click(object sender, EventArgs e)

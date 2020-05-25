@@ -34,21 +34,25 @@
             this.toolMenu = new System.Windows.Forms.ToolStrip();
             this.edDir = new System.Windows.Forms.ToolStripTextBox();
             this.buDirSelect = new System.Windows.Forms.ToolStripButton();
+            this.laTags = new System.Windows.Forms.Label();
             this.panelMenu.SuspendLayout();
             this.toolMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // edTags
             // 
-            this.edTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.edTags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.edTags.BackColor = System.Drawing.SystemColors.Control;
             this.edTags.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.edTags.Location = new System.Drawing.Point(9, 47);
+            this.edTags.Font = new System.Drawing.Font("Comic Sans MS", 9F);
+            this.edTags.ForeColor = System.Drawing.Color.LightCoral;
+            this.edTags.Location = new System.Drawing.Point(0, 76);
             this.edTags.Multiline = true;
             this.edTags.Name = "edTags";
             this.edTags.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.edTags.Size = new System.Drawing.Size(776, 403);
+            this.edTags.Size = new System.Drawing.Size(791, 374);
             this.edTags.TabIndex = 0;
             // 
             // panelMenu
@@ -105,11 +109,25 @@
             this.buDirSelect.Size = new System.Drawing.Size(38, 32);
             this.buDirSelect.Text = "...⮯";
             // 
+            // laTags
+            // 
+            this.laTags.BackColor = System.Drawing.Color.Transparent;
+            this.laTags.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.laTags.ForeColor = System.Drawing.Color.Tomato;
+            this.laTags.Location = new System.Drawing.Point(3, 35);
+            this.laTags.Name = "laTags";
+            this.laTags.Size = new System.Drawing.Size(785, 38);
+            this.laTags.TabIndex = 5;
+            this.laTags.Text = "Найдено Tag\'ов - ";
+            this.laTags.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.laTags.UseMnemonic = false;
+            // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.laTags);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.edTags);
             this.Name = "Fm";
@@ -129,6 +147,7 @@
         public System.Windows.Forms.ToolStrip toolMenu;
         private System.Windows.Forms.ToolStripTextBox edDir;
         private System.Windows.Forms.ToolStripButton buDirSelect;
+        private System.Windows.Forms.Label laTags;
     }
 }
 
