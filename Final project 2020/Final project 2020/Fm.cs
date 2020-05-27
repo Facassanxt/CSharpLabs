@@ -20,7 +20,7 @@ namespace Final_project_2020
         private static readonly Color aliveCell = Color.DimGray;
         private static readonly Color deadCell = Color.LightSlateGray;
         private const int cellSize = 40;
-        private int screenSize = 900;
+        private int screenSize;
         List<Button> listBtn = new List<Button> { };
 
         public Fm()
@@ -81,7 +81,6 @@ namespace Final_project_2020
                     gameScreen.Controls.Add(newButton);
                     listBtn.Add(newButton);
                 }
-
             UpdateCells();
             buReset.PerformClick();
         }
@@ -89,7 +88,6 @@ namespace Final_project_2020
         private void timer_Tick(object sender, EventArgs e)
         {
             engine.Tick();
-            Text = $"GameOfLife : {engine.Ticks.ToString()}";
             UpdateCells();
         }
 
@@ -113,9 +111,8 @@ namespace Final_project_2020
             buStop.Enabled = false;
             buPlay.Enabled = true;
 
-            engine = new Engine(screenSize / cellSize, screenSize / cellSize);
-            Text = $"GameOfLife : {engine.Ticks.ToString()}";
 
+            engine = new Engine(screenSize / cellSize, screenSize / cellSize);
             UpdateCells();
         }
 

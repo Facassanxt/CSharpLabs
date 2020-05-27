@@ -15,11 +15,6 @@ namespace GameOfLife
 
         public Engine(int h, int w)
         {
-            if (h <= 0 || w <= 0)
-            {
-                throw new ArgumentOutOfRangeException("Dimensions must be positive!");
-            }
-
             Height = h;
             Width = w;
             Ticks = 0;
@@ -30,21 +25,11 @@ namespace GameOfLife
         {
             get
             {
-                if (IsOutOfBounds(y, x))
-                {
-                   throw new ArgumentOutOfRangeException("Coordinates must be non-negative!");
-                }
-
                 return Grid[y, x];
             }
 
             set
             {
-                if (IsOutOfBounds(y, x))
-                {
-                    throw new ArgumentOutOfRangeException("Coordinates must be non-negative!");
-                }
-
                 Grid[y, x] = value;
             }
         }
@@ -67,11 +52,6 @@ namespace GameOfLife
 
         private int GetLiveNeighbours(int y, int x)
         {
-            if (IsOutOfBounds(y, x))
-            {
-                throw new ArgumentOutOfRangeException("Coordinates must be non-negative!");
-            }
-
             int count = 0;
 
             for (var j = y - 1; j < y + 2; ++j)
@@ -90,11 +70,6 @@ namespace GameOfLife
 
         private bool GetNextValue(int y, int x)
         {
-            if (IsOutOfBounds(y, x))
-            {
-                throw new ArgumentOutOfRangeException("Coordinates must be non-negative!");
-            }
-
             switch (GetLiveNeighbours(y, x))
             {
                 case 2:

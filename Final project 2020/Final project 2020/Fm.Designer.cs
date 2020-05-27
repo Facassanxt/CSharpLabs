@@ -49,11 +49,11 @@
             this.buReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buReset.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buReset.ForeColor = System.Drawing.Color.Coral;
-            this.buReset.Location = new System.Drawing.Point(229, 29);
+            this.buReset.Location = new System.Drawing.Point(331, 26);
             this.buReset.Name = "buReset";
-            this.buReset.Size = new System.Drawing.Size(121, 39);
+            this.buReset.Size = new System.Drawing.Size(98, 39);
             this.buReset.TabIndex = 36;
-            this.buReset.Text = "Reset";
+            this.buReset.Text = "Рестарт";
             this.buReset.UseVisualStyleBackColor = false;
             // 
             // buPlay
@@ -64,11 +64,11 @@
             this.buPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buPlay.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buPlay.ForeColor = System.Drawing.Color.Coral;
-            this.buPlay.Location = new System.Drawing.Point(338, 29);
+            this.buPlay.Location = new System.Drawing.Point(435, 26);
             this.buPlay.Name = "buPlay";
-            this.buPlay.Size = new System.Drawing.Size(121, 39);
+            this.buPlay.Size = new System.Drawing.Size(78, 39);
             this.buPlay.TabIndex = 37;
-            this.buPlay.Text = "Play";
+            this.buPlay.Text = "Старт";
             this.buPlay.UseVisualStyleBackColor = false;
             // 
             // buStop
@@ -79,11 +79,11 @@
             this.buStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buStop.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buStop.ForeColor = System.Drawing.Color.Coral;
-            this.buStop.Location = new System.Drawing.Point(465, 29);
+            this.buStop.Location = new System.Drawing.Point(519, 26);
             this.buStop.Name = "buStop";
-            this.buStop.Size = new System.Drawing.Size(121, 39);
+            this.buStop.Size = new System.Drawing.Size(72, 39);
             this.buStop.TabIndex = 38;
-            this.buStop.Text = "Stop";
+            this.buStop.Text = "Стоп";
             this.buStop.UseVisualStyleBackColor = false;
             // 
             // gameScreen
@@ -101,9 +101,9 @@
             this.buRnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buRnd.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buRnd.ForeColor = System.Drawing.Color.Coral;
-            this.buRnd.Location = new System.Drawing.Point(575, 29);
+            this.buRnd.Location = new System.Drawing.Point(597, 26);
             this.buRnd.Name = "buRnd";
-            this.buRnd.Size = new System.Drawing.Size(121, 39);
+            this.buRnd.Size = new System.Drawing.Size(96, 39);
             this.buRnd.TabIndex = 37;
             this.buRnd.Text = "Рандом";
             this.buRnd.UseVisualStyleBackColor = false;
@@ -113,8 +113,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 898);
-            this.Controls.Add(this.buRnd);
             this.Controls.Add(this.gameScreen);
+            this.Controls.Add(this.buRnd);
             this.Controls.Add(this.buStop);
             this.Controls.Add(this.buPlay);
             this.Controls.Add(this.buReset);
