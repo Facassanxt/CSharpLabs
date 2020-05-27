@@ -20,7 +20,8 @@ namespace Final_project_2020
         private static readonly Color aliveCell = Color.DimGray;
         private static readonly Color deadCell = Color.LightSlateGray;
         private const int cellSize = 40;
-        private const int screenSize = 900;
+        private int screenSize = 900;
+
 
         public Fm()
         {
@@ -36,7 +37,6 @@ namespace Final_project_2020
             timer.Tick += timer_Tick;
 
             Resize += Fm_Resize;
-            Load += Fm_Load;
             startForm();
         }
 
@@ -44,13 +44,33 @@ namespace Final_project_2020
         {
             this.Height = Screen.PrimaryScreen.Bounds.Height / 3 * 2;
             this.Width = Screen.PrimaryScreen.Bounds.Width / 3 * 2;
-            gameScreen.Height = Height - 64 - 2;
-            gameScreen.Width = Width - 4;
+            gameScreen.Height = Height - 66 - 2;
 
-            engine = new Engine(gameScreen.Width / cellSize, gameScreen.Height / cellSize);
+            screenSize = gameScreen.Width;
 
+            gameScreen.Width = screenSize - 4;
 
-            gameScreen.Location = new Point(2, 64);
+            engine = new Engine(screenSize/ cellSize, screenSize/ cellSize);
+            gameScreen.Location = new Point(Width/2 - screenSize/2, 66);
+
+            drawButton();
+        }
+
+        private void drawButton()
+        {
+
+            for (int j = 0; j + cellSize <= gameScreen.Height; j += cellSize)
+                for (int i = 0; i + cellSize <= screenSize; i += cellSize)
+                {
+                    Button newButton = new Button();
+                    newButton.Size = new Size(cellSize, cellSize);
+                    newButton.Location = new Point(i, j);
+                    newButton.Click += ClickCell;
+                    gameScreen.Controls.Add(newButton);
+                }
+
+            UpdateCells();
+            buReset.PerformClick();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -108,30 +128,22 @@ namespace Final_project_2020
                     engine[linearIndex / engine.Width, linearIndex % engine.Width] ? aliveCell : deadCell;
                 gameScreen.Controls[linearIndex].BackgroundImage =
                     engine[linearIndex / engine.Width, linearIndex % engine.Width] ? Resources.GlowStar_16x : Resources.Blank_Star;
-                gameScreen.Controls[linearIndex].BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+                gameScreen.Controls[linearIndex].BackgroundImageLayout = ImageLayout.Center;
             }
 
         }
 
-        private void Fm_Load(object sender, EventArgs e)
-        {
-            for (int j = 0; j + cellSize <= gameScreen.Height; j += cellSize)
-                for (int i = 0; i + cellSize <= gameScreen.Width; i += cellSize)
-                {
-                    Button newButton = new Button();
-                    newButton.Size = new Size(cellSize, cellSize);
-                    newButton.Location = new Point(i, j);
-                    newButton.Click += ClickCell;
-                    gameScreen.Controls.Add(newButton);
-                }
-
-            UpdateCells();
-            buReset_Click(sender, e);
-        }
-
         private void Fm_Resize(object sender, EventArgs e)
         {
-           
+            gameScreen.Height = Height - 66 - 2;
+            screenSize = gameScreen.Height + 80 * 6;
+            gameScreen.Width = screenSize - 4;
+
+            engine = new Engine(screenSize / cellSize, screenSize / cellSize);
+
+            gameScreen.Location = new Point(Width / 2 - screenSize / 2, 66);
+
+            drawButton();
         }
     }
 }
