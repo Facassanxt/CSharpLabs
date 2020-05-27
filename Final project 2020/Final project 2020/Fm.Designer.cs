@@ -34,6 +34,7 @@
             this.buPlay = new System.Windows.Forms.Button();
             this.buStop = new System.Windows.Forms.Button();
             this.gameScreen = new System.Windows.Forms.Panel();
+            this.buRnd = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // timer
@@ -92,15 +93,32 @@
             this.gameScreen.Size = new System.Drawing.Size(1197, 784);
             this.gameScreen.TabIndex = 39;
             // 
+            // buRnd
+            // 
+            this.buRnd.AutoSize = true;
+            this.buRnd.BackColor = System.Drawing.Color.Transparent;
+            this.buRnd.FlatAppearance.BorderSize = 0;
+            this.buRnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buRnd.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buRnd.ForeColor = System.Drawing.Color.Coral;
+            this.buRnd.Location = new System.Drawing.Point(575, 29);
+            this.buRnd.Name = "buRnd";
+            this.buRnd.Size = new System.Drawing.Size(121, 39);
+            this.buRnd.TabIndex = 37;
+            this.buRnd.Text = "Рандом";
+            this.buRnd.UseVisualStyleBackColor = false;
+            // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 898);
+            this.Controls.Add(this.buRnd);
             this.Controls.Add(this.gameScreen);
             this.Controls.Add(this.buStop);
             this.Controls.Add(this.buPlay);
             this.Controls.Add(this.buReset);
+            this.MaximizeBox = false;
             this.Name = "Fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GameOfLife";
@@ -115,6 +133,7 @@
         private System.Windows.Forms.Button buPlay;
         private System.Windows.Forms.Button buStop;
         private System.Windows.Forms.Panel gameScreen;
+        private System.Windows.Forms.Button buRnd;
     }
 }
 

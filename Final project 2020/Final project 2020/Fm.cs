@@ -21,7 +21,7 @@ namespace Final_project_2020
         private static readonly Color deadCell = Color.LightSlateGray;
         private const int cellSize = 40;
         private int screenSize = 900;
-
+        List<Button> listBtn = new List<Button> { };
 
         public Fm()
         {
@@ -35,30 +35,42 @@ namespace Final_project_2020
             buReset.Click += buReset_Click;
             buStop.Click += buStop_Click;
             timer.Tick += timer_Tick;
+            buRnd.Click += BuRnd_Click;
 
-            Resize += Fm_Resize;
+            //Resize += Fm_Resize;
             startForm();
+        }
+
+        private void BuRnd_Click(object sender, EventArgs e)
+        {
+            if (timer.Enabled)
+                return;
+
+            Random rnd = new Random();
+            for (int i = 0; i < listBtn.Count; i++)
+            {
+                int a = rnd.Next(0, listBtn.Count);
+                listBtn[a].PerformClick();
+            }
         }
 
         private void startForm()
         {
-            this.Height = Screen.PrimaryScreen.Bounds.Height / 3 * 2;
-            this.Width = Screen.PrimaryScreen.Bounds.Width / 3 * 2;
+            this.Height = Screen.PrimaryScreen.Bounds.Height / 10 * 9;
+            this.Width = Screen.PrimaryScreen.Bounds.Width / 10 * 9;
             gameScreen.Height = Height - 66 - 2;
-
-            screenSize = gameScreen.Width;
-
+            screenSize = Width / 10 * 9;
             gameScreen.Width = screenSize - 4;
-
             engine = new Engine(screenSize/ cellSize, screenSize/ cellSize);
             gameScreen.Location = new Point(Width/2 - screenSize/2, 66);
 
+            MinimumSize = new Size(Width, Height);
+            MaximumSize = new Size(Width, Height);
             drawButton();
         }
 
         private void drawButton()
         {
-
             for (int j = 0; j + cellSize <= gameScreen.Height; j += cellSize)
                 for (int i = 0; i + cellSize <= screenSize; i += cellSize)
                 {
@@ -67,6 +79,7 @@ namespace Final_project_2020
                     newButton.Location = new Point(i, j);
                     newButton.Click += ClickCell;
                     gameScreen.Controls.Add(newButton);
+                    listBtn.Add(newButton);
                 }
 
             UpdateCells();
@@ -100,7 +113,7 @@ namespace Final_project_2020
             buStop.Enabled = false;
             buPlay.Enabled = true;
 
-            engine = new Engine(engine.Height, engine.Width);
+            engine = new Engine(screenSize / cellSize, screenSize / cellSize);
             Text = $"GameOfLife : {engine.Ticks.ToString()}";
 
             UpdateCells();
@@ -133,17 +146,13 @@ namespace Final_project_2020
 
         }
 
-        private void Fm_Resize(object sender, EventArgs e)
-        {
-            gameScreen.Height = Height - 66 - 2;
-            screenSize = gameScreen.Height + 80 * 6;
-            gameScreen.Width = screenSize - 4;
-
-            engine = new Engine(screenSize / cellSize, screenSize / cellSize);
-
-            gameScreen.Location = new Point(Width / 2 - screenSize / 2, 66);
-
-            drawButton();
-        }
+        //private void Fm_Resize(object sender, EventArgs e)
+        //{
+        //    gameScreen.Height = Height - 66 - 2;
+        //    screenSize = gameScreen.Height + 80 * 6;
+        //    screenSize = Width / 10 * 9;
+        //    gameScreen.Width = screenSize - 4;
+        //    gameScreen.Location = new Point(Width / 2 - gameScreen.Width / 2, 66);
+        //}
     }
 }
