@@ -64,7 +64,7 @@ namespace Final_project_2020
             gameScreen.Height = Height - 66 - 2;
             screenSize = Width / 10 * 9;
             gameScreen.Width = screenSize - 4;
-            engine = new Engine(gameScreen.Height, screenSize/ cellSize);
+            engine = new Engine(gameScreen.Height / cellSize, screenSize/ cellSize);
             gameScreen.Location = new Point(Width/2 - screenSize/2, 66);
 
             MinimumSize = new Size(Width, Height);
@@ -126,7 +126,7 @@ namespace Final_project_2020
             buPlay.Enabled = true;
 
 
-            engine = new Engine(gameScreen.Height, screenSize / cellSize);
+            engine = new Engine(gameScreen.Height / cellSize, screenSize / cellSize);
             UpdateCells();
         }
 
