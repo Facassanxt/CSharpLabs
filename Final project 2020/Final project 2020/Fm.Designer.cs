@@ -35,12 +35,13 @@
             this.buStop = new System.Windows.Forms.Button();
             this.gameScreen = new System.Windows.Forms.Panel();
             this.buRnd = new System.Windows.Forms.Button();
-            this.colorSlider1 = new MB.Controls.ColorSlider();
+            this.buInfo = new System.Windows.Forms.Button();
+            this.buRR = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // timer
             // 
-            this.timer.Interval = 1000;
+            this.timer.Interval = 50;
             // 
             // buReset
             // 
@@ -50,7 +51,7 @@
             this.buReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buReset.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buReset.ForeColor = System.Drawing.Color.Coral;
-            this.buReset.Location = new System.Drawing.Point(331, 26);
+            this.buReset.Location = new System.Drawing.Point(315, 26);
             this.buReset.Name = "buReset";
             this.buReset.Size = new System.Drawing.Size(98, 39);
             this.buReset.TabIndex = 36;
@@ -65,7 +66,7 @@
             this.buPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buPlay.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buPlay.ForeColor = System.Drawing.Color.Coral;
-            this.buPlay.Location = new System.Drawing.Point(435, 26);
+            this.buPlay.Location = new System.Drawing.Point(153, 26);
             this.buPlay.Name = "buPlay";
             this.buPlay.Size = new System.Drawing.Size(78, 39);
             this.buPlay.TabIndex = 37;
@@ -80,7 +81,7 @@
             this.buStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buStop.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buStop.ForeColor = System.Drawing.Color.Coral;
-            this.buStop.Location = new System.Drawing.Point(519, 26);
+            this.buStop.Location = new System.Drawing.Point(237, 26);
             this.buStop.Name = "buStop";
             this.buStop.Size = new System.Drawing.Size(72, 39);
             this.buStop.TabIndex = 38;
@@ -109,33 +110,49 @@
             this.buRnd.Text = "Рандом";
             this.buRnd.UseVisualStyleBackColor = false;
             // 
-            // colorSlider1
+            // buInfo
             // 
-            this.colorSlider1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.colorSlider1.BackColor = System.Drawing.Color.Transparent;
-            this.colorSlider1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.colorSlider1.BorderRoundRectSize = new System.Drawing.Size(1, 1);
-            this.colorSlider1.LargeChange = ((uint)(5u));
-            this.colorSlider1.Location = new System.Drawing.Point(988, 26);
-            this.colorSlider1.Name = "colorSlider1";
-            this.colorSlider1.Size = new System.Drawing.Size(200, 30);
-            this.colorSlider1.SmallChange = ((uint)(1u));
-            this.colorSlider1.TabIndex = 0;
-            this.colorSlider1.Text = "colorSlider1";
-            this.colorSlider1.ThumbRoundRectSize = new System.Drawing.Size(8, 8);
+            this.buInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buInfo.AutoSize = true;
+            this.buInfo.BackColor = System.Drawing.Color.Transparent;
+            this.buInfo.FlatAppearance.BorderSize = 0;
+            this.buInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buInfo.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buInfo.ForeColor = System.Drawing.Color.Coral;
+            this.buInfo.Location = new System.Drawing.Point(1025, 26);
+            this.buInfo.Name = "buInfo";
+            this.buInfo.Size = new System.Drawing.Size(173, 39);
+            this.buInfo.TabIndex = 40;
+            this.buInfo.Text = "Что это такое!?";
+            this.buInfo.UseVisualStyleBackColor = false;
+            // 
+            // buRR
+            // 
+            this.buRR.AutoSize = true;
+            this.buRR.BackColor = System.Drawing.Color.Transparent;
+            this.buRR.FlatAppearance.BorderSize = 0;
+            this.buRR.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buRR.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buRR.ForeColor = System.Drawing.Color.Coral;
+            this.buRR.Location = new System.Drawing.Point(418, 26);
+            this.buRR.Name = "buRR";
+            this.buRR.Size = new System.Drawing.Size(173, 39);
+            this.buRR.TabIndex = 41;
+            this.buRR.Text = "Создать ружье";
+            this.buRR.UseVisualStyleBackColor = false;
             // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 898);
-            this.Controls.Add(this.colorSlider1);
             this.Controls.Add(this.gameScreen);
             this.Controls.Add(this.buRnd);
             this.Controls.Add(this.buStop);
             this.Controls.Add(this.buPlay);
             this.Controls.Add(this.buReset);
+            this.Controls.Add(this.buInfo);
+            this.Controls.Add(this.buRR);
             this.MaximizeBox = false;
             this.Name = "Fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -152,7 +169,8 @@
         private System.Windows.Forms.Button buStop;
         private System.Windows.Forms.Panel gameScreen;
         private System.Windows.Forms.Button buRnd;
-        private MB.Controls.ColorSlider colorSlider1;
+        private System.Windows.Forms.Button buInfo;
+        private System.Windows.Forms.Button buRR;
     }
 }
 

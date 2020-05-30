@@ -19,7 +19,7 @@ namespace Final_project_2020
     public partial class Fm : MaterialForm
     {
         private Engine engine = null;
-        private const int cellSize = 30;
+        private const int cellSize = 25;
         private int screenSize;
         List<Button> listBtn = new List<Button> { };
         Random rnd = new Random();
@@ -36,10 +36,61 @@ namespace Final_project_2020
             buReset.Click += buReset_Click;
             buStop.Click += buStop_Click;
             buRnd.Click += BuRnd_Click;
+            buRR.Click += BuRR_Click;
+            buInfo.Click += (s, e) => System.Diagnostics.Process.Start("https://ru.wikipedia.org/wiki/%D0%98%D0%B3%D1%80%D0%B0_%C2%AB%D0%96%D0%B8%D0%B7%D0%BD%D1%8C%C2%BB");
             timer.Tick += Timer_Tick;
 
 
             startForm();
+        }
+
+        private void BuRR_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+            buStop.Enabled = false;
+            buPlay.Enabled = true;
+            for (int linearIndex = 0; linearIndex < listBtn.Count; ++linearIndex)
+                listBtn[linearIndex].BackColor = Color.Transparent;
+
+            engine = new Engine(gameScreen.Height / cellSize, screenSize / cellSize);
+            int maxr = screenSize / cellSize;
+            listBtn[26 + maxr * 1].PerformClick();
+            listBtn[24 + maxr * 2].PerformClick();
+            listBtn[26 + maxr * 2].PerformClick();
+            listBtn[14 + maxr * 3].PerformClick();
+            listBtn[15 + maxr * 3].PerformClick();
+            listBtn[22 + maxr * 3].PerformClick();
+            listBtn[23 + maxr * 3].PerformClick();
+            listBtn[36 + maxr * 3].PerformClick();
+            listBtn[37 + maxr * 3].PerformClick();
+            listBtn[13 + maxr * 4].PerformClick();
+            listBtn[17 + maxr * 4].PerformClick();
+            listBtn[22 + maxr * 4].PerformClick();
+            listBtn[23 + maxr * 4].PerformClick();
+            listBtn[36 + maxr * 4].PerformClick();
+            listBtn[37 + maxr * 4].PerformClick();
+            listBtn[2 + maxr * 5].PerformClick();
+            listBtn[3 + maxr * 5].PerformClick();
+            listBtn[12 + maxr * 5].PerformClick();
+            listBtn[18 + maxr * 5].PerformClick();
+            listBtn[22 + maxr * 5].PerformClick();
+            listBtn[23 + maxr * 5].PerformClick();
+            listBtn[2 + maxr * 6].PerformClick();
+            listBtn[3 + maxr * 6].PerformClick();
+            listBtn[12 + maxr * 6].PerformClick();
+            listBtn[16 + maxr * 6].PerformClick();
+            listBtn[18 + maxr * 6].PerformClick();
+            listBtn[19 + maxr * 6].PerformClick();
+            listBtn[24 + maxr * 6].PerformClick();
+            listBtn[26 + maxr * 6].PerformClick();
+            listBtn[12 + maxr * 7].PerformClick();
+            listBtn[18 + maxr * 7].PerformClick();
+            listBtn[26 + maxr * 7].PerformClick();
+            listBtn[13 + maxr * 8].PerformClick();
+            listBtn[17 + maxr * 8].PerformClick();
+            listBtn[14 + maxr * 9].PerformClick();
+            listBtn[15 + maxr * 9].PerformClick();
+            UpdateCells();
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -57,7 +108,7 @@ namespace Final_project_2020
                 return;
             await Task.Run(() => 
             {
-                for (int i = 0; i < listBtn.Count; i++)
+                for (int i = 0; i < listBtn.Count / 2; i++)
                 {
                     this.Invoke((MethodInvoker)delegate () { listBtn[rnd.Next(0, listBtn.Count)].PerformClick(); });
                 }
@@ -91,9 +142,9 @@ namespace Final_project_2020
                     newButton.Size = new Size(cellSize, cellSize);
                     newButton.Location = new Point(i, j);
                     newButton.Click += ClickCell;
-                    newButton.BackColor = Color.LightSlateGray;
-                    newButton.BackgroundImageLayout = ImageLayout.Center;
-                    newButton.BackgroundImage = Resources.Blank_Star;
+                    newButton.BackColor = Color.Transparent;
+                    newButton.FlatStyle = FlatStyle.Flat;
+                    newButton.FlatAppearance.BorderSize = 0;
                     listBtn.Add(newButton);
                 }
         }
@@ -117,7 +168,8 @@ namespace Final_project_2020
             timer.Enabled = false;
             buStop.Enabled = false;
             buPlay.Enabled = true;
-
+            for (int linearIndex = 0; linearIndex < listBtn.Count; ++linearIndex)
+                listBtn[linearIndex].BackColor = Color.Transparent;
 
             engine = new Engine(gameScreen.Height / cellSize, screenSize / cellSize);
             UpdateCells();
@@ -133,7 +185,7 @@ namespace Final_project_2020
             int x = buttonLinearIndex % engine.Width;
 
             engine[y, x] = !engine[y, x];
-            ((Button)sender).BackgroundImage = engine[y, x] ? Resources.GlowStar_16x : Resources.Blank_Star;
+            ((Button)sender).BackColor = engine[y, x] ? Color.Green : Color.Transparent;
         }
 
         private void UpdateCells()
@@ -142,14 +194,10 @@ namespace Final_project_2020
             {
                 int x = linearIndex / engine.Width;
                 int y = linearIndex % engine.Width;
+                if (listBtn[linearIndex].BackColor == Color.Green)
+                    listBtn[linearIndex].BackColor = Color.PeachPuff;
                 if (engine[x, y])
-                {
-                    this.Invoke((MethodInvoker)delegate () { listBtn[linearIndex].BackgroundImage = Resources.GlowStar_16x; });
-                }
-                else 
-                {
-                    listBtn[linearIndex].BackgroundImage = Resources.Blank_Star;
-                }
+                    this.Invoke((MethodInvoker)delegate () { listBtn[linearIndex].BackColor = Color.Green; });
             }
         }
     }
