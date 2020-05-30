@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,6 +23,8 @@ namespace Final_project_2020
         private const int cellSize = 40;
         private int screenSize;
         List<Button> listBtn = new List<Button> { };
+        Thread _REND;
+        Random rnd = new Random();
 
         public Fm()
         {
@@ -41,17 +44,17 @@ namespace Final_project_2020
             startForm();
         }
 
-        private void BuRnd_Click(object sender, EventArgs e)
+        private async void BuRnd_Click(object sender, EventArgs e)
         {
             if (timer.Enabled)
                 return;
-
-            Random rnd = new Random();
-            for (int i = 0; i < listBtn.Count; i++)
+            await Task.Run(() => 
             {
-                int a = rnd.Next(0, listBtn.Count);
-                listBtn[a].PerformClick();
-            }
+                for (int i = 0; i < listBtn.Count; i++)
+                {
+                    this.Invoke((MethodInvoker)delegate () { listBtn[rnd.Next(0, listBtn.Count)].PerformClick(); });
+                }
+            });
         }
 
         private void startForm()
@@ -81,14 +84,25 @@ namespace Final_project_2020
                     gameScreen.Controls.Add(newButton);
                     listBtn.Add(newButton);
                 }
-            UpdateCells();
-            buReset.PerformClick();
+            _REND = new Thread(UpdateCells);
+            _REND.Start();
+            //UpdateCells();
+            //buReset.PerformClick();
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
             engine.Tick();
-            UpdateCells();
+            _REND = new Thread(UpdateCells);
+            try
+            {
+                _REND.Start();
+            }
+            catch (Exception)
+            {
+                _REND.Abort();
+                _REND.Start();
+            }
         }
 
         private void buPlay_Click(object sender, EventArgs e)
@@ -130,17 +144,19 @@ namespace Final_project_2020
             ((Button)sender).BackgroundImage = engine[y, x] ? Resources.GlowStar_16x : Resources.Blank_Star;
         }
 
-        private void UpdateCells()
+        private async void UpdateCells()
         {
-            for (int linearIndex = 0; linearIndex < gameScreen.Controls.Count; ++linearIndex)
+            await Task.Run(() => 
             {
-                gameScreen.Controls[linearIndex].BackColor =
-                    engine[linearIndex / engine.Width, linearIndex % engine.Width] ? aliveCell : deadCell;
-                gameScreen.Controls[linearIndex].BackgroundImage =
-                    engine[linearIndex / engine.Width, linearIndex % engine.Width] ? Resources.GlowStar_16x : Resources.Blank_Star;
-                gameScreen.Controls[linearIndex].BackgroundImageLayout = ImageLayout.Center;
-            }
-
+                for (int linearIndex = 0; linearIndex < gameScreen.Controls.Count; ++linearIndex)
+                {
+                    gameScreen.Controls[linearIndex].BackColor =
+                        engine[linearIndex / engine.Width, linearIndex % engine.Width] ? aliveCell : deadCell;
+                    gameScreen.Controls[linearIndex].BackgroundImage =
+                        engine[linearIndex / engine.Width, linearIndex % engine.Width] ? Resources.GlowStar_16x : Resources.Blank_Star;
+                    gameScreen.Controls[linearIndex].BackgroundImageLayout = ImageLayout.Center;
+                }
+            });
         }
 
         //private void Fm_Resize(object sender, EventArgs e)
