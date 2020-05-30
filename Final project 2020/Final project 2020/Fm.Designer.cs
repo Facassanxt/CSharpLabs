@@ -35,6 +35,7 @@
             this.buStop = new System.Windows.Forms.Button();
             this.gameScreen = new System.Windows.Forms.Panel();
             this.buRnd = new System.Windows.Forms.Button();
+            this.colorSlider1 = new MB.Controls.ColorSlider();
             this.SuspendLayout();
             // 
             // timer
@@ -108,11 +109,28 @@
             this.buRnd.Text = "Рандом";
             this.buRnd.UseVisualStyleBackColor = false;
             // 
+            // colorSlider1
+            // 
+            this.colorSlider1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.colorSlider1.BackColor = System.Drawing.Color.Transparent;
+            this.colorSlider1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.colorSlider1.BorderRoundRectSize = new System.Drawing.Size(1, 1);
+            this.colorSlider1.LargeChange = ((uint)(5u));
+            this.colorSlider1.Location = new System.Drawing.Point(988, 26);
+            this.colorSlider1.Name = "colorSlider1";
+            this.colorSlider1.Size = new System.Drawing.Size(200, 30);
+            this.colorSlider1.SmallChange = ((uint)(1u));
+            this.colorSlider1.TabIndex = 0;
+            this.colorSlider1.Text = "colorSlider1";
+            this.colorSlider1.ThumbRoundRectSize = new System.Drawing.Size(8, 8);
+            // 
             // Fm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 898);
+            this.Controls.Add(this.colorSlider1);
             this.Controls.Add(this.gameScreen);
             this.Controls.Add(this.buRnd);
             this.Controls.Add(this.buStop);
@@ -134,6 +152,7 @@
         private System.Windows.Forms.Button buStop;
         private System.Windows.Forms.Panel gameScreen;
         private System.Windows.Forms.Button buRnd;
+        private MB.Controls.ColorSlider colorSlider1;
     }
 }
 

@@ -34,20 +34,23 @@ namespace GameOfLife
             }
         }
 
-        public void Tick()
+        public async void Tick()
         {
-            bool[,] clone = GetClonedGrid();
-
-            for (var j = 0; j < Height; ++j)
+            await Task.Run(() =>
             {
-                for (var i = 0; i < Width; ++i)
-                {
-                    clone[j, i] = GetNextValue(j, i);
-                }
-            }
+                bool[,] clone = GetClonedGrid();
 
-            Grid = clone;
-            ++Ticks;
+                for (var j = 0; j < Height; ++j)
+                {
+                    for (var i = 0; i < Width; ++i)
+                    {
+                        clone[j, i] = GetNextValue(j, i);
+                    }
+                }
+
+                Grid = clone;
+                ++Ticks;
+            });
         }
 
         private int GetLiveNeighbours(int y, int x)
