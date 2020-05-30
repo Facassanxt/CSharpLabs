@@ -12,18 +12,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace Final_project_2020
 {
     public partial class Fm : MaterialForm
     {
         private Engine engine = null;
-        private static readonly Color aliveCell = Color.DimGray;
-        private static readonly Color deadCell = Color.LightSlateGray;
-        private const int cellSize = 40;
+        private const int cellSize = 30;
         private int screenSize;
         List<Button> listBtn = new List<Button> { };
-        Thread _REND;
         Random rnd = new Random();
 
         public Fm()
@@ -37,11 +35,20 @@ namespace Final_project_2020
             buPlay.Click += buPlay_Click;
             buReset.Click += buReset_Click;
             buStop.Click += buStop_Click;
-            timer.Tick += timer_Tick;
             buRnd.Click += BuRnd_Click;
+            timer.Tick += Timer_Tick;
 
-            //Resize += Fm_Resize;
+
             startForm();
+        }
+
+        private async void Timer_Tick(object sender, EventArgs e)
+        {
+            await Task.Run(() =>
+            {
+                engine.Tick();
+                UpdateCells();
+            });
         }
 
         private async void BuRnd_Click(object sender, EventArgs e)
@@ -70,6 +77,8 @@ namespace Final_project_2020
             MinimumSize = new Size(Width, Height);
             MaximumSize = new Size(Width, Height);
             drawButton();
+            UpdateCells();
+
         }
 
         private void drawButton()
@@ -78,31 +87,15 @@ namespace Final_project_2020
                 for (int i = 0; i + cellSize <= screenSize; i += cellSize)
                 {
                     Button newButton = new Button();
+                    newButton.Parent = gameScreen;
                     newButton.Size = new Size(cellSize, cellSize);
                     newButton.Location = new Point(i, j);
                     newButton.Click += ClickCell;
-                    gameScreen.Controls.Add(newButton);
+                    newButton.BackColor = Color.LightSlateGray;
+                    newButton.BackgroundImageLayout = ImageLayout.Center;
+                    newButton.BackgroundImage = Resources.Blank_Star;
                     listBtn.Add(newButton);
                 }
-            _REND = new Thread(UpdateCells);
-            _REND.Start();
-            //UpdateCells();
-            //buReset.PerformClick();
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            engine.Tick();
-            _REND = new Thread(UpdateCells);
-            try
-            {
-                _REND.Start();
-            }
-            catch (Exception)
-            {
-                _REND.Abort();
-                _REND.Start();
-            }
         }
 
         private void buPlay_Click(object sender, EventArgs e)
@@ -135,28 +128,29 @@ namespace Final_project_2020
             if (timer.Enabled)
                 return;
 
-            int buttonLinearIndex = gameScreen.Controls.IndexOf(sender as Control);
+            int buttonLinearIndex = listBtn.IndexOf(sender as Button);
             int y = buttonLinearIndex / engine.Width;
             int x = buttonLinearIndex % engine.Width;
 
             engine[y, x] = !engine[y, x];
-            ((Button)sender).BackColor = engine[y, x] ? aliveCell : deadCell;
             ((Button)sender).BackgroundImage = engine[y, x] ? Resources.GlowStar_16x : Resources.Blank_Star;
         }
 
-        private async void UpdateCells()
+        private void UpdateCells()
         {
-            await Task.Run(() => 
+            for (int linearIndex = 0; linearIndex < listBtn.Count; ++linearIndex)
             {
-                for (int linearIndex = 0; linearIndex < gameScreen.Controls.Count; ++linearIndex)
+                int x = linearIndex / engine.Width;
+                int y = linearIndex % engine.Width;
+                if (engine[x, y])
                 {
-                    gameScreen.Controls[linearIndex].BackColor =
-                        engine[linearIndex / engine.Width, linearIndex % engine.Width] ? aliveCell : deadCell;
-                    gameScreen.Controls[linearIndex].BackgroundImage =
-                        engine[linearIndex / engine.Width, linearIndex % engine.Width] ? Resources.GlowStar_16x : Resources.Blank_Star;
-                    gameScreen.Controls[linearIndex].BackgroundImageLayout = ImageLayout.Center;
+                    this.Invoke((MethodInvoker)delegate () { listBtn[linearIndex].BackgroundImage = Resources.GlowStar_16x; });
                 }
-            });
+                else 
+                {
+                    listBtn[linearIndex].BackgroundImage = Resources.Blank_Star;
+                }
+            }
         }
     }
 }

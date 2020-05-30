@@ -27,7 +27,6 @@ namespace GameOfLife
             {
                 return Grid[y, x];
             }
-
             set
             {
                 Grid[y, x] = value;
@@ -38,15 +37,10 @@ namespace GameOfLife
         {
             await Task.Run(() =>
             {
-                bool[,] clone = GetClonedGrid();
-
+                bool[,] clone = new bool[Height, Width];
                 for (var j = 0; j < Height; ++j)
-                {
                     for (var i = 0; i < Width; ++i)
-                    {
                         clone[j, i] = GetNextValue(j, i);
-                    }
-                }
 
                 Grid = clone;
                 ++Ticks;
@@ -56,18 +50,10 @@ namespace GameOfLife
         private int GetLiveNeighbours(int y, int x)
         {
             int count = 0;
-
             for (var j = y - 1; j < y + 2; ++j)
-            {
                 for (var i = x - 1; i < x + 2; ++i)
-                {
-                    if (!IsOutOfBounds(j, i))
-                    {
+                    if (!(j < 0 || j >= Height || i < 0 || i >= Width)) 
                         count += Convert.ToInt32(Grid[j, i]);
-                    }
-                }
-
-            }
             return count - Convert.ToInt32(Grid[y, x]);
         }
 
@@ -83,26 +69,5 @@ namespace GameOfLife
                     return false;
             }
         }
-
-        private bool[,] GetClonedGrid()
-        {
-            bool[,] clone = new bool[Height, Width];
-
-            for (var j = 0; j < Height; ++j)
-            {
-                for (var i = 0; i < Width; ++i)
-                {
-                    clone[j, i] = Grid[j, i];
-                }
-
-            }
-            return clone;
-        }
-
-        private bool IsOutOfBounds(int y, int x)
-        {
-            return y < 0 || y >= Height || x < 0 || x >= Width;
-        }
-
     }
 }

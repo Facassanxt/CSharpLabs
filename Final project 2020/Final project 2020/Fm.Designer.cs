@@ -40,7 +40,7 @@
             // 
             // timer
             // 
-            this.timer.Interval = 500;
+            this.timer.Interval = 1000;
             // 
             // buReset
             // 
