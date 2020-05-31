@@ -49,7 +49,7 @@
             this.buReset.BackColor = System.Drawing.Color.Transparent;
             this.buReset.FlatAppearance.BorderSize = 0;
             this.buReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buReset.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buReset.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
             this.buReset.ForeColor = System.Drawing.Color.Coral;
             this.buReset.Location = new System.Drawing.Point(315, 26);
             this.buReset.Name = "buReset";
@@ -64,7 +64,7 @@
             this.buPlay.BackColor = System.Drawing.Color.Transparent;
             this.buPlay.FlatAppearance.BorderSize = 0;
             this.buPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buPlay.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buPlay.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
             this.buPlay.ForeColor = System.Drawing.Color.Coral;
             this.buPlay.Location = new System.Drawing.Point(153, 26);
             this.buPlay.Name = "buPlay";
@@ -79,7 +79,7 @@
             this.buStop.BackColor = System.Drawing.Color.Transparent;
             this.buStop.FlatAppearance.BorderSize = 0;
             this.buStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buStop.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buStop.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
             this.buStop.ForeColor = System.Drawing.Color.Coral;
             this.buStop.Location = new System.Drawing.Point(237, 26);
             this.buStop.Name = "buStop";
@@ -90,6 +90,8 @@
             // 
             // gameScreen
             // 
+            this.gameScreen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.gameScreen.Cursor = System.Windows.Forms.Cursors.Hand;
             this.gameScreen.Location = new System.Drawing.Point(1, 62);
             this.gameScreen.Name = "gameScreen";
             this.gameScreen.Size = new System.Drawing.Size(1197, 784);
@@ -101,7 +103,7 @@
             this.buRnd.BackColor = System.Drawing.Color.Transparent;
             this.buRnd.FlatAppearance.BorderSize = 0;
             this.buRnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buRnd.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buRnd.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
             this.buRnd.ForeColor = System.Drawing.Color.Coral;
             this.buRnd.Location = new System.Drawing.Point(597, 26);
             this.buRnd.Name = "buRnd";
@@ -117,7 +119,7 @@
             this.buInfo.BackColor = System.Drawing.Color.Transparent;
             this.buInfo.FlatAppearance.BorderSize = 0;
             this.buInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buInfo.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buInfo.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
             this.buInfo.ForeColor = System.Drawing.Color.Coral;
             this.buInfo.Location = new System.Drawing.Point(1025, 26);
             this.buInfo.Name = "buInfo";
@@ -132,7 +134,7 @@
             this.buRR.BackColor = System.Drawing.Color.Transparent;
             this.buRR.FlatAppearance.BorderSize = 0;
             this.buRR.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buRR.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buRR.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
             this.buRR.ForeColor = System.Drawing.Color.Coral;
             this.buRR.Location = new System.Drawing.Point(418, 26);
             this.buRR.Name = "buRR";
@@ -143,16 +145,16 @@
             // 
             // Fm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.ClientSize = new System.Drawing.Size(1200, 898);
-            this.Controls.Add(this.gameScreen);
             this.Controls.Add(this.buRnd);
             this.Controls.Add(this.buStop);
             this.Controls.Add(this.buPlay);
             this.Controls.Add(this.buReset);
             this.Controls.Add(this.buInfo);
             this.Controls.Add(this.buRR);
+            this.Controls.Add(this.gameScreen);
             this.MaximizeBox = false;
             this.Name = "Fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

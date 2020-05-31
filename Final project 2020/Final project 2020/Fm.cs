@@ -1,5 +1,4 @@
-﻿using Final_project_2020.Properties;
-using GameOfLife;
+﻿using GameOfLife;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
@@ -13,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;
+using System.Runtime;
 
 namespace Final_project_2020
 {
@@ -22,7 +22,6 @@ namespace Final_project_2020
         private const int cellSize = 25;
         private int screenSize;
         List<Button> listBtn = new List<Button> { };
-        Random rnd = new Random();
 
         public Fm()
         {
@@ -40,8 +39,8 @@ namespace Final_project_2020
             buInfo.Click += (s, e) => System.Diagnostics.Process.Start("https://ru.wikipedia.org/wiki/%D0%98%D0%B3%D1%80%D0%B0_%C2%AB%D0%96%D0%B8%D0%B7%D0%BD%D1%8C%C2%BB");
             timer.Tick += Timer_Tick;
 
-
             startForm();
+            drawButton();
         }
 
         private void BuRR_Click(object sender, EventArgs e)
@@ -106,6 +105,7 @@ namespace Final_project_2020
         {
             if (timer.Enabled)
                 return;
+            Random rnd = new Random();
             await Task.Run(() => 
             {
                 for (int i = 0; i < listBtn.Count / 2; i++)
@@ -127,9 +127,8 @@ namespace Final_project_2020
 
             MinimumSize = new Size(Width, Height);
             MaximumSize = new Size(Width, Height);
-            drawButton();
-            UpdateCells();
-
+            //await Task.Run(() => drawButton());
+            //drawButton();
         }
 
         private void drawButton()
@@ -188,17 +187,20 @@ namespace Final_project_2020
             ((Button)sender).BackColor = engine[y, x] ? Color.Green : Color.Transparent;
         }
 
-        private void UpdateCells()
+        private async void UpdateCells()
         {
-            for (int linearIndex = 0; linearIndex < listBtn.Count; ++linearIndex)
+            await Task.Run(() =>
             {
-                int x = linearIndex / engine.Width;
-                int y = linearIndex % engine.Width;
-                if (listBtn[linearIndex].BackColor == Color.Green)
-                    listBtn[linearIndex].BackColor = Color.PeachPuff;
-                if (engine[x, y])
-                    this.Invoke((MethodInvoker)delegate () { listBtn[linearIndex].BackColor = Color.Green; });
-            }
+                for (int linearIndex = 0; linearIndex < listBtn.Count; ++linearIndex)
+                {
+                    int x = linearIndex / engine.Width;
+                    int y = linearIndex % engine.Width;
+                    if (listBtn[linearIndex].BackColor == Color.Green)
+                        this.Invoke((MethodInvoker)delegate () { listBtn[linearIndex].BackColor = Color.PeachPuff; });
+                    if (engine[x, y])
+                        this.Invoke((MethodInvoker)delegate () { listBtn[linearIndex].BackColor = Color.Green; });
+                }
+            });
         }
     }
 }
