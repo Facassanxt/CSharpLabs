@@ -33,10 +33,11 @@
             this.buReset = new System.Windows.Forms.Button();
             this.buPlay = new System.Windows.Forms.Button();
             this.buStop = new System.Windows.Forms.Button();
-            this.gameScreen = new System.Windows.Forms.Panel();
             this.buRnd = new System.Windows.Forms.Button();
             this.buInfo = new System.Windows.Forms.Button();
             this.buRR = new System.Windows.Forms.Button();
+            this.piGame = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.piGame)).BeginInit();
             this.SuspendLayout();
             // 
             // timer
@@ -77,6 +78,7 @@
             // 
             this.buStop.AutoSize = true;
             this.buStop.BackColor = System.Drawing.Color.Transparent;
+            this.buStop.Enabled = false;
             this.buStop.FlatAppearance.BorderSize = 0;
             this.buStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buStop.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
@@ -87,15 +89,6 @@
             this.buStop.TabIndex = 38;
             this.buStop.Text = "Стоп";
             this.buStop.UseVisualStyleBackColor = false;
-            // 
-            // gameScreen
-            // 
-            this.gameScreen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.gameScreen.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.gameScreen.Location = new System.Drawing.Point(1, 62);
-            this.gameScreen.Name = "gameScreen";
-            this.gameScreen.Size = new System.Drawing.Size(1197, 784);
-            this.gameScreen.TabIndex = 39;
             // 
             // buRnd
             // 
@@ -143,22 +136,31 @@
             this.buRR.Text = "Создать ружье";
             this.buRR.UseVisualStyleBackColor = false;
             // 
+            // piGame
+            // 
+            this.piGame.Location = new System.Drawing.Point(34, 91);
+            this.piGame.Name = "piGame";
+            this.piGame.Size = new System.Drawing.Size(303, 253);
+            this.piGame.TabIndex = 42;
+            this.piGame.TabStop = false;
+            // 
             // Fm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.ClientSize = new System.Drawing.Size(1200, 898);
+            this.Controls.Add(this.piGame);
             this.Controls.Add(this.buRnd);
             this.Controls.Add(this.buStop);
             this.Controls.Add(this.buPlay);
             this.Controls.Add(this.buReset);
             this.Controls.Add(this.buInfo);
             this.Controls.Add(this.buRR);
-            this.Controls.Add(this.gameScreen);
             this.MaximizeBox = false;
             this.Name = "Fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GameOfLife";
+            ((System.ComponentModel.ISupportInitialize)(this.piGame)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -169,10 +171,10 @@
         private System.Windows.Forms.Button buReset;
         private System.Windows.Forms.Button buPlay;
         private System.Windows.Forms.Button buStop;
-        private System.Windows.Forms.Panel gameScreen;
         private System.Windows.Forms.Button buRnd;
         private System.Windows.Forms.Button buInfo;
         private System.Windows.Forms.Button buRR;
+        private System.Windows.Forms.PictureBox piGame;
     }
 }
 

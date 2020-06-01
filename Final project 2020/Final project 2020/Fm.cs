@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;
 using System.Runtime;
+using System.Drawing.Drawing2D;
 
 namespace Final_project_2020
 {
@@ -20,8 +21,16 @@ namespace Final_project_2020
     {
         private Engine engine = null;
         private const int cellSize = 25;
+        private Point StartPoint;
+        private Point CurPoint;
+        private Bitmap b;
         private int screenSize;
+        private int cX;
+        private int cY;
+        private int col = 60; // Сетка 
+        private int row = 60; // Сетка 
         List<Button> listBtn = new List<Button> { };
+        SolidBrush Brush = new SolidBrush(Color.Green);
 
         public Fm()
         {
@@ -38,20 +47,103 @@ namespace Final_project_2020
             buRR.Click += BuRR_Click;
             buInfo.Click += (s, e) => System.Diagnostics.Process.Start("https://ru.wikipedia.org/wiki/%D0%98%D0%B3%D1%80%D0%B0_%C2%AB%D0%96%D0%B8%D0%B7%D0%BD%D1%8C%C2%BB");
             timer.Tick += Timer_Tick;
+            piGame.Paint += PiGame_Paint;
+            piGame.MouseDown += PiGame_MouseDown;
+            piGame.MouseMove += PiGame_MouseMove;
+            Resize += Fm_Resize;
 
             startForm();
-            drawButton();
+            //drawButton();
+        }
+
+        private void PiGame_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    if (piGame.Capture)
+                    {
+                        CurPoint.X += e.X - StartPoint.X;
+                        CurPoint.Y += e.Y - StartPoint.Y;
+                        StartPoint = e.Location;
+                        piGame.Refresh();
+                    }
+                }
+                else if (e.Button == MouseButtons.Left)
+                {
+                    using (Graphics g = Graphics.FromImage(b))
+                    {
+                        int EndPointX = (e.X - CurPoint.X) / cX;
+                        int EndPointY = (e.Y - CurPoint.Y) / cY;
+                        if (EndPointX < col * 2 && EndPointY < row)
+                        {
+                            g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
+                            Text = $"| {EndPointX} | {EndPointY} |";
+                        }
+                    }
+                }
+                Refresh();
+            }
+            catch
+            {
+                //
+            }
+        }
+
+        private void PiGame_MouseDown(object sender, MouseEventArgs e)
+        {
+            StartPoint = e.Location;
+            if (e.Button == MouseButtons.Left)
+            {
+                try
+                {
+                    int EndPointX = (e.X - CurPoint.X) / cX;
+                    int EndPointY = (e.Y - CurPoint.Y) / cY;
+                    if (EndPointX < col * 2 && EndPointY < row)
+                    {
+                        using (Graphics g = Graphics.FromImage(b))
+                        {
+                            g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
+                            Text = $"| {EndPointX} | {EndPointY} |";
+                        }
+                        piGame.Refresh();
+                    }
+                }
+                catch
+                {
+                    //
+                }
+            }
+            Refresh();
+        }
+
+        private void PiGame_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawImage(b, CurPoint);
+        }
+
+        private void ResizeCells()
+        {
+            cX = piGame.Width / col / 2;
+            cY = piGame.Width / row / 2;
+        }
+        private void DrawCells()
+        {
+            using (Graphics g = Graphics.FromImage(b))
+                for (int i = 0; i < col * 2 + 1 ; i++)
+                {
+                    g.DrawLine(new Pen(Color.Silver, 1), i * cX, 0, i * cX, row * cY);
+                    for (int j = 0; j < row + 1; j++)
+                       g.DrawLine(new Pen(Color.Silver, 1), 0, j * cY, col * 2 * cX, j * cY);
+                }
+            this.Invoke((MethodInvoker)delegate () { piGame.Refresh(); });
         }
 
         private void BuRR_Click(object sender, EventArgs e)
         {
-            timer.Enabled = false;
-            buStop.Enabled = false;
-            buPlay.Enabled = true;
-            for (int linearIndex = 0; linearIndex < listBtn.Count; ++linearIndex)
-                listBtn[linearIndex].BackColor = Color.Transparent;
+            buReset.PerformClick();
 
-            engine = new Engine(gameScreen.Height / cellSize, screenSize / cellSize);
             int maxr = screenSize / cellSize;
             listBtn[26 + maxr * 1].PerformClick();
             listBtn[24 + maxr * 2].PerformClick();
@@ -108,36 +200,49 @@ namespace Final_project_2020
             Random rnd = new Random();
             await Task.Run(() => 
             {
-                for (int i = 0; i < listBtn.Count / 2; i++)
+                for (int i = 0; i < col * row; i++)
                 {
-                    this.Invoke((MethodInvoker)delegate () { listBtn[rnd.Next(0, listBtn.Count)].PerformClick(); });
+                    int EndPointX = rnd.Next(0, col * 2);
+                    int EndPointY = rnd.Next(0, row);
+                    using (Graphics g = Graphics.FromImage(b))
+                    {
+                        g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
+                    }
                 }
             });
         }
 
-        private void startForm()
+        private async void startForm()
         {
             this.Height = Screen.PrimaryScreen.Bounds.Height / 10 * 9;
             this.Width = Screen.PrimaryScreen.Bounds.Width / 10 * 9;
-            gameScreen.Height = Height - 66 - 2;
             screenSize = Width / 10 * 9;
-            gameScreen.Width = screenSize - 4;
-            engine = new Engine(gameScreen.Height / cellSize, screenSize/ cellSize);
-            gameScreen.Location = new Point(Width/2 - screenSize/2, 66);
+            piGame.Height = Height - 64 - 2;
+            piGame.Width = Width - 4;
+            engine = new Engine(piGame.Height / cellSize, screenSize/ cellSize);
+            piGame.Location = new Point(2, 64);
 
-            MinimumSize = new Size(Width, Height);
-            MaximumSize = new Size(Width, Height);
+
+            b = new Bitmap(piGame.Width * 2, piGame.Height * 2);
+
+            ResizeCells();
+            await Task.Run(() => DrawCells());
             //await Task.Run(() => drawButton());
             //drawButton();
+        }
+        private void Fm_Resize(object sender, EventArgs e)
+        {
+            piGame.Height = Height - 64 - 2;
+            piGame.Width = Width - 4;
         }
 
         private void drawButton()
         {
-            for (int j = 0; j + cellSize <= gameScreen.Height; j += cellSize)
+            for (int j = 0; j + cellSize <= piGame.Height; j += cellSize)
                 for (int i = 0; i + cellSize <= screenSize; i += cellSize)
                 {
                     Button newButton = new Button();
-                    newButton.Parent = gameScreen;
+                    newButton.Parent = piGame;
                     newButton.Size = new Size(cellSize, cellSize);
                     newButton.Location = new Point(i, j);
                     newButton.Click += ClickCell;
@@ -162,16 +267,17 @@ namespace Final_project_2020
             buPlay.Enabled = true;
         }
 
-        private void buReset_Click(object sender, EventArgs e)
+        private async void buReset_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
             buStop.Enabled = false;
             buPlay.Enabled = true;
-            for (int linearIndex = 0; linearIndex < listBtn.Count; ++linearIndex)
-                listBtn[linearIndex].BackColor = Color.Transparent;
 
-            engine = new Engine(gameScreen.Height / cellSize, screenSize / cellSize);
-            UpdateCells();
+            engine = new Engine(piGame.Height / cellSize, screenSize / cellSize);
+
+            b = new Bitmap(piGame.Width * 2, piGame.Height * 2);
+            ResizeCells();
+            await Task.Run(() => DrawCells());
         }
 
         private void ClickCell(object sender, EventArgs e)
