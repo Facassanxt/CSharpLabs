@@ -157,7 +157,7 @@ namespace labRoadEditor
                                 g.DrawImage(pics.Images[num - 1], j * cX, cY * i, cX, cY);
                             }
                         }
-                        this.Invoke((MethodInvoker)delegate () { PiMap.Invalidate(); });
+                        this.Invoke((MethodInvoker)delegate () { PiMap.Refresh(); });
                     }
                 }
                 _REND_Zoom.Abort();
@@ -225,15 +225,14 @@ namespace labRoadEditor
                 b = new Bitmap(PiMap.Width*2, PiMap.Height*2);
                 PiMap.Refresh();
                 DrawCells();
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+                //_REND_Zoom = new Thread(REND_Zoom);
                 try
                 {
                     _REND_Zoom.Start();
                 }
                 catch (Exception)
                 {
-                    _REND_Zoom.Abort();
+                    //_REND_Zoom.Abort();
                     _REND_Zoom = new Thread(REND_Zoom);
                     _REND_Zoom.Start();
                 }
