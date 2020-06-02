@@ -26,8 +26,8 @@ namespace Final_project_2020
         private Bitmap b;
         private int cX;
         private int cY;
-        private int col = 60; // Сетка 
-        private int row = 60; // Сетка 
+        private int col = 200; // Сетка 
+        private int row = 200; // Сетка 
         SolidBrush Brush = new SolidBrush(Color.Green);
         SolidBrush Brush2 = new SolidBrush(Color.FromArgb(51,51,51));
 
@@ -131,62 +131,36 @@ namespace Final_project_2020
         private void ResizeCells()
         {
             cX = piGame.Width / col / 2;
-            cY = piGame.Width / row / 2;
+            cY = cX;
         }
         private void DrawCells()
         {
             using (Graphics g = Graphics.FromImage(b))
-                for (int i = 0; i < col * 2 + 1 ; i++)
-                {
-                    g.DrawLine(new Pen(Color.Silver, 1), i * cX, 0, i * cX, row * cY);
-                    for (int j = 0; j < row + 1; j++)
-                       g.DrawLine(new Pen(Color.Silver, 1), 0, j * cY, col * 2 * cX, j * cY);
-                }
-            this.Invoke((MethodInvoker)delegate () { piGame.Refresh(); });
+            {
+                g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, 0, cX * col * 2, cY * row); // Линия 🠗
+                g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, cY * row, 0, cX * col); // Линия 🠔
+                g.DrawLine(new Pen(Color.Silver, 1), 0, 0, cX * col * 2, 0); // Линия ➜ 🗘
+                g.DrawLine(new Pen(Color.Silver, 1), 0, cY * row, 0, 0); // Линия 🠕
+            }
+             piGame.Refresh();
         }
 
         private void BuRR_Click(object sender, EventArgs e)
         {
+            if (timer.Enabled)
+                return;
             buReset.PerformClick();
-
-            //int maxr = screenSize / 1;
-            //listBtn[26 + maxr * 1].PerformClick();
-            //listBtn[24 + maxr * 2].PerformClick();
-            //listBtn[26 + maxr * 2].PerformClick();
-            //listBtn[14 + maxr * 3].PerformClick();
-            //listBtn[15 + maxr * 3].PerformClick();
-            //listBtn[22 + maxr * 3].PerformClick();
-            //listBtn[23 + maxr * 3].PerformClick();
-            //listBtn[36 + maxr * 3].PerformClick();
-            //listBtn[37 + maxr * 3].PerformClick();
-            //listBtn[13 + maxr * 4].PerformClick();
-            //listBtn[17 + maxr * 4].PerformClick();
-            //listBtn[22 + maxr * 4].PerformClick();
-            //listBtn[23 + maxr * 4].PerformClick();
-            //listBtn[36 + maxr * 4].PerformClick();
-            //listBtn[37 + maxr * 4].PerformClick();
-            //listBtn[2 + maxr * 5].PerformClick();
-            //listBtn[3 + maxr * 5].PerformClick();
-            //listBtn[12 + maxr * 5].PerformClick();
-            //listBtn[18 + maxr * 5].PerformClick();
-            //listBtn[22 + maxr * 5].PerformClick();
-            //listBtn[23 + maxr * 5].PerformClick();
-            //listBtn[2 + maxr * 6].PerformClick();
-            //listBtn[3 + maxr * 6].PerformClick();
-            //listBtn[12 + maxr * 6].PerformClick();
-            //listBtn[16 + maxr * 6].PerformClick();
-            //listBtn[18 + maxr * 6].PerformClick();
-            //listBtn[19 + maxr * 6].PerformClick();
-            //listBtn[24 + maxr * 6].PerformClick();
-            //listBtn[26 + maxr * 6].PerformClick();
-            //listBtn[12 + maxr * 7].PerformClick();
-            //listBtn[18 + maxr * 7].PerformClick();
-            //listBtn[26 + maxr * 7].PerformClick();
-            //listBtn[13 + maxr * 8].PerformClick();
-            //listBtn[17 + maxr * 8].PerformClick();
-            //listBtn[14 + maxr * 9].PerformClick();
-            //listBtn[15 + maxr * 9].PerformClick();
-            //UpdateCells();
+            string phrase = "1:26|2:24|2:26|3:14|3:15|3:22|3:23|3:36|3:37|4:13|4:17|4:22|4:23|4:36|4:37|5:2|5:3|5:12|5:18|5:22|5:23|6:2|6:3|6:12|6:16|6:18|6:19|6:24|6:26|7:12|7:18|7:26|8:13|8:17|9:14|9:15";
+            int max = col / 20;
+            foreach (var word in phrase.Split('|'))
+            {
+                string[] wo = word.Split(':');
+                for (int i = 0; i < max; i++)
+                {
+                    engine[int.Parse(wo[0]), int.Parse(wo[1]) + i * 40] = !engine[int.Parse(wo[0]), int.Parse(wo[1]) + i *40];
+                }
+            }
+            UpdateCells();
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -198,24 +172,21 @@ namespace Final_project_2020
             UpdateCells();
         }
 
-        private async void BuRnd_Click(object sender, EventArgs e)
+        private void BuRnd_Click(object sender, EventArgs e)
         {
             if (timer.Enabled)
                 return;
             Random rnd = new Random();
-            await Task.Run(() => 
+            for (int i = 0; i < col * row; i++)
             {
-                for (int i = 0; i < col * row; i++)
+                int EndPointX = rnd.Next(0, col * 2);
+                int EndPointY = rnd.Next(0, row);
+                using (Graphics g = Graphics.FromImage(b))
                 {
-                    int EndPointX = rnd.Next(0, col * 2);
-                    int EndPointY = rnd.Next(0, row);
-                    using (Graphics g = Graphics.FromImage(b))
-                    {
-                        g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
-                        engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
-                    }
+                    g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
+                    engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
                 }
-            });
+            }
         }
 
         private async void startForm()
@@ -232,8 +203,6 @@ namespace Final_project_2020
 
             ResizeCells();
             await Task.Run(() => DrawCells());
-            //await Task.Run(() => drawButton());
-            //drawButton();
         }
         private void Fm_Resize(object sender, EventArgs e)
         {
@@ -259,7 +228,7 @@ namespace Final_project_2020
             buPlay.Enabled = true;
         }
 
-        private async void buReset_Click(object sender, EventArgs e)
+        private void buReset_Click(object sender, EventArgs e)
         {
             piGame.Enabled = true;
             GC.Collect();
@@ -275,23 +244,27 @@ namespace Final_project_2020
 
             b = new Bitmap(piGame.Width * 2, piGame.Height * 2);
             ResizeCells();
-            await Task.Run(() => DrawCells());
+            DrawCells();
         }
 
-        private void UpdateCells()
+        private async void UpdateCells()
         {
             using (Graphics g = Graphics.FromImage(b))
             {
-                for (int i = 0; i < col * 2; i++)
-                    for (int j = 0; j < row; j++)
-                    {
-                        if (engine[j, i]) g.FillRectangle(Brush, i * cX, j * cY, cX, cY);
-                        else g.FillRectangle(Brush2, i * cX, j * cY, cX, cY);
-                    }
-                g.DrawLine(new Pen(Color.Silver, 1), 0, 0, cX * col * 2, 0); // Линия ➜ 🗘
-                g.DrawLine(new Pen(Color.Silver, 1), 0, cY * row, 0, 0); // Линия 🠕
+                g.Clear(Brush2.Color);
+                    for (int i = 0; i < col * 2; i++)
+                        for (int j = 0; j < row; j++)
+                            if (engine[j, i]) g.FillRectangle(Brush, i * cX, j * cY, cX, cY);
+
+                await Task.Run(() =>
+                {
+                    g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, 0, cX * col * 2, cY * row); // Линия 🠗
+                    g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, cY * row, 0, cX * col); // Линия 🠔
+                    g.DrawLine(new Pen(Color.Silver, 1), 0, 0, cX * col * 2, 0); // Линия ➜ 🗘
+                    g.DrawLine(new Pen(Color.Silver, 1), 0, cY * row, 0, 0); // Линия 🠕
+                });
+                piGame.Refresh();
             }
-            piGame.Refresh();
         }
     }
 }
