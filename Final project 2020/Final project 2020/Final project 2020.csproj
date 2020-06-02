@@ -102,18 +102,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Blank-Star.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\BlankStar-24x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Glow-Star.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GlowStar_24x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 и x64%29</ProductName>
@@ -126,7 +114,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\star.png" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

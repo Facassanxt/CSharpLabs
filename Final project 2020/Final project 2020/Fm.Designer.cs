@@ -114,7 +114,7 @@
             this.buInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buInfo.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
             this.buInfo.ForeColor = System.Drawing.Color.Coral;
-            this.buInfo.Location = new System.Drawing.Point(1025, 26);
+            this.buInfo.Location = new System.Drawing.Point(715, 26);
             this.buInfo.Name = "buInfo";
             this.buInfo.Size = new System.Drawing.Size(173, 39);
             this.buInfo.TabIndex = 40;
@@ -138,9 +138,9 @@
             // 
             // piGame
             // 
-            this.piGame.Location = new System.Drawing.Point(34, 91);
+            this.piGame.Location = new System.Drawing.Point(12, 71);
             this.piGame.Name = "piGame";
-            this.piGame.Size = new System.Drawing.Size(303, 253);
+            this.piGame.Size = new System.Drawing.Size(862, 517);
             this.piGame.TabIndex = 42;
             this.piGame.TabStop = false;
             // 
@@ -148,7 +148,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.ClientSize = new System.Drawing.Size(1200, 898);
+            this.ClientSize = new System.Drawing.Size(900, 600);
             this.Controls.Add(this.piGame);
             this.Controls.Add(this.buRnd);
             this.Controls.Add(this.buStop);
@@ -156,7 +156,7 @@
             this.Controls.Add(this.buReset);
             this.Controls.Add(this.buInfo);
             this.Controls.Add(this.buRR);
-            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(900, 600);
             this.Name = "Fm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GameOfLife";

@@ -20,14 +20,14 @@ namespace Final_project_2020
 {
     public partial class Fm : MaterialForm
     {
-        private Engine engine = null;
         private Point StartPoint;
         private Point CurPoint;
-        private Bitmap b;
+        private Bitmap b = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
         private int cX;
         private int cY;
-        private int col = 200; // Сетка 
-        private int row = 200; // Сетка 
+        private int col = 300; // Сетка 
+        private int row = 300; // Сетка 
+        private Engine engine;
         SolidBrush Brush = new SolidBrush(Color.Green);
         SolidBrush Brush2 = new SolidBrush(Color.FromArgb(51,51,51));
 
@@ -50,9 +50,28 @@ namespace Final_project_2020
             piGame.MouseDown += PiGame_MouseDown;
             piGame.MouseMove += PiGame_MouseMove;
             piGame.MouseClick += PiGame_MouseClick;
-            Resize += Fm_Resize;
+            ClientSizeChanged += Fm_ClientSizeChanged;
 
-            startForm();
+
+            engine = new Engine(row, col * 2);
+            this.Height = Screen.PrimaryScreen.Bounds.Height / 10 * 9;
+            this.Width = Screen.PrimaryScreen.Bounds.Width / 10 * 9;
+            piGame.Height = Height - 64 - 2;
+            piGame.Width = Width - 4;
+            piGame.Location = new Point(2, 64);
+            ResizeCells();
+            CurPoint = new Point(piGame.Width / 2 - cX * col, piGame.Height / 2 - cY * row / 2);
+            DrawCells();
+        }
+
+        private void Fm_ClientSizeChanged(object sender, EventArgs e)
+        {
+            piGame.Height = Height - 64 - 2;
+            piGame.Width = Width - 4;
+            ResizeCells();
+            CurPoint = new Point(piGame.Width / 2 - cX * col, piGame.Height / 2 - cY * row / 2);
+            UpdateCells();
+            piGame.Refresh();
         }
 
         private void PiGame_MouseClick(object sender, MouseEventArgs e)
@@ -120,7 +139,6 @@ namespace Final_project_2020
         private void PiGame_MouseDown(object sender, MouseEventArgs e)
         {
             StartPoint = e.Location;
-            Refresh();
         }
 
         private void PiGame_Paint(object sender, PaintEventArgs e)
@@ -163,12 +181,9 @@ namespace Final_project_2020
             UpdateCells();
         }
 
-        private async void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            await Task.Run(() =>
-            {
-                engine.Tick();
-            });
+            engine.Tick();
             UpdateCells();
         }
 
@@ -177,37 +192,20 @@ namespace Final_project_2020
             if (timer.Enabled)
                 return;
             Random rnd = new Random();
-            for (int i = 0; i < col * row; i++)
+            using (Graphics g = Graphics.FromImage(b))
             {
-                int EndPointX = rnd.Next(0, col * 2);
-                int EndPointY = rnd.Next(0, row);
-                using (Graphics g = Graphics.FromImage(b))
+                for (int i = 0; i < col * row; i++)
                 {
+                    int EndPointX = rnd.Next(0, col * 2);
+                    int EndPointY = rnd.Next(0, row);
                     g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
                     engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
                 }
+                g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, 0, cX * col * 2, cY * row); // Линия 🠗
+                g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, cY * row, 0, cX * col); // Линия 🠔
+                g.DrawLine(new Pen(Color.Silver, 1), 0, 0, cX * col * 2, 0); // Линия ➜ 🗘
+                g.DrawLine(new Pen(Color.Silver, 1), 0, cY * row, 0, 0); // Линия 🠕
             }
-        }
-
-        private async void startForm()
-        {
-            this.Height = Screen.PrimaryScreen.Bounds.Height / 10 * 9;
-            this.Width = Screen.PrimaryScreen.Bounds.Width / 10 * 9;
-            piGame.Height = Height - 64 - 2;
-            piGame.Width = Width - 4;
-            engine = new Engine(row, col * 2);
-            piGame.Location = new Point(2, 64);
-
-
-            b = new Bitmap(piGame.Width * 2, piGame.Height * 2);
-
-            ResizeCells();
-            await Task.Run(() => DrawCells());
-        }
-        private void Fm_Resize(object sender, EventArgs e)
-        {
-            piGame.Height = Height - 64 - 2;
-            piGame.Width = Width - 4;
         }
 
         private void buPlay_Click(object sender, EventArgs e)
@@ -241,13 +239,16 @@ namespace Final_project_2020
             buPlay.Enabled = true;
 
             engine = new Engine(row, col * 2);
-
-            b = new Bitmap(piGame.Width * 2, piGame.Height * 2);
+            using (Graphics g = Graphics.FromImage(b))
+            {
+                g.Clear(Brush2.Color);
+            }
             ResizeCells();
+
             DrawCells();
         }
 
-        private async void UpdateCells()
+        private void UpdateCells()
         {
             using (Graphics g = Graphics.FromImage(b))
             {
@@ -256,13 +257,10 @@ namespace Final_project_2020
                         for (int j = 0; j < row; j++)
                             if (engine[j, i]) g.FillRectangle(Brush, i * cX, j * cY, cX, cY);
 
-                await Task.Run(() =>
-                {
-                    g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, 0, cX * col * 2, cY * row); // Линия 🠗
-                    g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, cY * row, 0, cX * col); // Линия 🠔
-                    g.DrawLine(new Pen(Color.Silver, 1), 0, 0, cX * col * 2, 0); // Линия ➜ 🗘
-                    g.DrawLine(new Pen(Color.Silver, 1), 0, cY * row, 0, 0); // Линия 🠕
-                });
+                g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, 0, cX * col * 2, cY * row); // Линия 🠗
+                g.DrawLine(new Pen(Color.Silver, 1), cX * col * 2, cY * row, 0, cX * col); // Линия 🠔
+                g.DrawLine(new Pen(Color.Silver, 1), 0, 0, cX * col * 2, 0); // Линия ➜ 🗘
+                g.DrawLine(new Pen(Color.Silver, 1), 0, cY * row, 0, 0); // Линия 🠕
                 piGame.Refresh();
             }
         }
