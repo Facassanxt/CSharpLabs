@@ -20,9 +20,10 @@ namespace Final_project_2020
 {
     public partial class Fm : MaterialForm
     {
+        public int DeltaZoom { get; private set; } = 80;
         private Point StartPoint;
         private Point CurPoint;
-        private Bitmap b = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+        private Bitmap b = new Bitmap(Screen.PrimaryScreen.Bounds.Width * 5, Screen.PrimaryScreen.Bounds.Height * 5);
         private int cX;
         private int cY;
         private int col = 300; // Сетка 
@@ -51,6 +52,7 @@ namespace Final_project_2020
             piGame.MouseMove += PiGame_MouseMove;
             piGame.MouseClick += PiGame_MouseClick;
             ClientSizeChanged += Fm_ClientSizeChanged;
+            piGame.MouseWheel += PiGame_MouseWheel;
 
 
             engine = new Engine(row, col * 2);
@@ -64,6 +66,27 @@ namespace Final_project_2020
             DrawCells();
         }
 
+        private void PiGame_MouseWheel(object sender, MouseEventArgs e)
+        {
+            int zoom = e.Delta > 0 ? 2 : -2;
+            DeltaZoom += zoom;
+            if (DeltaZoom < 78)
+            {
+                DeltaZoom = 78;
+                return;
+            }
+            if (DeltaZoom >= 100)
+            {
+                DeltaZoom = 99;
+                return;
+            }
+            Refresh();
+            cX += zoom;
+            cY += zoom;
+            CurPoint = new Point(piGame.Width / 3 - e.X, piGame.Height / 3 - e.Y);
+            UpdateCells();
+        }
+
         private void Fm_ClientSizeChanged(object sender, EventArgs e)
         {
             piGame.Height = Height - 64 - 2;
@@ -71,6 +94,7 @@ namespace Final_project_2020
             ResizeCells();
             CurPoint = new Point(piGame.Width / 2 - cX * col, piGame.Height / 2 - cY * row / 2);
             UpdateCells();
+            DeltaZoom = 79;
             piGame.Refresh();
         }
 
