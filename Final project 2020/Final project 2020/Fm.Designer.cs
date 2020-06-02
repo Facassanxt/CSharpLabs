@@ -37,7 +37,6 @@
             this.buInfo = new System.Windows.Forms.Button();
             this.buRR = new System.Windows.Forms.Button();
             this.piGame = new System.Windows.Forms.PictureBox();
-            this.buTEST = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.piGame)).BeginInit();
             this.SuspendLayout();
             // 
@@ -145,28 +144,11 @@
             this.piGame.TabIndex = 42;
             this.piGame.TabStop = false;
             // 
-            // buTEST
-            // 
-            this.buTEST.AutoSize = true;
-            this.buTEST.BackColor = System.Drawing.Color.Transparent;
-            this.buTEST.FlatAppearance.BorderSize = 0;
-            this.buTEST.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buTEST.Font = new System.Drawing.Font("Comic Sans MS", 15.75F);
-            this.buTEST.ForeColor = System.Drawing.Color.Coral;
-            this.buTEST.Location = new System.Drawing.Point(744, 26);
-            this.buTEST.Name = "buTEST";
-            this.buTEST.Size = new System.Drawing.Size(96, 39);
-            this.buTEST.TabIndex = 43;
-            this.buTEST.Text = "TEST";
-            this.buTEST.UseVisualStyleBackColor = false;
-            this.buTEST.Click += new System.EventHandler(this.buTEST_Click);
-            // 
             // Fm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.ClientSize = new System.Drawing.Size(1200, 898);
-            this.Controls.Add(this.buTEST);
             this.Controls.Add(this.piGame);
             this.Controls.Add(this.buRnd);
             this.Controls.Add(this.buStop);
@@ -193,7 +175,6 @@
         private System.Windows.Forms.Button buInfo;
         private System.Windows.Forms.Button buRR;
         private System.Windows.Forms.PictureBox piGame;
-        private System.Windows.Forms.Button buTEST;
     }
 }
 

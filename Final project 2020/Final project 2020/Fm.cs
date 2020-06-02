@@ -24,12 +24,10 @@ namespace Final_project_2020
         private Point StartPoint;
         private Point CurPoint;
         private Bitmap b;
-        private int screenSize;
         private int cX;
         private int cY;
         private int col = 60; // Сетка 
         private int row = 60; // Сетка 
-        List<Button> listBtn = new List<Button> { };
         SolidBrush Brush = new SolidBrush(Color.Green);
         SolidBrush Brush2 = new SolidBrush(Color.FromArgb(51,51,51));
 
@@ -51,9 +49,36 @@ namespace Final_project_2020
             piGame.Paint += PiGame_Paint;
             piGame.MouseDown += PiGame_MouseDown;
             piGame.MouseMove += PiGame_MouseMove;
+            piGame.MouseClick += PiGame_MouseClick;
             Resize += Fm_Resize;
 
             startForm();
+        }
+
+        private void PiGame_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                try
+                {
+                    int EndPointX = (e.X - CurPoint.X) / cX;
+                    int EndPointY = (e.Y - CurPoint.Y) / cY;
+                    if (EndPointX < col * 2 && EndPointY < row)
+                    {
+                        using (Graphics g = Graphics.FromImage(b))
+                        {
+                            engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
+                            if (engine[EndPointY, EndPointX]) g.FillRectangle(Brush, EndPointX * cX, EndPointY * cY, cX, cY);
+                            else g.FillRectangle(Brush2, EndPointX * cX, EndPointY * cY, cX, cY);
+                        }
+                        piGame.Refresh();
+                    }
+                }
+                catch
+                {
+                    //
+                }
+            }
         }
 
         private void PiGame_MouseMove(object sender, MouseEventArgs e)
@@ -78,53 +103,23 @@ namespace Final_project_2020
                         int EndPointY = (e.Y - CurPoint.Y) / cY;
                         if (EndPointX < col * 2 && EndPointY < row)
                         {
-                            var color = GetColorAt(new System.Drawing.Point(Location.X + e.X + 2, Location.Y + e.Y + 64));
-                            if (color.ToArgb() == Color.Green.ToArgb())
-                                g.FillRectangle(Brush2, EndPointX * cX, cY * EndPointY, cX, cY);
-                            else
-                                g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
                             engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
-                            Text = $"| {EndPointX} | {EndPointY} |";
+                            if (engine[EndPointY, EndPointX]) g.FillRectangle(Brush, EndPointX * cX, EndPointY * cY, cX, cY);
+                            else g.FillRectangle(Brush2, EndPointX * cX, EndPointY * cY, cX, cY);
                         }
                     }
                 }
-                Refresh();
             }
             catch
             {
                 //
             }
+            piGame.Refresh();
         }
 
         private void PiGame_MouseDown(object sender, MouseEventArgs e)
         {
             StartPoint = e.Location;
-            if (e.Button == MouseButtons.Left)
-            {
-                try
-                {
-                    int EndPointX = (e.X - CurPoint.X) / cX;
-                    int EndPointY = (e.Y - CurPoint.Y) / cY;
-                    if (EndPointX < col * 2 && EndPointY < row)
-                    {
-                        using (Graphics g = Graphics.FromImage(b))
-                        {
-                            var color = GetColorAt(new System.Drawing.Point(Location.X + e.X + 2, Location.Y + e.Y + 64));
-                            if (color.ToArgb() == Color.Green.ToArgb())
-                                g.FillRectangle(Brush2, EndPointX * cX, cY * EndPointY, cX, cY);
-                            else
-                                g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
-                            engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
-                            Text = $"| {EndPointX} | {EndPointY} |";
-                        }
-                        piGame.Refresh();
-                    }
-                }
-                catch
-                {
-                    //
-                }
-            }
             Refresh();
         }
 
@@ -154,44 +149,44 @@ namespace Final_project_2020
         {
             buReset.PerformClick();
 
-            int maxr = screenSize / 1;
-            listBtn[26 + maxr * 1].PerformClick();
-            listBtn[24 + maxr * 2].PerformClick();
-            listBtn[26 + maxr * 2].PerformClick();
-            listBtn[14 + maxr * 3].PerformClick();
-            listBtn[15 + maxr * 3].PerformClick();
-            listBtn[22 + maxr * 3].PerformClick();
-            listBtn[23 + maxr * 3].PerformClick();
-            listBtn[36 + maxr * 3].PerformClick();
-            listBtn[37 + maxr * 3].PerformClick();
-            listBtn[13 + maxr * 4].PerformClick();
-            listBtn[17 + maxr * 4].PerformClick();
-            listBtn[22 + maxr * 4].PerformClick();
-            listBtn[23 + maxr * 4].PerformClick();
-            listBtn[36 + maxr * 4].PerformClick();
-            listBtn[37 + maxr * 4].PerformClick();
-            listBtn[2 + maxr * 5].PerformClick();
-            listBtn[3 + maxr * 5].PerformClick();
-            listBtn[12 + maxr * 5].PerformClick();
-            listBtn[18 + maxr * 5].PerformClick();
-            listBtn[22 + maxr * 5].PerformClick();
-            listBtn[23 + maxr * 5].PerformClick();
-            listBtn[2 + maxr * 6].PerformClick();
-            listBtn[3 + maxr * 6].PerformClick();
-            listBtn[12 + maxr * 6].PerformClick();
-            listBtn[16 + maxr * 6].PerformClick();
-            listBtn[18 + maxr * 6].PerformClick();
-            listBtn[19 + maxr * 6].PerformClick();
-            listBtn[24 + maxr * 6].PerformClick();
-            listBtn[26 + maxr * 6].PerformClick();
-            listBtn[12 + maxr * 7].PerformClick();
-            listBtn[18 + maxr * 7].PerformClick();
-            listBtn[26 + maxr * 7].PerformClick();
-            listBtn[13 + maxr * 8].PerformClick();
-            listBtn[17 + maxr * 8].PerformClick();
-            listBtn[14 + maxr * 9].PerformClick();
-            listBtn[15 + maxr * 9].PerformClick();
-            UpdateCells();
+            //int maxr = screenSize / 1;
+            //listBtn[26 + maxr * 1].PerformClick();
+            //listBtn[24 + maxr * 2].PerformClick();
+            //listBtn[26 + maxr * 2].PerformClick();
+            //listBtn[14 + maxr * 3].PerformClick();
+            //listBtn[15 + maxr * 3].PerformClick();
+            //listBtn[22 + maxr * 3].PerformClick();
+            //listBtn[23 + maxr * 3].PerformClick();
+            //listBtn[36 + maxr * 3].PerformClick();
+            //listBtn[37 + maxr * 3].PerformClick();
+            //listBtn[13 + maxr * 4].PerformClick();
+            //listBtn[17 + maxr * 4].PerformClick();
+            //listBtn[22 + maxr * 4].PerformClick();
+            //listBtn[23 + maxr * 4].PerformClick();
+            //listBtn[36 + maxr * 4].PerformClick();
+            //listBtn[37 + maxr * 4].PerformClick();
+            //listBtn[2 + maxr * 5].PerformClick();
+            //listBtn[3 + maxr * 5].PerformClick();
+            //listBtn[12 + maxr * 5].PerformClick();
+            //listBtn[18 + maxr * 5].PerformClick();
+            //listBtn[22 + maxr * 5].PerformClick();
+            //listBtn[23 + maxr * 5].PerformClick();
+            //listBtn[2 + maxr * 6].PerformClick();
+            //listBtn[3 + maxr * 6].PerformClick();
+            //listBtn[12 + maxr * 6].PerformClick();
+            //listBtn[16 + maxr * 6].PerformClick();
+            //listBtn[18 + maxr * 6].PerformClick();
+            //listBtn[19 + maxr * 6].PerformClick();
+            //listBtn[24 + maxr * 6].PerformClick();
+            //listBtn[26 + maxr * 6].PerformClick();
+            //listBtn[12 + maxr * 7].PerformClick();
+            //listBtn[18 + maxr * 7].PerformClick();
+            //listBtn[26 + maxr * 7].PerformClick();
+            //listBtn[13 + maxr * 8].PerformClick();
+            //listBtn[17 + maxr * 8].PerformClick();
+            //listBtn[14 + maxr * 9].PerformClick();
+            //listBtn[15 + maxr * 9].PerformClick();
+            //UpdateCells();
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -227,7 +222,6 @@ namespace Final_project_2020
         {
             this.Height = Screen.PrimaryScreen.Bounds.Height / 10 * 9;
             this.Width = Screen.PrimaryScreen.Bounds.Width / 10 * 9;
-            screenSize = Width / 10 * 9;
             piGame.Height = Height - 64 - 2;
             piGame.Width = Width - 4;
             engine = new Engine(row, col * 2);
@@ -249,6 +243,7 @@ namespace Final_project_2020
 
         private void buPlay_Click(object sender, EventArgs e)
         {
+            piGame.Enabled = false;
             timer.Start();
             timer.Enabled = true;
             buPlay.Enabled = false;
@@ -257,6 +252,7 @@ namespace Final_project_2020
 
         private void buStop_Click(object sender, EventArgs e)
         {
+            piGame.Enabled = true;
             timer.Stop();
             timer.Enabled = false;
             buStop.Enabled = false;
@@ -265,6 +261,7 @@ namespace Final_project_2020
 
         private async void buReset_Click(object sender, EventArgs e)
         {
+            piGame.Enabled = true;
             GC.Collect();
             GC.WaitForPendingFinalizers();
             timer.Stop();
@@ -281,19 +278,6 @@ namespace Final_project_2020
             await Task.Run(() => DrawCells());
         }
 
-        private void ClickCell(object sender, EventArgs e)
-        {
-            if (timer.Enabled)
-                return;
-
-            int buttonLinearIndex = listBtn.IndexOf(sender as Button);
-            int y = buttonLinearIndex / engine.Width;
-            int x = buttonLinearIndex % engine.Width;
-
-            engine[y, x] = !engine[y, x];
-            ((Button)sender).BackColor = engine[y, x] ? Color.Green : Color.Transparent;
-        }
-
         private void UpdateCells()
         {
             using (Graphics g = Graphics.FromImage(b))
@@ -308,47 +292,6 @@ namespace Final_project_2020
                 g.DrawLine(new Pen(Color.Silver, 1), 0, cY * row, 0, 0); // Линия 🠕
             }
             piGame.Refresh();
-        }
-
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-        public static extern int BitBlt(IntPtr hDc, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
-        public System.Drawing.Color GetColorAt(System.Drawing.Point location)
-        {
-            var screenPixel = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            using (var gdest = Graphics.FromImage(screenPixel))
-            {
-                using (var gsrc = Graphics.FromHwnd(IntPtr.Zero))
-                {
-                    IntPtr hSrcDc = gsrc.GetHdc();
-                    IntPtr hDc = gdest.GetHdc();
-                    BitBlt(hDc, 0, 0, 1, 1, hSrcDc, location.X, location.Y, (int)CopyPixelOperation.SourceCopy);
-                    gdest.ReleaseHdc();
-                    gsrc.ReleaseHdc();
-                }
-            }
-
-            return screenPixel.GetPixel(0, 0);
-        }
-
-        private void buTEST_Click(object sender, EventArgs e)
-        {
-            if (!engine[0, 0])
-            {
-                using (Graphics g = Graphics.FromImage(b))
-                {
-                    g.FillRectangle(Brush, 0, 0, cX, cY);
-                    engine[0, 0] = !engine[0, 0];
-                    //engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
-                }
-            }
-            else
-            {
-                using (Graphics g = Graphics.FromImage(b))
-                {
-                    g.FillRectangle(Brush2, 0, 0, cX, cY);
-                    engine[0, 0] = !engine[0, 0];
-                }
-            }
         }
     }
 }
