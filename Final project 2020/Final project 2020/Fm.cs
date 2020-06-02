@@ -14,13 +14,13 @@ using System.Windows.Forms;
 using System.Timers;
 using System.Runtime;
 using System.Drawing.Drawing2D;
+using System.Runtime.InteropServices;
 
 namespace Final_project_2020
 {
     public partial class Fm : MaterialForm
     {
         private Engine engine = null;
-        private const int cellSize = 25;
         private Point StartPoint;
         private Point CurPoint;
         private Bitmap b;
@@ -31,6 +31,7 @@ namespace Final_project_2020
         private int row = 60; // Сетка 
         List<Button> listBtn = new List<Button> { };
         SolidBrush Brush = new SolidBrush(Color.Green);
+        SolidBrush Brush2 = new SolidBrush(Color.FromArgb(51,51,51));
 
         public Fm()
         {
@@ -53,7 +54,6 @@ namespace Final_project_2020
             Resize += Fm_Resize;
 
             startForm();
-            //drawButton();
         }
 
         private void PiGame_MouseMove(object sender, MouseEventArgs e)
@@ -78,7 +78,12 @@ namespace Final_project_2020
                         int EndPointY = (e.Y - CurPoint.Y) / cY;
                         if (EndPointX < col * 2 && EndPointY < row)
                         {
-                            g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
+                            var color = GetColorAt(new System.Drawing.Point(Location.X + e.X + 2, Location.Y + e.Y + 64));
+                            if (color.ToArgb() == Color.Green.ToArgb())
+                                g.FillRectangle(Brush2, EndPointX * cX, cY * EndPointY, cX, cY);
+                            else
+                                g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
+                            engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
                             Text = $"| {EndPointX} | {EndPointY} |";
                         }
                     }
@@ -104,7 +109,12 @@ namespace Final_project_2020
                     {
                         using (Graphics g = Graphics.FromImage(b))
                         {
-                            g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
+                            var color = GetColorAt(new System.Drawing.Point(Location.X + e.X + 2, Location.Y + e.Y + 64));
+                            if (color.ToArgb() == Color.Green.ToArgb())
+                                g.FillRectangle(Brush2, EndPointX * cX, cY * EndPointY, cX, cY);
+                            else
+                                g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
+                            engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
                             Text = $"| {EndPointX} | {EndPointY} |";
                         }
                         piGame.Refresh();
@@ -144,7 +154,7 @@ namespace Final_project_2020
         {
             buReset.PerformClick();
 
-            int maxr = screenSize / cellSize;
+            int maxr = screenSize / 1;
             listBtn[26 + maxr * 1].PerformClick();
             listBtn[24 + maxr * 2].PerformClick();
             listBtn[26 + maxr * 2].PerformClick();
@@ -189,8 +199,8 @@ namespace Final_project_2020
             await Task.Run(() =>
             {
                 engine.Tick();
-                UpdateCells();
             });
+            UpdateCells();
         }
 
         private async void BuRnd_Click(object sender, EventArgs e)
@@ -207,6 +217,7 @@ namespace Final_project_2020
                     using (Graphics g = Graphics.FromImage(b))
                     {
                         g.FillRectangle(Brush, EndPointX * cX, cY * EndPointY, cX, cY);
+                        engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
                     }
                 }
             });
@@ -219,7 +230,7 @@ namespace Final_project_2020
             screenSize = Width / 10 * 9;
             piGame.Height = Height - 64 - 2;
             piGame.Width = Width - 4;
-            engine = new Engine(piGame.Height / cellSize, screenSize/ cellSize);
+            engine = new Engine(row, col * 2);
             piGame.Location = new Point(2, 64);
 
 
@@ -236,25 +247,9 @@ namespace Final_project_2020
             piGame.Width = Width - 4;
         }
 
-        private void drawButton()
-        {
-            for (int j = 0; j + cellSize <= piGame.Height; j += cellSize)
-                for (int i = 0; i + cellSize <= screenSize; i += cellSize)
-                {
-                    Button newButton = new Button();
-                    newButton.Parent = piGame;
-                    newButton.Size = new Size(cellSize, cellSize);
-                    newButton.Location = new Point(i, j);
-                    newButton.Click += ClickCell;
-                    newButton.BackColor = Color.Transparent;
-                    newButton.FlatStyle = FlatStyle.Flat;
-                    newButton.FlatAppearance.BorderSize = 0;
-                    listBtn.Add(newButton);
-                }
-        }
-
         private void buPlay_Click(object sender, EventArgs e)
         {
+            timer.Start();
             timer.Enabled = true;
             buPlay.Enabled = false;
             buStop.Enabled = true;
@@ -262,6 +257,7 @@ namespace Final_project_2020
 
         private void buStop_Click(object sender, EventArgs e)
         {
+            timer.Stop();
             timer.Enabled = false;
             buStop.Enabled = false;
             buPlay.Enabled = true;
@@ -269,11 +265,16 @@ namespace Final_project_2020
 
         private async void buReset_Click(object sender, EventArgs e)
         {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            timer.Stop();
+            timer.Dispose();
+            timer.Stop();
             timer.Enabled = false;
             buStop.Enabled = false;
             buPlay.Enabled = true;
 
-            engine = new Engine(piGame.Height / cellSize, screenSize / cellSize);
+            engine = new Engine(row, col * 2);
 
             b = new Bitmap(piGame.Width * 2, piGame.Height * 2);
             ResizeCells();
@@ -293,20 +294,61 @@ namespace Final_project_2020
             ((Button)sender).BackColor = engine[y, x] ? Color.Green : Color.Transparent;
         }
 
-        private async void UpdateCells()
+        private void UpdateCells()
         {
-            await Task.Run(() =>
+            using (Graphics g = Graphics.FromImage(b))
             {
-                for (int linearIndex = 0; linearIndex < listBtn.Count; ++linearIndex)
+                for (int i = 0; i < col * 2; i++)
+                    for (int j = 0; j < row; j++)
+                    {
+                        if (engine[j, i]) g.FillRectangle(Brush, i * cX, j * cY, cX, cY);
+                        else g.FillRectangle(Brush2, i * cX, j * cY, cX, cY);
+                    }
+                g.DrawLine(new Pen(Color.Silver, 1), 0, 0, cX * col * 2, 0); // Линия ➜ 🗘
+                g.DrawLine(new Pen(Color.Silver, 1), 0, cY * row, 0, 0); // Линия 🠕
+            }
+            piGame.Refresh();
+        }
+
+        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        public static extern int BitBlt(IntPtr hDc, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
+        public System.Drawing.Color GetColorAt(System.Drawing.Point location)
+        {
+            var screenPixel = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            using (var gdest = Graphics.FromImage(screenPixel))
+            {
+                using (var gsrc = Graphics.FromHwnd(IntPtr.Zero))
                 {
-                    int x = linearIndex / engine.Width;
-                    int y = linearIndex % engine.Width;
-                    if (listBtn[linearIndex].BackColor == Color.Green)
-                        this.Invoke((MethodInvoker)delegate () { listBtn[linearIndex].BackColor = Color.PeachPuff; });
-                    if (engine[x, y])
-                        this.Invoke((MethodInvoker)delegate () { listBtn[linearIndex].BackColor = Color.Green; });
+                    IntPtr hSrcDc = gsrc.GetHdc();
+                    IntPtr hDc = gdest.GetHdc();
+                    BitBlt(hDc, 0, 0, 1, 1, hSrcDc, location.X, location.Y, (int)CopyPixelOperation.SourceCopy);
+                    gdest.ReleaseHdc();
+                    gsrc.ReleaseHdc();
                 }
-            });
+            }
+
+            return screenPixel.GetPixel(0, 0);
+        }
+
+        private void buTEST_Click(object sender, EventArgs e)
+        {
+            if (!engine[0, 0])
+            {
+                using (Graphics g = Graphics.FromImage(b))
+                {
+                    g.FillRectangle(Brush, 0, 0, cX, cY);
+                    engine[0, 0] = !engine[0, 0];
+                    //engine[EndPointY, EndPointX] = !engine[EndPointY, EndPointX];
+                }
+            }
+            else
+            {
+                using (Graphics g = Graphics.FromImage(b))
+                {
+                    g.FillRectangle(Brush2, 0, 0, cX, cY);
+                    engine[0, 0] = !engine[0, 0];
+                }
+            }
         }
     }
 }
