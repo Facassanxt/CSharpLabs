@@ -15,6 +15,7 @@ using System.Timers;
 using System.Runtime;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
+using System.Windows.Media;
 
 namespace Final_project_2020
 {
@@ -35,6 +36,11 @@ namespace Final_project_2020
         public Fm()
         {
             InitializeComponent();
+
+            MediaPlayer = new MediaPlayer();
+            mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/example_video.mkv"));
+            mediaPlayer.Play();
+
             var skinManager = MaterialSkinManager.Instance;
             skinManager.AddFormToManage(this);
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
