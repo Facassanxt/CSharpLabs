@@ -46,8 +46,8 @@ namespace Ex
             skinManager.Theme = MaterialSkinManager.Themes.DARK;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.Blue50, Accent.Lime400, TextShade.WHITE);
 
-            //Size_setting f = new Size_setting();
-            //if (f.ShowDialog() == DialogResult.OK) SizeMap = f.SizeMAP();
+            Size_setting f = new Size_setting();
+            if (f.ShowDialog() == DialogResult.OK) SizeMap = f.SizeMAP();
 
             buCFG.Click += (s, e) => { System.Diagnostics.Process.Start("explorer", ".\\cfg"); };
             Download.Click += (s, e) => Download_Click();
@@ -92,7 +92,11 @@ namespace Ex
             PiMap.MouseUp += PiMap_MouseUp;
             PiMap.MouseWheel += PiMap_MouseWheel;
             checkDrawCellsFlag.Click += CheckDrawCellsFlag_Click;
-            Save.Click += async (s, e) => await Task.Run(() => Save_Click());
+            Save.Click += async (s, e) => await Task.Run(() => 
+            {
+                Save_Load save_form = new Save_Load();
+                save_form.Save(SaveMap, SizeMap);
+            });
             Cleaning.Click += Cleaning_Click;
             piHere.Click += (s, e) => { person = true; };
             buX.Click += (s, e) =>
@@ -252,8 +256,8 @@ namespace Ex
             b = new Bitmap(PiMap.Width, PiMap.Height);
             b_line = new Bitmap(PiMap.Width * 2, PiMap.Height * 2);
             ResizeCells();
-            //DrawCells();
-            await Task.Run(() => DrawCells());
+            DrawCells();
+            //await Task.Run(() => DrawCells());
             PiPreviewMAP.Parent = PiMap;
             PiPreviewMAP.Location = new Point(0, 0);
             PiPreview.Width = 32 * 4;
@@ -529,39 +533,6 @@ namespace Ex
             await Task.Run(() => DrawCells());
         }
 
-        private void Save_Click()
-        {
-            try
-            {
-                if (!Directory.Exists($".\\cfg"))
-                {
-                    Directory.CreateDirectory($".\\cfg");
-                }
-                StreamWriter strwrt = new StreamWriter($".\\cfg\\MapRoad {SizeMap}x{SizeMap}.txt",false);
-                for (int i = 0; i < SizeMap; i++)
-                {
-                    for (int j = 0; j < SizeMap; j++)
-                    {
-                        if (SaveMap[j, i] == 0 || SaveMap[j, i] == -1)
-                        {
-                            strwrt.Write("*|");
-                        }
-                        else
-                        {
-                            strwrt.Write($"{SaveMap[j, i]}|");
-                        }
-                    }
-                    strwrt.WriteLine();
-                }
-                strwrt.Close();
-
-            }
-            catch
-            {
-                MessageBox.Show("Непредвиденная ошибка",
-                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
         private void Fm_Resize(object sender, EventArgs e)
         {
             AllPanel.Width = Width - 4;
