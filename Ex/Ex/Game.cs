@@ -47,21 +47,22 @@ namespace Ex
             PiPreviewMAP.Location = new Point(0, 64);
             piMapPlayer.Parent = PiPreviewMAP;
             piMapPlayer.Size = new Size(PiPreviewMAP.Width / (map_Game.Width / 60), PiPreviewMAP.Height / (map_Game.Height / 60));
-            MessageBox.Show($"{piMapPlayer.Size}");
+            piMapPlayer.Location = new Point(PiPreviewMAP.Width * _Person_Location.X / _map_Game.Width, PiPreviewMAP.Height * _Person_Location.Y / _map_Game.Height);
             PiPreviewMAP.Paint += (s, e) => { e.Graphics.DrawImage(map_Game, 0, 0, PiPreviewMAP.Width, PiPreviewMAP.Height); };
             //KeyUp += (s, e) => { piPlayer.Enabled = false; };
         }
 
         private void Game_KeyDown(object sender, KeyEventArgs e)
         {
-            piMapPlayer.Location = new Point(PiPreviewMAP.Width * (_Person_Location.X - CurPoint.X) / _map_Game.Width, PiPreviewMAP.Height * _Person_Location.Y / _map_Game.Height);
-            PiPreviewMAP.Invalidate();
+            PiPreviewMAP.Refresh();
             rectangle = new Rectangle(piPlayer.Location.X - CurPoint.X, piPlayer.Location.Y - CurPoint.Y, piPlayer.Width, piPlayer.Height);
+            piMapPlayer.Location = new Point(PiPreviewMAP.Width * _Person_Location.X / _map_Game.Width - (CurPoint.X + (_Person_Location.X - piGame.Width / 2))/(60 / piMapPlayer.Width), PiPreviewMAP.Height * _Person_Location.Y / _map_Game.Height - (CurPoint.Y + (_Person_Location.Y - piGame.Height / 2))/(60 / piMapPlayer.Height));
             foreach (Rectangle check_collision in _list_collision_items)
                 if (rectangle.IntersectsWith(check_collision))
                 {
                     using (Graphics g = Graphics.FromImage(_map_Game))
                     {
+                        Rectangle zeml = new Rectangle(piPlayer.Location.X - CurPoint.X, piPlayer.Location.Y - CurPoint.Y, piPlayer.Width, piPlayer.Height);
                         g.DrawImage(_pics.Images[24 - 1], check_collision);
                     }
                 }
@@ -79,6 +80,7 @@ namespace Ex
                     if (e.Shift)
                     {
                         CurPoint = new Point(CurPoint.X + 10, CurPoint.Y);
+
                     }
                     else
                     {

@@ -24,7 +24,7 @@ namespace Ex
         List<Button> listBtn = new List<Button> { };
         private bool DrawCellsFlag = true;
         private int[,] SaveMap;
-        private int SizeMap = 40;
+        private int SizeMap = 100;
         private int cX, cY, XYmap = 32, DelataZoom = 5, BugError = 0;
         private int pSX, pSY;
         private int AmountX = 15; // Блоков по ширине
